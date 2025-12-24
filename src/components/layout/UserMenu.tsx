@@ -4,7 +4,8 @@ import {
   FileText, 
   Heart, 
   LogOut,
-  ChevronDown 
+  ChevronDown,
+  Loader2
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -15,15 +16,23 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Link } from "react-router-dom";
-import { mockUser } from "@/lib/mock-data";
+import { useAuth } from "@/hooks/useAuth";
 
 export function UserMenu() {
-  const isLoggedIn = true; // TODO: Replace with auth state
+  const { user, isLoggedIn, loading, signOut } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center w-8 h-8">
+        <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
 
   if (!isLoggedIn) {
     return (
       <Link 
-        to="/login"
+        to="/auth"
         className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
       >
         Login
@@ -31,19 +40,22 @@ export function UserMenu() {
     );
   }
 
+  const displayName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User';
+  const avatarUrl = user?.user_metadata?.avatar_url;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center gap-2 p-1 rounded-lg hover:bg-secondary transition-colors outline-none">
         <Avatar className="w-8 h-8 border border-border">
-          <AvatarImage src={mockUser.avatar} alt={mockUser.name} />
-          <AvatarFallback>{mockUser.name.charAt(0)}</AvatarFallback>
+          <AvatarImage src={avatarUrl} alt={displayName} />
+          <AvatarFallback>{displayName.charAt(0).toUpperCase()}</AvatarFallback>
         </Avatar>
         <ChevronDown className="w-4 h-4 text-muted-foreground hidden sm:block" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <div className="px-2 py-1.5">
-          <p className="font-medium text-sm">{mockUser.name}</p>
-          <p className="text-xs text-muted-foreground">@{mockUser.name.toLowerCase().replace(' ', '')}</p>
+          <p className="font-medium text-sm">{displayName}</p>
+          <p className="text-xs text-muted-foreground">{user?.email}</p>
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
@@ -71,7 +83,10 @@ export function UserMenu() {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="flex items-center gap-2 cursor-pointer text-destructive focus:text-destructive">
+        <DropdownMenuItem 
+          onClick={signOut}
+          className="flex items-center gap-2 cursor-pointer text-destructive focus:text-destructive"
+        >
           <LogOut className="w-4 h-4" />
           Logout
         </DropdownMenuItem>

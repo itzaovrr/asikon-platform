@@ -1,16 +1,26 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ShieldCheck, User } from "lucide-react";
+import { ShieldCheck, User, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { mockUser } from "@/lib/mock-data";
+import { useAuth } from "@/hooks/useAuth";
 
 interface SidebarUserProps {
   onClose?: () => void;
 }
 
 export function SidebarUser({ onClose }: SidebarUserProps) {
-  const isLoggedIn = true; // TODO: Replace with auth state
+  const { user, isLoggedIn, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="p-4 border-b border-border">
+        <div className="flex items-center justify-center h-24">
+          <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+        </div>
+      </div>
+    );
+  }
 
   if (!isLoggedIn) {
     return (
@@ -24,12 +34,16 @@ export function SidebarUser({ onClose }: SidebarUserProps) {
             <p className="text-sm text-muted-foreground">Sign in to access all features</p>
           </div>
           <div className="flex gap-2">
-            <Button className="flex-1" size="sm" onClick={onClose}>
-              Login
-            </Button>
-            <Button variant="outline" className="flex-1" size="sm" onClick={onClose}>
-              Sign Up
-            </Button>
+            <Link to="/auth" onClick={onClose} className="flex-1">
+              <Button className="w-full" size="sm">
+                Login
+              </Button>
+            </Link>
+            <Link to="/auth" onClick={onClose} className="flex-1">
+              <Button variant="outline" className="w-full" size="sm">
+                Sign Up
+              </Button>
+            </Link>
           </div>
           <Button variant="ghost" size="sm" className="w-full text-muted-foreground" onClick={onClose}>
             Continue as Guest
@@ -39,19 +53,22 @@ export function SidebarUser({ onClose }: SidebarUserProps) {
     );
   }
 
+  const displayName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User';
+  const avatarUrl = user?.user_metadata?.avatar_url;
+
   return (
     <div className="p-4 border-b border-border">
       <div className="flex items-center gap-3">
         <Avatar className="w-12 h-12 border-2 border-primary">
-          <AvatarImage src={mockUser.avatar} alt={mockUser.name} />
-          <AvatarFallback>{mockUser.name.charAt(0)}</AvatarFallback>
+          <AvatarImage src={avatarUrl} alt={displayName} />
+          <AvatarFallback>{displayName.charAt(0).toUpperCase()}</AvatarFallback>
         </Avatar>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5">
-            <h3 className="font-semibold text-foreground truncate">{mockUser.name}</h3>
+            <h3 className="font-semibold text-foreground truncate">{displayName}</h3>
             <ShieldCheck className="w-4 h-4 text-primary flex-shrink-0" />
           </div>
-          <p className="text-sm text-muted-foreground truncate">@{mockUser.name.toLowerCase().replace(' ', '')}</p>
+          <p className="text-sm text-muted-foreground truncate">{user?.email}</p>
           <Badge variant="secondary" className="mt-1 text-xs">
             Verified Buyer
           </Badge>
