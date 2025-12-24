@@ -17,11 +17,23 @@ const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
+const RESERVED_USERNAMES = ['admin', 'moderator', 'system', 'support', 'root', 'administrator'];
+
 const registerSchema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters").max(20, "Username must be less than 20 characters"),
-  fullName: z.string().max(100, "Full name must be less than 100 characters").optional(),
+  username: z.string()
+    .min(3, "Username must be at least 3 characters")
+    .max(20, "Username must be less than 20 characters")
+    .regex(/^[a-zA-Z0-9_-]+$/, "Username can only contain letters, numbers, underscores, and hyphens")
+    .refine(val => !RESERVED_USERNAMES.includes(val.toLowerCase()), "This username is reserved"),
+  fullName: z.string()
+    .max(100, "Full name must be less than 100 characters")
+    .regex(/^[a-zA-Z\s'-]*$/, "Full name can only contain letters, spaces, hyphens, and apostrophes")
+    .optional()
+    .or(z.literal('')),
   email: z.string().email("Please enter a valid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string()
+    .min(6, "Password must be at least 6 characters")
+    .max(128, "Password must be less than 128 characters"),
 });
 
 const forgotPasswordSchema = z.object({
