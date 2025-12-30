@@ -26,6 +26,30 @@ export interface PodDesign {
   };
 }
 
+// Helper function to generate signed URL for a design
+async function getSignedImageUrl(imagePath: string): Promise<string> {
+  // If it's already a full URL with signature, return as-is
+  if (imagePath.includes('token=')) {
+    return imagePath;
+  }
+  
+  // If it's a full public URL, extract the path
+  let path = imagePath;
+  if (imagePath.includes('/storage/v1/object/')) {
+    const match = imagePath.match(/pod-designs\/(.+)$/);
+    if (match) {
+      path = match[1];
+    }
+  }
+  
+  // Generate signed URL (1 hour expiry for viewing)
+  const { data } = await supabase.storage
+    .from("pod-designs")
+    .createSignedUrl(path, 3600);
+  
+  return data?.signedUrl || imagePath;
+}
+
 export function usePublicDesigns(category?: string) {
   return useQuery({
     queryKey: ["pod-designs", "public", category],
@@ -49,7 +73,17 @@ export function usePublicDesigns(category?: string) {
       
       const { data, error } = await query;
       if (error) throw error;
-      return data as unknown as PodDesign[];
+      
+      // Generate signed URLs for all images
+      const designsWithSignedUrls = await Promise.all(
+        (data || []).map(async (design) => ({
+          ...design,
+          image_url: await getSignedImageUrl(design.image_url),
+          thumbnail_url: design.thumbnail_url ? await getSignedImageUrl(design.thumbnail_url) : null,
+        }))
+      );
+      
+      return designsWithSignedUrls as unknown as PodDesign[];
     },
   });
 }
@@ -68,7 +102,17 @@ export function useMyDesigns() {
         .order("created_at", { ascending: false });
       
       if (error) throw error;
-      return data as PodDesign[];
+      
+      // Generate signed URLs for all images
+      const designsWithSignedUrls = await Promise.all(
+        (data || []).map(async (design) => ({
+          ...design,
+          image_url: await getSignedImageUrl(design.image_url),
+          thumbnail_url: design.thumbnail_url ? await getSignedImageUrl(design.thumbnail_url) : null,
+        }))
+      );
+      
+      return designsWithSignedUrls as PodDesign[];
     },
   });
 }
@@ -86,7 +130,17 @@ export function useFeaturedDesigns(limit = 6) {
         .limit(limit);
       
       if (error) throw error;
-      return data as unknown as PodDesign[];
+      
+      // Generate signed URLs for all images
+      const designsWithSignedUrls = await Promise.all(
+        (data || []).map(async (design) => ({
+          ...design,
+          image_url: await getSignedImageUrl(design.image_url),
+          thumbnail_url: design.thumbnail_url ? await getSignedImageUrl(design.thumbnail_url) : null,
+        }))
+      );
+      
+      return designsWithSignedUrls as unknown as PodDesign[];
     },
   });
 }
@@ -113,9 +167,9 @@ export function useUploadDesign() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
       
-      // Upload file to storage
+      // Upload file to storage with random UUID instead of timestamp for security
       const fileExt = file.name.split('.').pop();
-      const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+      const fileName = `${user.id}/${crypto.randomUUID()}.${fileExt}`;
       
       const { error: uploadError } = await supabase.storage
         .from("pod-designs")
@@ -123,19 +177,15 @@ export function useUploadDesign() {
       
       if (uploadError) throw uploadError;
       
-      // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from("pod-designs")
-        .getPublicUrl(fileName);
-      
-      // Create design record
+      // Store the file path (not URL) - signed URLs will be generated on fetch
+      // This prevents predictable URL patterns and enables proper access control
       const { data, error } = await supabase
         .from("pod_designs")
         .insert({
           user_id: user.id,
           title,
           description,
-          image_url: publicUrl,
+          image_url: fileName, // Store path, not URL
           category,
           tags,
           is_public: isPublic,
