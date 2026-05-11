@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Heart, Share2, ShoppingCart, Star, ChevronLeft, ChevronRight, Truck, Clock, ShieldCheck } from "lucide-react";
+import { Heart, Share2, ShoppingCart, Star, ChevronLeft, ChevronRight, Truck, Clock, ShieldCheck, BookOpen, Play, CheckCircle2, GraduationCap, Award, Users, Globe, Infinity as InfinityIcon } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -22,15 +22,39 @@ const colors = [
 ];
 
 const mockReviews = [
-  { id: "1", userName: "Sarah M.", rating: 5, title: "Perfect fit!", content: "Amazing quality and fits exactly as described.", isVerifiedPurchase: true, helpfulCount: 24, createdAt: "2 days ago" },
-  { id: "2", userName: "Alex T.", rating: 4, title: "Great product", content: "Love the material, shipping was fast.", isVerifiedPurchase: true, helpfulCount: 12, createdAt: "1 week ago" },
+  { id: "1", userName: "Sarah M.", rating: 5, title: "AI tutor is a game changer", content: "Cleared every doubt I had. Felt like a personal mentor was beside me.", isVerifiedPurchase: true, helpfulCount: 124, createdAt: "2 days ago" },
+  { id: "2", userName: "Alex T.", rating: 5, title: "Worth every taka", content: "Projects are practical, instructor explains clearly, and lifetime access is amazing.", isVerifiedPurchase: true, helpfulCount: 88, createdAt: "1 week ago" },
 ];
 
-const faqs = [
-  { question: "What sizes are available?", answer: "We offer sizes XS through XXL. Check our size guide for measurements." },
-  { question: "How long does delivery take?", answer: "Standard delivery takes 3-5 business days. Express shipping available." },
-  { question: "What is your return policy?", answer: "30-day easy returns for size exchanges. Items must be unworn with tags." },
-  { question: "Is this product print-on-demand?", answer: "Yes, each item is printed after order to ensure freshness and quality." },
+const courseFaqs = [
+  { question: "Do I get lifetime access?", answer: "Yes — once enrolled, you keep lifetime access to all lessons, projects, and future updates." },
+  { question: "Is there a certificate?", answer: "Yes, you receive a verified ASIKON certificate of completion you can share on LinkedIn or your CV." },
+  { question: "Can I ask questions during the course?", answer: "Absolutely. The ASIKON AI Tutor is available 24/7, and our human mentors reply in the community within hours." },
+  { question: "Is this beginner friendly?", answer: "Yes. Every course starts from the fundamentals and builds up to real, project-based learning." },
+];
+
+const productFaqs = [
+  { question: "Is this product authentic?", answer: "Yes, every product on ASIKON is verified and shipped from trusted sellers." },
+  { question: "How long does delivery take?", answer: "Standard delivery takes 3-5 business days inside Bangladesh. Cash on delivery available." },
+  { question: "What is your return policy?", answer: "7-day easy returns. Items must be unused and in original packaging." },
+  { question: "Do you ship outside Bangladesh?", answer: "International shipping is rolling out soon — stay tuned!" },
+];
+
+const courseCurriculum = [
+  { module: "Module 1 — Foundations", lessons: 8, duration: "1h 45m" },
+  { module: "Module 2 — Core Concepts", lessons: 12, duration: "3h 20m" },
+  { module: "Module 3 — Hands-on Projects", lessons: 10, duration: "4h 10m" },
+  { module: "Module 4 — Real-World Case Studies", lessons: 6, duration: "2h 30m" },
+  { module: "Module 5 — Final Project & Certification", lessons: 4, duration: "2h 00m" },
+];
+
+const courseLearnings = [
+  "Build real projects from day one",
+  "Master fundamentals with simple, visual explanations",
+  "Get unstuck instantly with the ASIKON AI Tutor",
+  "Earn a verified certificate of completion",
+  "Join a community of motivated learners",
+  "Lifetime access with future updates included",
 ];
 
 const ProductDetail = () => {
