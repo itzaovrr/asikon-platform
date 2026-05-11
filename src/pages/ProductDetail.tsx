@@ -200,7 +200,7 @@ const ProductDetail = () => {
 
             <div className="flex gap-3">
               <Button className="flex-1 gradient-primary border-0" size="lg" onClick={handleAddToCart} disabled={addToCart.isPending}>
-                <ShoppingCart className="h-5 w-5 mr-2" />{addToCart.isPending ? "Adding..." : "Add to Cart"}
+                <ShoppingCart className="h-5 w-5 mr-2" />{addToCart.isPending ? "Adding..." : isCourse ? "Enroll Now" : "Add to Cart"}
               </Button>
               <Button variant="outline" size="lg"><Heart className="h-5 w-5" /></Button>
               <Button variant="outline" size="lg"><Share2 className="h-5 w-5" /></Button>
@@ -208,26 +208,88 @@ const ProductDetail = () => {
 
             {product.description && (
               <div className="p-4 rounded-xl bg-secondary/30 border border-border/50">
-                <h3 className="font-semibold mb-2">About This Product</h3>
+                <h3 className="font-semibold mb-2">{isCourse ? "About This Course" : isBook ? "About This Book" : "About This Product"}</h3>
                 <p className="text-sm text-muted-foreground">{product.description}</p>
                 <p className="text-xs text-muted-foreground mt-3 flex items-center gap-1.5">
                   <ShieldCheck className="h-3.5 w-3.5 text-success" />
-                  Printed on demand to ensure freshness and quality
+                  {isDigital ? "Instant access after purchase. Lifetime updates included." : "Authentic, verified by ASIKON. Cash on delivery available."}
                 </p>
               </div>
             )}
           </div>
         </div>
 
+        {/* Course-specific sections */}
+        {isCourse && (
+          <>
+            <section className="rounded-2xl border border-border/50 bg-secondary/20 p-5 space-y-4">
+              <div className="flex items-center gap-2">
+                <GraduationCap className="h-5 w-5 text-primary" />
+                <h2 className="text-lg font-semibold">What you will learn</h2>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-3">
+                {courseLearnings.map((item) => (
+                  <div key={item} className="flex items-start gap-2 text-sm">
+                    <CheckCircle2 className="h-4 w-4 mt-0.5 text-success flex-shrink-0" />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="rounded-2xl border border-border/50 bg-secondary/20 p-5 space-y-4">
+              <div className="flex items-center gap-2">
+                <BookOpen className="h-5 w-5 text-primary" />
+                <h2 className="text-lg font-semibold">Curriculum</h2>
+                <span className="ml-auto text-xs text-muted-foreground">
+                  {courseCurriculum.reduce((s, m) => s + m.lessons, 0)} lessons · ~14h
+                </span>
+              </div>
+              <div className="space-y-2">
+                {courseCurriculum.map((m, i) => (
+                  <div key={m.module} className="flex items-center gap-3 p-3 rounded-xl bg-background/50 border border-border/50">
+                    <div className="w-8 h-8 rounded-full gradient-primary text-primary-foreground flex items-center justify-center text-sm font-bold flex-shrink-0">
+                      {i + 1}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate">{m.module}</p>
+                      <p className="text-xs text-muted-foreground">{m.lessons} lessons · {m.duration}</p>
+                    </div>
+                    <Play className="h-4 w-4 text-muted-foreground" />
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="rounded-2xl border border-border/50 bg-secondary/20 p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <Users className="h-5 w-5 text-primary" />
+                <h2 className="text-lg font-semibold">Your Instructor</h2>
+              </div>
+              <div className="flex items-center gap-4">
+                <img
+                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&q=80"
+                  alt="Instructor"
+                  className="w-16 h-16 rounded-full object-cover border-2 border-primary/30"
+                />
+                <div className="flex-1">
+                  <p className="font-semibold">ASIKON Mentor Team</p>
+                  <p className="text-xs text-muted-foreground">Engineers, educators, and AI researchers helping students learn smarter, faster, and stay motivated every day.</p>
+                </div>
+              </div>
+            </section>
+          </>
+        )}
+
         {/* Reviews */}
         <ProductReviews reviews={mockReviews} averageRating={product.rating || 4.5} totalReviews={product.review_count || 36} ratingDistribution={[{ stars: 5, count: 24 }, { stars: 4, count: 8 }, { stars: 3, count: 3 }, { stars: 2, count: 1 }, { stars: 1, count: 0 }]} />
 
         {/* FAQ */}
-        <ProductFAQ faqs={faqs} />
+        <ProductFAQ faqs={isCourse ? courseFaqs : productFaqs} />
 
         {/* Related Products */}
         {relatedProducts && relatedProducts.length > 0 && (
-          <ProductCarousel title="You May Also Like" products={relatedProducts.filter((p) => p.id !== product.id).slice(0, 8).map((p) => ({ id: p.id, name: p.name, brand: "StyleHub", price: p.price, originalPrice: p.original_price || undefined, image: p.image_url || "/placeholder.svg", rating: p.rating || 0, reviews: p.review_count || 0, isTrending: p.is_featured || false }))} />
+          <ProductCarousel title={isCourse ? "Continue Learning" : "You May Also Like"} products={relatedProducts.filter((p) => p.id !== product.id).slice(0, 8).map((p) => ({ id: p.id, name: p.name, brand: "ASIKON", price: p.price, originalPrice: p.original_price || undefined, image: p.image_url || "/placeholder.svg", rating: p.rating || 0, reviews: p.review_count || 0, isTrending: p.is_featured || false }))} />
         )}
       </div>
 
@@ -239,7 +301,7 @@ const ProductDetail = () => {
             {product.original_price && <span className="text-sm text-muted-foreground line-through ml-2">${product.original_price}</span>}
           </div>
           <Button className="gradient-primary border-0 px-8" size="lg" onClick={handleAddToCart} disabled={addToCart.isPending}>
-            <ShoppingCart className="h-5 w-5 mr-2" />Buy Now
+            <ShoppingCart className="h-5 w-5 mr-2" />{isCourse ? "Enroll" : "Buy Now"}
           </Button>
         </div>
       </div>
