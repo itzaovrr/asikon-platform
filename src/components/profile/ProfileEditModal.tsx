@@ -135,8 +135,23 @@ export function ProfileEditModal({ isOpen, onClose, profile, onSave }: ProfileEd
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const parsed = profileSchema.safeParse({
+      username: formData.username,
+      full_name: formData.full_name,
+      bio: formData.bio,
+    });
+    if (!parsed.success) {
+      const first = parsed.error.errors[0];
+      toast({
+        title: "Invalid input",
+        description: first?.message ?? "Please check the form values.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(true);
-    
     try {
       await onSave(formData);
       toast({
