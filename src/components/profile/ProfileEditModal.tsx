@@ -8,6 +8,24 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { z } from "zod";
+
+const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+const ALLOWED_IMAGE_EXTS = ["jpg", "jpeg", "png", "gif", "webp"];
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5 MB
+const RESERVED_USERNAMES = ["admin", "moderator", "system", "support", "root", "administrator"];
+
+const profileSchema = z.object({
+  username: z
+    .string()
+    .trim()
+    .regex(/^[a-zA-Z0-9_-]{3,20}$/, "Username must be 3–20 chars (letters, numbers, _ or -)")
+    .refine((v) => !RESERVED_USERNAMES.includes(v.toLowerCase()), "This username is reserved")
+    .optional()
+    .or(z.literal("")),
+  full_name: z.string().trim().max(100, "Full name too long").optional().or(z.literal("")),
+  bio: z.string().trim().max(500, "Bio must be ≤ 500 characters").optional().or(z.literal("")),
+});
 
 interface ProfileEditModalProps {
   isOpen: boolean;
