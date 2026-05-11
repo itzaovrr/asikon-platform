@@ -53,8 +53,8 @@ const Community = () => {
             Sticky keeps its slot in document flow → no layout shift. */}
         <div
           data-sticky-tabs
-          className="sticky z-30 bg-background/95 backdrop-blur-md border-b border-border shadow-sm transition-[top] duration-300 ease-out will-change-[top]"
-          style={{ top: headerHidden ? 0 : "var(--app-header-h)" }}
+          className="sticky z-30 bg-background/95 backdrop-blur-md border-b border-border shadow-sm"
+          style={{ top: "var(--app-header-h)" }}
         >
           <CommunityTabs activeTab={activeTab} onTabChange={setActiveTab} />
         </div>
