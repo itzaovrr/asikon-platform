@@ -58,6 +58,40 @@ const quickCategories = [
   { icon: Flame, label: "Trending", href: "/shop?filter=trending", color: "from-accent/20 to-primary/10" },
 ];
 
+// Skeleton matching the real product card so card heights don't jump on load
+const ProductCardSkeleton = () => (
+  <div className="bg-card rounded-xl overflow-hidden border border-border/50 flex flex-col h-full">
+    <Skeleton className="aspect-square w-full rounded-none" />
+    <div className="p-3 flex flex-col flex-1 gap-2">
+      <Skeleton className="h-3 w-1/3" />
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-2/3 mb-2" />
+      <div className="flex items-center justify-between mt-auto">
+        <Skeleton className="h-4 w-12" />
+        <Skeleton className="h-3 w-8" />
+      </div>
+    </div>
+  </div>
+);
+
+const CarouselSkeleton = ({ title }: { title: string }) => (
+  <div>
+    <div className="flex items-center justify-between mb-3 px-4 lg:px-0">
+      <h2 className="font-semibold text-lg">{title}</h2>
+    </div>
+    <div className="flex gap-3 overflow-hidden pl-4 lg:pl-0">
+      {[1, 2, 3, 4, 5].map((i) => (
+        <div
+          key={i}
+          className="flex-[0_0_45%] sm:flex-[0_0_35%] md:flex-[0_0_28%] lg:flex-[0_0_22%] xl:flex-[0_0_18%]"
+        >
+          <ProductCardSkeleton />
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
 const Index = () => {
   const { data: products, isLoading: productsLoading } = useProducts({ limit: 20 });
   const { data: featuredProducts, isLoading: featuredLoading } = useFeaturedProducts(10);
@@ -120,18 +154,7 @@ const Index = () => {
         {/* Trending Courses Carousel */}
         <section>
           {featuredLoading ? (
-            <div className="px-4 lg:px-0">
-              <Skeleton className="h-6 w-32 mb-4" />
-              <div className="flex gap-4 overflow-hidden">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="flex-shrink-0 w-40">
-                    <Skeleton className="aspect-square rounded-xl mb-2" />
-                    <Skeleton className="h-4 w-full mb-1" />
-                    <Skeleton className="h-4 w-2/3" />
-                  </div>
-                ))}
-              </div>
-            </div>
+            <CarouselSkeleton title="Trending Now" />
           ) : (
             <ProductCarousel
               products={trendingItems}
@@ -165,11 +188,7 @@ const Index = () => {
           {productsLoading ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 lg:gap-4">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
-                <div key={i}>
-                  <Skeleton className="aspect-square rounded-xl mb-2" />
-                  <Skeleton className="h-4 w-full mb-1" />
-                  <Skeleton className="h-4 w-2/3" />
-                </div>
+                <ProductCardSkeleton key={i} />
               ))}
             </div>
           ) : (
@@ -225,18 +244,7 @@ const Index = () => {
         {/* New Arrivals Carousel */}
         <section>
           {productsLoading ? (
-            <div className="px-4 lg:px-0">
-              <Skeleton className="h-6 w-32 mb-4" />
-              <div className="flex gap-4 overflow-hidden">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="flex-shrink-0 w-40">
-                    <Skeleton className="aspect-square rounded-xl mb-2" />
-                    <Skeleton className="h-4 w-full mb-1" />
-                    <Skeleton className="h-4 w-2/3" />
-                  </div>
-                ))}
-              </div>
-            </div>
+            <CarouselSkeleton title="New Arrivals" />
           ) : (
             <ProductCarousel
               products={newArrivalItems}
