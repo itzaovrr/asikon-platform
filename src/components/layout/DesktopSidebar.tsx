@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Home,
-  ShoppingBag,
+  Library,
   Users,
   Gamepad2,
   User,
@@ -13,10 +13,10 @@ import {
   HelpCircle,
   ChevronLeft,
   ChevronRight,
-  Flame,
-  Tag,
+  GraduationCap,
+  BookOpen,
+  Wand2,
   Sparkles,
-  TrendingUp,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
