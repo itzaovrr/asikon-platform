@@ -94,27 +94,29 @@ const Shop = () => {
   return (
     <AppLayout>
       <div className="space-y-4 lg:space-y-6 pb-4">
-        {/* POD Banner (shown in custom mode) */}
-        {productMode === "custom-pod" && (
-          <PodHeroBanner variant="compact" />
-        )}
-
-        {/* Product Mode Toggle */}
+        {/* Product Type Filter */}
         <div className="px-4 lg:px-0">
-          <Tabs value={productMode} onValueChange={(v) => setProductMode(v as ProductMode)}>
-            <TabsList className="grid w-full grid-cols-3 h-auto p-1">
-              <TabsTrigger value="all" className="text-sm py-2">
-                All Products
-              </TabsTrigger>
-              <TabsTrigger value="ready-made" className="text-sm py-2">
-                Ready-Made
-              </TabsTrigger>
-              <TabsTrigger value="custom-pod" className="text-sm py-2 gap-1.5">
-                <Palette className="h-3.5 w-3.5" />
-                Custom POD
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+          <div className="flex gap-2 overflow-x-auto hide-scrollbar -mx-1 px-1 py-1">
+            {TYPE_FILTERS.map((t) => {
+              const Icon = t.icon;
+              const isActive = productType === t.id;
+              return (
+                <button
+                  key={t.id}
+                  onClick={() => setProductType(t.id)}
+                  className={cn(
+                    "flex items-center gap-1.5 px-3.5 py-2 rounded-full text-sm font-medium whitespace-nowrap border transition-all",
+                    isActive
+                      ? "gradient-primary text-primary-foreground border-transparent shadow-md glow-primary"
+                      : "bg-card text-foreground border-border hover:border-primary/40"
+                  )}
+                >
+                  <Icon className="h-3.5 w-3.5" />
+                  {t.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Points Progress */}
@@ -213,8 +215,7 @@ const Shop = () => {
                     <div className="absolute top-3 left-3 flex flex-col gap-1.5">
                       {product.is_pod && (
                         <Badge className="text-[10px] px-2 py-0.5 bg-accent/90 backdrop-blur-sm border-0">
-                          <Palette className="h-2.5 w-2.5 mr-1" />
-                          POD
+                          Custom
                         </Badge>
                       )}
                       {product.is_featured && (
