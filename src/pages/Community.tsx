@@ -45,13 +45,13 @@ const Community = () => {
   return (
     <AppLayout>
       <div className="min-h-screen">
-        {/* Sticky tab bar — follows the header. Stays flush with header on scroll up,
-            slides up to top:0 when the mobile header hides on scroll down. */}
+        {/* Sticky tab bar — uses --app-header-h so the offset always matches the
+            real header height (incl. iOS safe-area). Animates `top` smoothly and
+            slides flush to the top when the mobile header hides on scroll-down.
+            Sticky keeps its slot in document flow → no layout shift. */}
         <div
-          className={cn(
-            "sticky z-30 bg-background/95 backdrop-blur-md border-b border-border shadow-sm transition-[top] duration-300 ease-out",
-            headerHidden ? "top-0 md:top-0" : "top-14 md:top-[120px]"
-          )}
+          className="sticky z-30 bg-background/95 backdrop-blur-md border-b border-border shadow-sm transition-[top] duration-300 ease-out will-change-[top]"
+          style={{ top: headerHidden ? 0 : "var(--app-header-h)" }}
         >
           <CommunityTabs activeTab={activeTab} onTabChange={setActiveTab} />
         </div>
