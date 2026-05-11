@@ -121,6 +121,11 @@ const ProductDetail = () => {
     ? Math.round(((product.original_price - product.price) / product.original_price) * 100)
     : 0;
 
+  const name = product.name || "";
+  const isCourse = /course|masterclass|bootcamp|specialization|class|prep/i.test(name);
+  const isBook = /book|hardcover|edition/i.test(name);
+  const isDigital = isCourse || /prompt|library|subscription|tutor/i.test(name);
+
   return (
     <AppLayout>
       <div className="container mx-auto px-4 py-6 max-w-6xl space-y-8">
@@ -175,9 +180,22 @@ const ProductDetail = () => {
 
             <TrustIndicators />
             <Separator />
-            <ColorSelector colors={colors} selectedColor={selectedColor} onSelectColor={setSelectedColor} />
-            <SizeSelector sizes={sizes} selectedSize={selectedSize} onSelectSize={setSelectedSize} />
-            <QuantitySelector quantity={quantity} onIncrease={() => setQuantity((q) => q + 1)} onDecrease={() => setQuantity((q) => Math.max(1, q - 1))} />
+            {isCourse ? (
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <div className="flex items-center gap-2 p-3 rounded-xl bg-secondary/30 border border-border/50"><InfinityIcon className="h-4 w-4 text-primary" /><span>Lifetime access</span></div>
+                <div className="flex items-center gap-2 p-3 rounded-xl bg-secondary/30 border border-border/50"><Award className="h-4 w-4 text-primary" /><span>Verified certificate</span></div>
+                <div className="flex items-center gap-2 p-3 rounded-xl bg-secondary/30 border border-border/50"><Globe className="h-4 w-4 text-primary" /><span>Bangla + English</span></div>
+                <div className="flex items-center gap-2 p-3 rounded-xl bg-secondary/30 border border-border/50"><Users className="h-4 w-4 text-primary" /><span>24/7 AI Tutor</span></div>
+              </div>
+            ) : isBook ? (
+              <QuantitySelector quantity={quantity} onIncrease={() => setQuantity((q) => q + 1)} onDecrease={() => setQuantity((q) => Math.max(1, q - 1))} />
+            ) : (
+              <>
+                <ColorSelector colors={colors} selectedColor={selectedColor} onSelectColor={setSelectedColor} />
+                <SizeSelector sizes={sizes} selectedSize={selectedSize} onSelectSize={setSelectedSize} />
+                <QuantitySelector quantity={quantity} onIncrease={() => setQuantity((q) => q + 1)} onDecrease={() => setQuantity((q) => Math.max(1, q - 1))} />
+              </>
+            )}
             <Separator />
 
             <div className="flex gap-3">
