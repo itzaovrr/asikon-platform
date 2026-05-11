@@ -123,22 +123,6 @@ export function useProduct(slug: string) {
       if (error) throw error;
       return data;
     },
-  });
-}
-
-export function useProduct(slug: string) {
-  return useQuery({
-    queryKey: ["product", slug],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .eq("slug", slug)
-        .maybeSingle();
-
-      if (error) throw error;
-      return data;
-    },
     enabled: !!slug,
   });
 }
