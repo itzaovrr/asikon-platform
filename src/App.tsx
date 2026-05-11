@@ -27,7 +27,16 @@ const PodDesigns = lazy(() => import("./pages/PodDesigns"));
 const PodUpload = lazy(() => import("./pages/PodUpload"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 min — dedupe redundant refetches across mounts
+      gcTime: 10 * 60 * 1000,
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 function AnimatedRoutes() {
   const location = useLocation();
