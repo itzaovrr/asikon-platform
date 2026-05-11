@@ -100,16 +100,17 @@ export function DesktopSidebar({
 
   const mainNavItems = [
     { icon: Home, label: "Home", href: "/" },
-    { icon: ShoppingBag, label: "Shop", href: "/shop" },
+    { icon: Library, label: "Library", href: "/shop" },
     { icon: Users, label: "Community", href: "/community" },
     { icon: Gamepad2, label: "Game & Rewards", href: "/game" },
   ];
 
   const shopNavItems = [
-    { icon: Flame, label: "Trending", href: "/shop?filter=trending" },
-    { icon: Tag, label: "Deals", href: "/shop?filter=deals" },
+    { icon: GraduationCap, label: "Courses", href: "/shop?type=courses" },
+    { icon: BookOpen, label: "Books", href: "/shop?type=books" },
+    { icon: Package, label: "Student Kits", href: "/shop?type=kits" },
+    { icon: Wand2, label: "Prompt Library", href: "/shop?type=prompts" },
     { icon: Sparkles, label: "New Arrivals", href: "/shop?filter=new" },
-    { icon: TrendingUp, label: "Best Sellers", href: "/shop?filter=bestsellers" },
   ];
 
   const userNavItems = [
