@@ -1,4 +1,4 @@
-import { useState, ReactNode, createContext, useContext } from "react";
+import { useState, ReactNode, createContext, useContext, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileHeader } from "./MobileHeader";
 import { DesktopHeader } from "./DesktopHeader";
