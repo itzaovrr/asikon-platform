@@ -133,7 +133,7 @@ export const mockPosts: Post[] = [
     id: "2",
     user: mockUser,
     content: "My weekly study haul: new books + the Python course. Asikon recommended all of these for my goals 📚💫",
-    image: productJacket,
+    image: bookHardcover,
     likes: 1850,
     comments: 89,
     shares: 34,
