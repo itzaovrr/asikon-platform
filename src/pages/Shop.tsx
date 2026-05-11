@@ -124,12 +124,12 @@ const Shop = () => {
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-primary" />
-              <span className="text-sm font-medium">2x Points Active</span>
+              <span className="text-sm font-medium">2x Learning XP Active</span>
             </div>
             <span className="text-xs text-muted-foreground">Level 5</span>
           </div>
           <Progress value={65} className="h-1.5" />
-          <p className="text-xs text-muted-foreground mt-1">On Streetwear Fridays</p>
+          <p className="text-xs text-muted-foreground mt-1">On Skill-Up Fridays</p>
         </div>
 
         {/* Search & Filters */}
