@@ -90,6 +90,7 @@ export function CategoryCarousel({
         <div className="flex gap-2">
           {categories.map((category) => {
             const isActive = activeCategory === category.name;
+            const Icon = getIcon(category);
             return (
               <button
                 key={category.id}
@@ -101,7 +102,7 @@ export function CategoryCarousel({
                     : "bg-card text-foreground border-border hover:border-primary/40"
                 )}
               >
-                <span className="text-sm leading-none">{category.icon}</span>
+                <Icon className="h-3.5 w-3.5" strokeWidth={2} />
                 <span>{category.name}</span>
               </button>
             );
