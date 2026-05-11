@@ -59,13 +59,13 @@ export function CategoryCarousel({
                 key={category.id}
                 onClick={() => onCategoryChange?.(category.name)}
                 className={cn(
-                  "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 flex-shrink-0",
+                  "flex items-center gap-1.5 px-3.5 py-2 rounded-full text-sm font-medium whitespace-nowrap border transition-all flex-shrink-0",
                   isActive
-                    ? "gradient-primary text-primary-foreground"
-                    : "bg-secondary text-foreground hover:bg-secondary/80"
+                    ? "gradient-primary text-primary-foreground border-transparent shadow-md glow-primary"
+                    : "bg-card text-foreground border-border hover:border-primary/40"
                 )}
               >
-                <span>{category.icon}</span>
+                <span className="text-sm leading-none">{category.icon}</span>
                 <span>{category.name}</span>
               </button>
             );
