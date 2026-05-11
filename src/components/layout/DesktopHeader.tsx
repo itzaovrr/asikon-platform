@@ -8,6 +8,7 @@ import { UserMenu } from "./UserMenu";
 import { NotificationsMenu } from "./NotificationsMenu";
 import { TrustStrip } from "./TrustStrip";
 import { NavigationMenu } from "./NavigationMenu";
+import logo from "@/assets/logo.png";
 
 interface DesktopHeaderProps {
   showTrustStrip?: boolean;
