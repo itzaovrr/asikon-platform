@@ -67,7 +67,7 @@ const Shop = () => {
 
   // Transform categories for carousel
   const categoryItems = [
-    { id: "all", name: "All", slug: "all", icon: "🛍️" },
+    { id: "all", name: "All", slug: "all", icon: "📚" },
     ...(categories?.map((cat) => ({
       id: cat.id,
       name: cat.name,
