@@ -16,8 +16,10 @@ import { useScrollDirection } from "@/hooks/use-scroll-direction";
 
 const Community = () => {
   const [activeTab, setActiveTab] = useState<CommunityTab>("my-feed");
-  const { scrollDirection, isScrolled } = useScrollDirection();
-  const headerHidden = scrollDirection === "down" && isScrolled;
+  const { isScrolled } = useScrollDirection();
+  // Mirror header behavior: only docked under header at the top of the page.
+  // Once scrolled, header hides and the tabs become the only sticky strip.
+  const headerHidden = isScrolled;
 
   const renderTabContent = () => {
     switch (activeTab) {

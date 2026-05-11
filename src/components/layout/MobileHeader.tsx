@@ -12,8 +12,10 @@ interface MobileHeaderProps {
 }
 
 export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: MobileHeaderProps) {
-  const { scrollDirection, isScrolled } = useScrollDirection();
-  const isHidden = scrollDirection === 'down' && isScrolled;
+  const { isScrolled } = useScrollDirection();
+  // Header is the "first tab": visible only at the very top. Once the user
+  // scrolls, it slides away so the page tabs (second bar) become the sticky top.
+  const isHidden = isScrolled;
 
   return (
     <header
