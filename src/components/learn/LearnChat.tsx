@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/hooks/useAuth";
 import { useAiThreadMessages } from "@/hooks/useAiTutor";
-import { supabase } from "@/integrations/supabase/client";
+import { useLearnerProgress } from "@/hooks/useLearnerProgress";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -29,6 +29,8 @@ interface Props {
 export function LearnChat({ threadId }: Props) {
   const { user, session } = useAuth();
   const { data: initialMessages, isLoading: loadingMsgs } = useAiThreadMessages(threadId);
+  const { awardSession, awardQuiz } = useLearnerProgress();
+  const awardedRef = useRef(false);
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
