@@ -602,7 +602,6 @@ const Auth = () => {
                         {!loading && <ArrowRight className="h-4 w-4 ml-1" />}
                       </PrimaryCta>
                     </form>
-                  ) : null}
                   ) : (
                     <form onSubmit={handleRegister} className="space-y-4">
                       <div className="grid grid-cols-2 gap-3">
