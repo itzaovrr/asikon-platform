@@ -454,7 +454,10 @@ const Auth = () => {
         </aside>
 
         {/* ============== Form pane ============== */}
-        <section className="relative flex flex-col px-5 sm:px-8 pt-8 pb-6 lg:py-14 min-h-screen lg:items-center lg:justify-center">
+        <section
+          className="relative flex flex-col px-5 sm:px-8 pt-[max(2rem,env(safe-area-inset-top))] lg:py-14 min-h-screen lg:items-center lg:justify-center"
+          style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))" }}
+        >
           <div className="w-full max-w-[440px] mx-auto animate-fade-in flex-1 flex flex-col lg:block">
             {/* Mobile brand */}
             <div className="lg:hidden flex flex-col items-center mb-7">
@@ -701,7 +704,7 @@ const Auth = () => {
 
             {/* Bottom-aligned switch & trust strip */}
             {activeView !== "forgot-password" && (
-              <div className="mt-auto pt-8 lg:pt-10 space-y-4">
+              <div className="mt-auto pt-10 lg:pt-12 space-y-4">
                 <div className="relative">
                   <div className="absolute inset-x-0 top-1/2 h-px bg-border" />
                   <div className="relative flex justify-center">
@@ -729,7 +732,7 @@ const Auth = () => {
                   <ArrowRight className="h-4 w-4" />
                 </button>
 
-                <div className="flex items-center justify-center gap-2 text-[11px] text-muted-foreground pb-[env(safe-area-inset-bottom)]">
+                <div className="flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
                   <ShieldCheck className="h-3.5 w-3.5" />
                   Secured with bank-grade encryption
                 </div>
