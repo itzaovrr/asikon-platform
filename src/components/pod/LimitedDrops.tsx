@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useState, useEffect } from "react";
+import { Price } from "@/lib/currency";
 
 interface LimitedDrop {
   id: string;
@@ -138,11 +139,9 @@ function DropCard({ drop, timeRemaining }: { drop: LimitedDrop; timeRemaining: s
         
         {/* Price */}
         <div className="flex items-baseline gap-2 mb-3">
-          <span className="font-bold text-lg">${drop.price}</span>
+          <Price amount={drop.price} className="font-bold text-lg" />
           {drop.original_price && (
-            <span className="text-sm text-muted-foreground line-through">
-              ${drop.original_price}
-            </span>
+            <Price amount={drop.original_price} strike className="text-sm text-muted-foreground" />
           )}
         </div>
         

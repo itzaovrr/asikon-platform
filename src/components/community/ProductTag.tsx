@@ -1,5 +1,6 @@
 import { ShoppingBag } from "lucide-react";
 import { Product } from "@/types";
+import { Price } from "@/lib/currency";
 
 interface ProductTagProps {
   product: Product;
@@ -17,7 +18,7 @@ export function ProductTag({ product, variant = "overlay" }: ProductTagProps) {
         />
         <div className="flex-1 min-w-0">
           <p className="text-sm font-medium truncate">{product.name}</p>
-          <p className="text-sm text-primary font-semibold">${product.price}</p>
+          <Price amount={product.price} className="text-sm text-primary font-semibold" />
         </div>
         <button className="p-2 rounded-full bg-primary text-primary-foreground">
           <ShoppingBag className="h-4 w-4" />

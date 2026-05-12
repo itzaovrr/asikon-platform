@@ -12,6 +12,7 @@ import { useAddToCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Price } from "@/lib/currency";
 
 const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
 const colors = [
@@ -168,9 +169,9 @@ const ProductDetail = () => {
             </div>
 
             <div className="flex items-baseline gap-3">
-              <span className="text-3xl font-bold">${product.price}</span>
-              {product.original_price && <span className="text-xl text-muted-foreground line-through">${product.original_price}</span>}
-              {discountPercentage > 0 && <Badge variant="secondary" className="text-success">Save ${(product.original_price! - product.price).toFixed(2)}</Badge>}
+              <Price amount={product.price} className="text-3xl font-bold" />
+              {product.original_price && <Price amount={product.original_price} strike className="text-xl text-muted-foreground" />}
+              {discountPercentage > 0 && <Badge variant="secondary" className="text-success">Save {discountPercentage}%</Badge>}
             </div>
 
             <div className="flex items-center gap-4 text-sm">
@@ -297,8 +298,8 @@ const ProductDetail = () => {
       <div className="fixed bottom-16 left-0 right-0 p-4 bg-background/95 backdrop-blur-lg border-t border-border lg:hidden">
         <div className="flex items-center gap-3">
           <div className="flex-1">
-            <span className="text-xl font-bold">${product.price}</span>
-            {product.original_price && <span className="text-sm text-muted-foreground line-through ml-2">${product.original_price}</span>}
+            <Price amount={product.price} className="text-xl font-bold" />
+            {product.original_price && <Price amount={product.original_price} strike className="text-sm text-muted-foreground ml-2" />}
           </div>
           <Button className="gradient-primary border-0 px-8" size="lg" onClick={handleAddToCart} disabled={addToCart.isPending}>
             <ShoppingCart className="h-5 w-5 mr-2" />{isCourse ? "Enroll" : "Buy Now"}

@@ -5,6 +5,7 @@ import { Product } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SmartImage } from "@/components/ui/smart-image";
+import { Price } from "@/lib/currency";
 import { ProductQuickView } from "./ProductQuickView";
 
 interface ProductCardProps {
@@ -171,22 +172,19 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
             
             {/* Price */}
             <div className="flex items-baseline gap-2 flex-wrap">
-              <span className={cn(
-                "font-bold text-foreground",
-                isCompact ? "text-lg" : "text-xl",
-                isFeatured && "lg:text-2xl"
-              )}>
-                ${product.price.toFixed(2)}
-              </span>
+              <Price
+                amount={product.price}
+                className={cn(
+                  "font-bold text-foreground",
+                  isCompact ? "text-lg" : "text-xl",
+                  isFeatured && "lg:text-2xl"
+                )}
+              />
               {product.originalPrice && (
-                <span className="text-sm text-muted-foreground line-through">
-                  ${product.originalPrice.toFixed(2)}
-                </span>
+                <Price amount={product.originalPrice} strike className="text-sm text-muted-foreground" />
               )}
               {discount > 0 && (
-                <span className="text-xs font-medium text-success">
-                  Save ${(product.originalPrice! - product.price).toFixed(2)}
-                </span>
+                <span className="text-xs font-medium text-success">Save {discount}%</span>
               )}
             </div>
 

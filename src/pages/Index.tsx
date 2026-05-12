@@ -9,6 +9,7 @@ import { mockPosts } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SectionHeader } from "@/components/ui/section-header";
+import { Price } from "@/lib/currency";
 import { Reveal } from "@/components/transitions/Reveal";
 import { SmartImage } from "@/components/ui/smart-image";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
@@ -245,11 +246,9 @@ const Index = () => {
                       </h3>
                       <div className="flex items-center justify-between mt-auto">
                         <div className="flex items-baseline gap-1.5">
-                          <span className="font-bold text-foreground">${product.price}</span>
+                          <Price amount={product.price} className="font-bold text-foreground" />
                           {product.original_price && (
-                            <span className="text-[11px] text-muted-foreground line-through">
-                              ${product.original_price}
-                            </span>
+                            <Price amount={product.original_price} strike className="text-[11px] text-muted-foreground" />
                           )}
                         </div>
                         <div className="flex items-center gap-1 text-xs text-muted-foreground">

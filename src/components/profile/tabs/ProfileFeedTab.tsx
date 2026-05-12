@@ -1,6 +1,7 @@
 import { Heart, MessageCircle, Share2, MoreHorizontal, ShoppingBag, BadgeCheck } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import { Price } from "@/lib/currency";
 import { useState } from "react";
 
 interface FeedPost {
@@ -104,7 +105,7 @@ function FeedPostCard({ post, user }: { post: FeedPost; user: ProfileFeedTabProp
                 <ShoppingBag className="h-4 w-4 text-primary" />
                 <div>
                   <p className="text-xs font-medium line-clamp-1">{post.product.name}</p>
-                  <p className="text-xs text-primary font-bold">${post.product.price}</p>
+                  <Price amount={post.product.price} className="text-xs text-primary font-bold" />
                 </div>
               </div>
             </div>

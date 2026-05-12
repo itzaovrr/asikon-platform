@@ -7,6 +7,7 @@ import { useAddToCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Price } from "@/lib/currency";
 
 const Wishlist = () => {
   const navigate = useNavigate();
@@ -107,7 +108,7 @@ const Wishlist = () => {
                     </h3>
                   </Link>
                   <div className="flex items-center justify-between">
-                    <span className="font-bold">${item.products?.price}</span>
+                    <Price amount={item.products?.price ?? 0} className="font-bold" />
                     <Button
                       size="sm"
                       variant="outline"
