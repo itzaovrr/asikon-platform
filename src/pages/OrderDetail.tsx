@@ -8,6 +8,7 @@ import { useOrder } from "@/hooks/useOrders";
 import { useAuth } from "@/hooks/useAuth";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
+import { Price } from "@/lib/currency";
 
 const statusConfig = {
   pending: { label: "Pending", icon: Clock, color: "bg-yellow-500/10 text-yellow-600" },
@@ -110,7 +111,7 @@ const OrderDetail = () => {
                       <p className="font-medium">{item.products?.name || "Product"}</p>
                       <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
                     </div>
-                    <p className="font-semibold">${item.price.toFixed(2)}</p>
+                    <Price amount={item.price} className="font-semibold" />
                   </div>
                 ))}
               </div>

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Product } from "@/types";
 import { cn } from "@/lib/utils";
 import { TrustBadge } from "@/components/ui/trust-badge";
+import { Price } from "@/lib/currency";
 
 interface ProductQuickViewProps {
   product: Product | null;
@@ -98,11 +99,9 @@ export function ProductQuickView({ product, open, onOpenChange }: ProductQuickVi
 
             {/* Price */}
             <div className="flex items-baseline gap-3 mb-6">
-              <span className="text-2xl font-bold">${product.price}</span>
+              <Price amount={product.price} className="text-2xl font-bold" />
               {product.originalPrice && (
-                <span className="text-lg text-muted-foreground line-through">
-                  ${product.originalPrice}
-                </span>
+                <Price amount={product.originalPrice} strike className="text-lg text-muted-foreground" />
               )}
             </div>
 

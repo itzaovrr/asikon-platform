@@ -11,6 +11,7 @@ import { useCart } from "@/hooks/useCart";
 import { useCreateOrder } from "@/hooks/useOrders";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { Price } from "@/lib/currency";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -254,7 +255,7 @@ const Checkout = () => {
                     <span className="text-muted-foreground">
                       {item.products?.name} x {item.quantity}
                     </span>
-                    <span>${((item.products?.price || 0) * (item.quantity || 1)).toFixed(2)}</span>
+                    <Price amount={(item.products?.price || 0) * (item.quantity || 1)} />
                   </div>
                 ))}
               </div>

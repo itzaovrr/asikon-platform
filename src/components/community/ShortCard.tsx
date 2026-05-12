@@ -1,5 +1,6 @@
 import { Play, Heart, Eye, ShoppingBag, BadgeCheck } from "lucide-react";
 import { Short } from "@/types/community";
+import { Price } from "@/lib/currency";
 
 interface ShortCardProps {
   short: Short;
@@ -68,7 +69,8 @@ export function ShortCard({ short }: ShortCardProps) {
           className="absolute left-2 bottom-[68px] inline-flex items-center gap-1 px-2 py-1 rounded-full text-[11px] font-semibold text-primary-foreground shadow-md backdrop-blur-sm"
           style={{ background: "var(--gradient-primary)" }}
         >
-          <ShoppingBag className="h-3 w-3" />${short.products[0].price}
+          <ShoppingBag className="h-3 w-3" />
+          <Price amount={short.products[0].price} />
         </button>
       )}
 

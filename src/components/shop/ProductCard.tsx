@@ -5,7 +5,7 @@ import { Product } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SmartImage } from "@/components/ui/smart-image";
-import { Price, useCurrency } from "@/lib/currency";
+import { Price } from "@/lib/currency";
 import { ProductQuickView } from "./ProductQuickView";
 
 interface ProductCardProps {
@@ -184,7 +184,7 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
                 <Price amount={product.originalPrice} strike className="text-sm text-muted-foreground" />
               )}
               {discount > 0 && (
-                <SaveBadge original={product.originalPrice!} price={product.price} />
+                <span className="text-xs font-medium text-success">Save {discount}%</span>
               )}
             </div>
 

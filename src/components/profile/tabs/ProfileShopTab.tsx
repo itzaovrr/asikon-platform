@@ -1,5 +1,6 @@
 import { ShoppingBag, Star, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Price } from "@/lib/currency";
 
 interface ShopProduct {
   id: string;
@@ -114,7 +115,7 @@ function ProductCard({
       <div className="p-2.5">
         <p className="text-xs font-medium line-clamp-2 mb-1">{product.name}</p>
         <div className="flex items-center justify-between">
-          <span className="text-sm font-bold text-primary">${product.price}</span>
+          <Price amount={product.price} className="text-sm font-bold text-primary" />
           <div className="flex items-center gap-0.5 text-xs text-muted-foreground">
             <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
             <span>{product.rating}</span>

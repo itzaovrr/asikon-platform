@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useCart, useUpdateCartItem, useRemoveFromCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { Price } from "@/lib/currency";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -122,7 +123,7 @@ const Cart = () => {
                     </button>
                   </div>
                   <div className="flex items-center justify-between mt-2">
-                    <span className="font-bold">${item.products?.price || 0}</span>
+                    <Price amount={item.products?.price || 0} className="font-bold" />
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => handleUpdateQuantity(item.id, item.quantity || 1, -1)}
