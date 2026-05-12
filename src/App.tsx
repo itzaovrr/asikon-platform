@@ -133,6 +133,8 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <AnimatedRoutes />
+          {/* Persistent app-shell: never remounts on route changes */}
+          <PersistentMobileShell />
         </BrowserRouter>
       </TooltipProvider>
     </ThemeProvider>
