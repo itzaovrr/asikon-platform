@@ -21,6 +21,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { z } from "zod";
+import asikonLogo from "@/assets/logo.png";
 
 // ---- Validation -----------------------------------------------------------
 const loginSchema = z.object({
@@ -368,8 +369,8 @@ const Auth = () => {
           />
 
           <div className="relative z-10 flex items-center gap-3 text-primary-foreground">
-            <div className="w-11 h-11 rounded-2xl bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center">
-              <Sparkles className="h-5 w-5" />
+            <div className="w-11 h-11 rounded-2xl bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center p-1.5">
+              <img src={asikonLogo} alt="Asikon" className="w-full h-full object-contain" />
             </div>
             <div>
               <p
@@ -453,14 +454,14 @@ const Auth = () => {
         </aside>
 
         {/* ============== Form pane ============== */}
-        <section className="relative flex items-center justify-center px-5 sm:px-8 py-10 lg:py-14">
-          <div className="w-full max-w-[440px] animate-fade-in">
+        <section className="relative flex flex-col px-5 sm:px-8 pt-8 pb-6 lg:py-14 min-h-screen lg:items-center lg:justify-center">
+          <div className="w-full max-w-[440px] mx-auto animate-fade-in flex-1 flex flex-col lg:block">
             {/* Mobile brand */}
-            <div className="lg:hidden flex flex-col items-center mb-8">
-              <div className="relative w-14 h-14 mb-3">
-                <div className="absolute inset-0 rounded-2xl rotate-3 gradient-primary shadow-[0_0_30px_hsl(var(--primary)/0.4)]" />
-                <div className="absolute inset-[3px] rounded-[14px] bg-background flex items-center justify-center">
-                  <Sparkles className="h-5 w-5 text-primary" />
+            <div className="lg:hidden flex flex-col items-center mb-7">
+              <div className="relative w-16 h-16 mb-3 group">
+                <div className="absolute inset-0 rounded-[20px] rotate-3 gradient-primary shadow-[0_0_40px_hsl(var(--primary)/0.45)] group-hover:rotate-6 transition-transform duration-500" />
+                <div className="absolute inset-[3px] rounded-[17px] bg-background flex items-center justify-center p-2">
+                  <img src={asikonLogo} alt="Asikon" className="w-full h-full object-contain" />
                 </div>
               </div>
               <h1
@@ -600,20 +601,6 @@ const Auth = () => {
                         {loading ? "Signing in…" : "Sign in"}
                         {!loading && <ArrowRight className="h-4 w-4 ml-1" />}
                       </PrimaryCta>
-
-                      <p className="text-center text-xs text-muted-foreground pt-2">
-                        New to Asikon?{" "}
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setActiveView("register");
-                            clearErrors();
-                          }}
-                          className="font-semibold text-primary hover:underline underline-offset-4"
-                        >
-                          Create a free account
-                        </button>
-                      </p>
                     </form>
                   ) : (
                     <form onSubmit={handleRegister} className="space-y-4">
@@ -706,30 +693,48 @@ const Auth = () => {
                         </a>
                         .
                       </p>
-                      <p className="text-center text-xs text-muted-foreground pt-1">
-                        Already have an account?{" "}
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setActiveView("login");
-                            clearErrors();
-                          }}
-                          className="font-semibold text-primary hover:underline underline-offset-4"
-                        >
-                          Sign in
-                        </button>
-                      </p>
                     </form>
                   )}
                 </div>
               </>
             )}
 
-            {/* Mobile trust line */}
-            <div className="lg:hidden mt-8 flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
-              <ShieldCheck className="h-3.5 w-3.5" />
-              Secured with bank-grade encryption
-            </div>
+            {/* Bottom-aligned switch & trust strip */}
+            {activeView !== "forgot-password" && (
+              <div className="mt-auto pt-8 lg:pt-10 space-y-4">
+                <div className="relative">
+                  <div className="absolute inset-x-0 top-1/2 h-px bg-border" />
+                  <div className="relative flex justify-center">
+                    <span className="px-3 bg-background text-[10.5px] uppercase tracking-[0.22em] text-muted-foreground font-semibold">
+                      {activeView === "login" ? "New here?" : "Already a member?"}
+                    </span>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveView(activeView === "login" ? "register" : "login");
+                    clearErrors();
+                  }}
+                  className={cn(
+                    "w-full h-12 rounded-xl border border-border bg-card/60 backdrop-blur-sm",
+                    "text-sm font-semibold text-foreground",
+                    "hover:border-primary/50 hover:bg-card hover:-translate-y-0.5 active:translate-y-0",
+                    "transition-all duration-200 focus-ring",
+                    "flex items-center justify-center gap-2",
+                  )}
+                >
+                  {activeView === "login" ? "Create a free account" : "Sign in to your account"}
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+
+                <div className="flex items-center justify-center gap-2 text-[11px] text-muted-foreground pb-[env(safe-area-inset-bottom)]">
+                  <ShieldCheck className="h-3.5 w-3.5" />
+                  Secured with bank-grade encryption
+                </div>
+              </div>
+            )}
           </div>
         </section>
       </div>
