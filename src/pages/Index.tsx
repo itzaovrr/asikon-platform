@@ -9,6 +9,7 @@ import { mockPosts } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SectionHeader } from "@/components/ui/section-header";
+import { Reveal } from "@/components/transitions/Reveal";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import courseAiMl from "@/assets/course-ai-ml.jpg";
 import coursePython from "@/assets/course-python.jpg";
@@ -117,7 +118,7 @@ const Index = () => {
         </section>
 
         {/* AI Tutor + Daily streak — twin cards */}
-        <section className="section-x grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <Reveal as="section" className="section-x grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Link
             to="/learn"
             className="group relative overflow-hidden rounded-2xl border border-primary/20 p-4 pressable focus-ring"
@@ -151,29 +152,30 @@ const Index = () => {
             </div>
             <Button size="sm" variant="premium" className="shrink-0">Claim</Button>
           </div>
-        </section>
+        </Reveal>
 
         {/* Quick Categories — uniform cards */}
         <section className="section-x">
           <div className="grid grid-cols-4 gap-2 lg:gap-3">
-            {quickCategories.map((cat) => {
+            {quickCategories.map((cat, i) => {
               const Icon = cat.icon;
               return (
-                <Link
-                  key={cat.label}
-                  to={cat.href}
-                  className={`pressable focus-ring flex flex-col items-center justify-center gap-2 aspect-square rounded-2xl bg-gradient-to-br ${cat.color} border border-border/60 hover:border-primary/40`}
-                >
-                  <Icon className="h-5 w-5 text-primary" />
-                  <span className="text-[11px] sm:text-xs font-medium">{cat.label}</span>
-                </Link>
+                <Reveal key={cat.label} delay={i * 60} variant="scale">
+                  <Link
+                    to={cat.href}
+                    className={`pressable focus-ring flex flex-col items-center justify-center gap-2 aspect-square rounded-2xl bg-gradient-to-br ${cat.color} border border-border/60 hover:border-primary/40`}
+                  >
+                    <Icon className="h-5 w-5 text-primary" />
+                    <span className="text-[11px] sm:text-xs font-medium">{cat.label}</span>
+                  </Link>
+                </Reveal>
               );
             })}
           </div>
         </section>
 
         {/* Trending Courses Carousel */}
-        <section>
+        <Reveal as="section">
           {featuredLoading ? (
             <CarouselSkeleton title="Trending Now" />
           ) : (
@@ -183,10 +185,10 @@ const Index = () => {
               viewAllHref="/shop?filter=trending"
             />
           )}
-        </section>
+        </Reveal>
 
         {/* From the Community */}
-        <section>
+        <Reveal as="section">
           <div className="section-x">
             <SectionHeader
               title="From the Community"
@@ -198,7 +200,7 @@ const Index = () => {
           <div className="section-x">
             <PostCard post={mockPosts[0]} />
           </div>
-        </section>
+        </Reveal>
 
         {/* Curated For You — uniform cards */}
         <section className="section-x">
@@ -215,56 +217,57 @@ const Index = () => {
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 lg:gap-4">
-              {curated.map((product: any) => (
-                <Link
-                  key={product.id}
-                  to={`/product/${product.slug}`}
-                  className="group relative bg-card rounded-2xl overflow-hidden border border-border/60 hover-lift focus-ring flex flex-col h-full"
-                >
-                  <div className="relative aspect-square overflow-hidden bg-muted">
-                    <img
-                      src={product.image_url || "/placeholder.svg"}
-                      alt={product.name}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
-                    />
-                    {product.is_featured && (
-                      <span className="absolute top-2 left-2 px-2 py-0.5 text-[10px] font-semibold rounded-full gradient-primary text-primary-foreground shadow-sm">
-                        HOT
-                      </span>
-                    )}
-                  </div>
-                  <div className="p-3 flex flex-col flex-1">
-                    <p className="text-[10px] text-muted-foreground uppercase tracking-[0.12em] mb-1">
-                      ASIKON Academy
-                    </p>
-                    <h3 className="font-medium text-sm line-clamp-2 mb-2 min-h-[2.5rem] group-hover:text-primary transition-colors">
-                      {product.name}
-                    </h3>
-                    <div className="flex items-center justify-between mt-auto">
-                      <div className="flex items-baseline gap-1.5">
-                        <span className="font-bold text-foreground">${product.price}</span>
-                        {product.original_price && (
-                          <span className="text-[11px] text-muted-foreground line-through">
-                            ${product.original_price}
-                          </span>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <span className="text-amber-400">★</span>
-                        <span>{product.rating || 0}</span>
+              {curated.map((product: any, i: number) => (
+                <Reveal key={product.id} delay={Math.min(i, 6) * 50}>
+                  <Link
+                    to={`/product/${product.slug}`}
+                    className="group relative bg-card rounded-2xl overflow-hidden border border-border/60 hover-lift focus-ring flex flex-col h-full"
+                  >
+                    <div className="relative aspect-square overflow-hidden bg-muted">
+                      <img
+                        src={product.image_url || "/placeholder.svg"}
+                        alt={product.name}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
+                      />
+                      {product.is_featured && (
+                        <span className="absolute top-2 left-2 px-2 py-0.5 text-[10px] font-semibold rounded-full gradient-primary text-primary-foreground shadow-sm">
+                          HOT
+                        </span>
+                      )}
+                    </div>
+                    <div className="p-3 flex flex-col flex-1">
+                      <p className="text-[10px] text-muted-foreground uppercase tracking-[0.12em] mb-1">
+                        ASIKON Academy
+                      </p>
+                      <h3 className="font-medium text-sm line-clamp-2 mb-2 min-h-[2.5rem] group-hover:text-primary transition-colors">
+                        {product.name}
+                      </h3>
+                      <div className="flex items-center justify-between mt-auto">
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="font-bold text-foreground">${product.price}</span>
+                          {product.original_price && (
+                            <span className="text-[11px] text-muted-foreground line-through">
+                              ${product.original_price}
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <span className="text-amber-400">★</span>
+                          <span>{product.rating || 0}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </Reveal>
               ))}
             </div>
           )}
         </section>
 
         {/* New Arrivals Carousel */}
-        <section>
+        <Reveal as="section">
           {productsLoading ? (
             <CarouselSkeleton title="New Arrivals" />
           ) : (
@@ -274,17 +277,17 @@ const Index = () => {
               viewAllHref="/shop?filter=new"
             />
           )}
-        </section>
+        </Reveal>
 
         {/* Mission & Vision */}
-        <section className="section-x">
+        <Reveal as="section" className="section-x">
           <SectionHeader
             eyebrow="Why ASIKON"
             title="Built for every Bangladeshi learner"
             subtitle="Simple, smart, and accessible — by design."
           />
           <MissionVision />
-        </section>
+        </Reveal>
       </div>
     </AppLayout>
   );
