@@ -9,6 +9,7 @@ import { useCategories } from "@/hooks/useCategories";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
+import { Price } from "@/lib/currency";
 import { cn } from "@/lib/utils";
 
 const MAX_PRICE = 500;
@@ -256,11 +257,9 @@ const Shop = () => {
                     </h3>
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-baseline gap-1.5 min-w-0">
-                        <span className="font-bold text-base sm:text-lg tracking-tight">${product.price}</span>
+                        <Price amount={product.price} className="font-bold text-base sm:text-lg tracking-tight" />
                         {product.original_price && (
-                          <span className="text-[11px] text-muted-foreground line-through">
-                            ${product.original_price}
-                          </span>
+                          <Price amount={product.original_price} strike className="text-[11px] text-muted-foreground" />
                         )}
                       </div>
                       <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary/60 shrink-0">
