@@ -601,21 +601,8 @@ const Auth = () => {
                         {loading ? "Signing in…" : "Sign in"}
                         {!loading && <ArrowRight className="h-4 w-4 ml-1" />}
                       </PrimaryCta>
-
-                      <p className="text-center text-xs text-muted-foreground pt-2">
-                        New to Asikon?{" "}
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setActiveView("register");
-                            clearErrors();
-                          }}
-                          className="font-semibold text-primary hover:underline underline-offset-4"
-                        >
-                          Create a free account
-                        </button>
-                      </p>
                     </form>
+                  ) : null}
                   ) : (
                     <form onSubmit={handleRegister} className="space-y-4">
                       <div className="grid grid-cols-2 gap-3">
