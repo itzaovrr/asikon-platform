@@ -4,7 +4,7 @@ import { MobileHeader } from "./MobileHeader";
 import { DesktopHeader } from "./DesktopHeader";
 import { DesktopSidebar } from "./DesktopSidebar";
 import { Sidebar } from "./Sidebar";
-import { BottomNav } from "./BottomNav";
+
 import { MobileSearchOverlay } from "@/components/search/MobileSearchOverlay";
 import { cn } from "@/lib/utils";
 
@@ -132,8 +132,7 @@ export function AppLayout({
           {children}
         </main>
 
-        {/* Bottom Navigation (Mobile Only) */}
-        {isMobile && showBottomNav && <BottomNav />}
+        {/* BottomNav is rendered once at App root (persistent app-shell) — never remounts */}
       </div>
     </SidebarContext.Provider>
   );

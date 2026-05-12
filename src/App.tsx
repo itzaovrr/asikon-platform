@@ -6,6 +6,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { PageTransition } from "@/components/transitions/PageTransition";
+import { BottomNav } from "@/components/layout/BottomNav";
+import { useIsMobile } from "@/hooks/use-mobile";
 import Index from "./pages/Index";
 
 // Lazy-load non-initial routes to reduce initial JS bundle.
@@ -82,6 +84,15 @@ function useIdlePrefetch() {
   }, []);
 }
 
+function PersistentMobileShell() {
+  const isMobile = useIsMobile();
+  const { pathname } = useLocation();
+  // Hide nav on auth/onboarding-style routes; otherwise keep mounted permanently.
+  const hideOn = ["/auth"];
+  if (!isMobile || hideOn.some((p) => pathname.startsWith(p))) return null;
+  return <BottomNav />;
+}
+
 function AnimatedRoutes() {
   const location = useLocation();
   useIdlePrefetch();
@@ -125,6 +136,8 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <AnimatedRoutes />
+          {/* Persistent app-shell: never remounts on route changes */}
+          <PersistentMobileShell />
         </BrowserRouter>
       </TooltipProvider>
     </ThemeProvider>
