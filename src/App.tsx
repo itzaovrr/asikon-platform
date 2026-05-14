@@ -46,6 +46,7 @@ const AdminOrdersMod = () => import("./pages/admin/AdminOrders");
 const AdminCommunityMod = () => import("./pages/admin/AdminCommunity");
 const AdminPodMod = () => import("./pages/admin/AdminPod");
 const AdminSettingsMod = () => import("./pages/admin/AdminSettings");
+const AdminHomeSectionsMod = () => import("./pages/admin/AdminHomeSections");
 
 const Shop = lazy(ShopMod);
 const Community = lazy(CommunityMod);
@@ -77,6 +78,7 @@ const AdminOrders = lazy(AdminOrdersMod);
 const AdminCommunity = lazy(AdminCommunityMod);
 const AdminPod = lazy(AdminPodMod);
 const AdminSettings = lazy(AdminSettingsMod);
+const AdminHomeSections = lazy(AdminHomeSectionsMod);
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -161,6 +163,7 @@ function AnimatedRoutes() {
             <Route path="community" element={<AdminCommunity />} />
             <Route path="pod" element={<AdminPod />} />
             <Route path="settings" element={<AdminSettings />} />
+            <Route path="home-sections" element={<AdminHomeSections />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

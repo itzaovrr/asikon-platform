@@ -13,6 +13,7 @@ import {
   Bell,
   LogOut,
   Search,
+  LayoutGrid,
 } from "lucide-react";
 import { AdminGuard } from "./AdminGuard";
 import { useIsAdmin } from "@/hooks/useUserRole";
@@ -42,6 +43,7 @@ export const adminNavItems = [
   { title: "Orders", url: "/asikonasik/orders", icon: ShoppingBag },
   { title: "Community", url: "/asikonasik/community", icon: MessagesSquare },
   { title: "POD Designs", url: "/asikonasik/pod", icon: Palette },
+  { title: "Home Sections", url: "/asikonasik/home-sections", icon: LayoutGrid },
   { title: "Settings", url: "/asikonasik/settings", icon: SettingsIcon },
 ];
 
