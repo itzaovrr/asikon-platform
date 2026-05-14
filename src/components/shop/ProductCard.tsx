@@ -31,9 +31,9 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
         <article 
           ref={ref} 
           className={cn(
-            "group relative bg-card rounded-2xl overflow-hidden border border-border/50 transition-all duration-300",
+            "group relative bg-card rounded-2xl overflow-hidden border border-border/50 transition-all duration-300 h-full flex flex-col",
             "hover:shadow-xl hover:shadow-primary/5 hover:border-primary/20",
-            isFeatured && "lg:flex lg:flex-row"
+            isFeatured && "lg:flex-row"
           )}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
