@@ -163,6 +163,7 @@ function AnimatedRoutes() {
             <Route path="community" element={<AdminCommunity />} />
             <Route path="pod" element={<AdminPod />} />
             <Route path="settings" element={<AdminSettings />} />
+            <Route path="home-sections" element={<AdminHomeSections />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
