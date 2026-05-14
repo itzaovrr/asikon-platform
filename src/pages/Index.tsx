@@ -1,5 +1,5 @@
 import { Gift, Flame, Sparkles, GraduationCap, BookOpen, ArrowUpRight, Compass, Target, Trophy, Users, ShieldCheck, Headphones, Star, HelpCircle, Rocket, PlayCircle } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useMemo } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 
@@ -14,6 +14,12 @@ import { Reveal } from "@/components/transitions/Reveal";
 import { SmartImage } from "@/components/ui/smart-image";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import { useHomeSections, HomeSection } from "@/hooks/useHomeSections";
+import { useAuth } from "@/hooks/useAuth";
+import { useLearnerProfile } from "@/hooks/useLearnerProfile";
+import { TodayMissionCard } from "@/features/mission/TodayMissionCard";
+import { TrackProgress } from "@/features/tracks/TrackProgress";
+import { StreakBadge } from "@/features/progress/StreakBadge";
+import { XPBar } from "@/features/progress/XPBar";
 import courseAiMl from "@/assets/course-ai-ml.jpg";
 import coursePython from "@/assets/course-python.jpg";
 import promptLibrary from "@/assets/prompt-library.jpg";
