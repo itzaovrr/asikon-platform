@@ -376,4 +376,90 @@
       transparent);
     height: 1px;
   }
+
+  /* === Desktop polish utilities === */
+
+  /* Editorial container — wider on big screens than the default `container`. */
+  .container-editorial {
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
+    max-width: 1440px;
+  }
+
+  /* Hairline gradient border (e.g. under the header) */
+  .hairline-bottom {
+    position: relative;
+  }
+  .hairline-bottom::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 1px;
+    background: var(--gradient-hairline);
+    pointer-events: none;
+  }
+
+  /* Aurora ambient layer for hero/feature bands */
+  .aurora-bg {
+    position: relative;
+    isolation: isolate;
+  }
+  .aurora-bg::before {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    background: var(--gradient-aurora);
+    filter: blur(40px);
+    opacity: 0.85;
+    z-index: -1;
+    pointer-events: none;
+    animation: aurora-shift 18s ease-in-out infinite alternate;
+  }
+
+  @keyframes aurora-shift {
+    0%   { transform: translate3d(0, 0, 0) scale(1); }
+    100% { transform: translate3d(2%, -2%, 0) scale(1.04); }
+  }
+
+  @keyframes float-y {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+  }
+  .animate-float { animation: float-y 5s var(--ease-out-soft) infinite; }
+
+  /* Section eyebrow with vertical accent bar */
+  .eyebrow-bar {
+    @apply relative pl-3 text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-semibold;
+  }
+  .eyebrow-bar::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 14px;
+    border-radius: 2px;
+    background: var(--gradient-primary);
+  }
+
+  /* Display headline — Space Grotesk, fluid */
+  .display-1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.04;
+    font-size: clamp(2rem, 1.4rem + 2.4vw, 4.5rem);
+    text-wrap: balance;
+  }
+  .display-2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+    font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.75rem);
+    text-wrap: balance;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aurora-bg::before, .animate-float { animation: none !important; }
+  }
 }
