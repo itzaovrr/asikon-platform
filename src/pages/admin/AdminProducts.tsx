@@ -216,7 +216,54 @@ export default function AdminProducts() {
         </Button>
       </Reveal>
 
-      <Reveal>
+      {/* Mobile: cards */}
+      <Reveal className="md:hidden space-y-2">
+        {filtered.length === 0 && (
+          <p className="text-center py-8 text-muted-foreground text-sm">No products match.</p>
+        )}
+        {filtered.map((p: any) => (
+          <div key={p.id} className="glass rounded-2xl p-3">
+            <div className="flex items-start gap-3">
+              {p.image_url ? (
+                <img src={p.image_url} alt="" loading="lazy" className="h-14 w-14 rounded-lg object-cover shrink-0" />
+              ) : (
+                <div className="h-14 w-14 rounded-lg bg-muted shrink-0" />
+              )}
+              <div className="flex-1 min-w-0">
+                <div className="font-medium text-sm truncate">{p.name}</div>
+                <div className="text-[11px] text-muted-foreground truncate">{p.slug}</div>
+                <div className="mt-1 flex items-center gap-2 text-xs">
+                  <span className="font-semibold">৳{Number(p.price).toFixed(0)}</span>
+                  <Badge variant={p.stock === 0 ? "destructive" : p.stock < 5 ? "secondary" : "outline"} className="text-[10px]">
+                    {p.stock ?? 0} in stock
+                  </Badge>
+                  {p.is_pod && <Badge variant="outline" className="text-[10px]">POD</Badge>}
+                </div>
+              </div>
+              <div className="flex flex-col items-end gap-1 shrink-0">
+                <button
+                  onClick={() => toggleFeatured.mutate({ id: p.id, value: !p.is_featured })}
+                  className="pressable p-1"
+                  title="Toggle featured"
+                >
+                  <Star className={`h-4 w-4 ${p.is_featured ? "fill-amber-400 text-amber-400" : "text-muted-foreground"}`} />
+                </button>
+                <div className="flex gap-0.5">
+                  <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => openEdit(p)}>
+                    <Pencil className="h-4 w-4" />
+                  </Button>
+                  <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => remove.mutate(p.id)}>
+                    <Trash2 className="h-4 w-4 text-destructive" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </Reveal>
+
+      {/* Desktop: table */}
+      <Reveal className="hidden md:block">
         <div className="glass rounded-2xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
