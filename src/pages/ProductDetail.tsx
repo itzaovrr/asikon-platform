@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Heart, Share2, ShoppingCart, Star, ChevronLeft, ChevronRight, Truck, Clock, ShieldCheck, BookOpen, Play, CheckCircle2, GraduationCap, Award, Users, Globe, Infinity as InfinityIcon } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { MobilePage } from "@/components/layout/MobilePage";
+import { MobileCard } from "@/components/ui/mobile-card";
+import { MobileSection } from "@/components/ui/mobile-section";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -93,16 +96,16 @@ const ProductDetail = () => {
   if (isLoading) {
     return (
       <AppLayout>
-        <div className="container mx-auto px-4 pt-3 pb-24 max-w-6xl">
+        <MobilePage maxWidth="6xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <Skeleton className="aspect-square rounded-xl" />
+            <Skeleton className="aspect-square rounded-2xl" />
             <div className="space-y-4">
               <Skeleton className="h-8 w-3/4" />
               <Skeleton className="h-6 w-1/4" />
               <Skeleton className="h-24 w-full" />
             </div>
           </div>
-        </div>
+        </MobilePage>
       </AppLayout>
     );
   }
@@ -110,10 +113,12 @@ const ProductDetail = () => {
   if (!product) {
     return (
       <AppLayout>
-        <div className="flex flex-col items-center justify-center min-h-[50vh] px-4">
-          <h1 className="text-xl font-bold mb-2">Product Not Found</h1>
-          <Link to="/shop"><Button>Back to Shop</Button></Link>
-        </div>
+        <MobilePage maxWidth="6xl">
+          <div className="flex flex-col items-center justify-center py-16 text-center">
+            <h1 className="text-lg font-semibold mb-2">Product Not Found</h1>
+            <Link to="/shop"><Button>Back to Shop</Button></Link>
+          </div>
+        </MobilePage>
       </AppLayout>
     );
   }
