@@ -89,11 +89,9 @@ const Settings = () => {
 
   return (
     <AppLayout>
-      <div className="container mx-auto px-4 py-6 max-w-2xl">
-        <h1 className="text-2xl font-bold mb-6">Settings</h1>
-
+      <div className="container mx-auto px-4 pt-3 pb-24 max-w-2xl space-y-4">
         {/* Profile Section */}
-        <div className="bg-card rounded-xl p-6 border border-border mb-6">
+        <div className="glass rounded-2xl p-5">
           <div className="flex items-center gap-2 mb-4">
             <User className="h-5 w-5 text-primary" />
             <h2 className="font-semibold">Profile</h2>
