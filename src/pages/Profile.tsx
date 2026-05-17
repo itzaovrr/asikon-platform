@@ -14,7 +14,6 @@ import {
   ProfileShopTab,
   ProfileReviewsTab,
   ProfileMediaTab,
-  ProfileDesignsTab,
   ProfileActivityTab,
   ProfileEditModal,
   AvatarViewer,
