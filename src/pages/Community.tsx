@@ -10,7 +10,6 @@ import { ShortsTab } from "@/components/community/tabs/ShortsTab";
 import { ReviewsTab } from "@/components/community/tabs/ReviewsTab";
 import { LiveTab } from "@/components/community/tabs/LiveTab";
 import { OffersTab } from "@/components/community/tabs/OffersTab";
-import { GalleryTab } from "@/components/community/tabs/GalleryTab";
 import { CommunityTab } from "@/types/community";
 
 const Community = () => {
