@@ -14,6 +14,14 @@ import { Reveal } from "@/components/transitions/Reveal";
 import { SmartImage } from "@/components/ui/smart-image";
 import { MobileScroller } from "@/components/ui/mobile-scroller";
 import { MentorshipHomeSection } from "@/components/mentorship/MentorshipHomeSection";
+import { GreetingStrip } from "@/components/home/workspace/GreetingStrip";
+import { QuickAccessGrid } from "@/components/home/workspace/QuickAccessGrid";
+import { ProgressSnapshot } from "@/components/home/workspace/ProgressSnapshot";
+import { ContinueLearningRow } from "@/components/home/workspace/ContinueLearningRow";
+import { AiAssistantBox } from "@/components/home/workspace/AiAssistantBox";
+import { ActivityFeed } from "@/components/home/workspace/ActivityFeed";
+import { UpcomingCard } from "@/components/home/workspace/UpcomingCard";
+import { InsightCard } from "@/components/home/workspace/InsightCard";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import { useHomeSections, HomeSection } from "@/hooks/useHomeSections";
 import { useAuth } from "@/hooks/useAuth";
@@ -357,47 +365,41 @@ const Index = () => {
 
   const enabledSections = useMemo(() => (sections ?? []).filter((s) => s.enabled), [sections]);
 
+  const heroSection = enabledSections.find((s) => s.key === "hero");
+  const restSections = enabledSections.filter((s) => s.key !== "hero");
+
+  const renderSection = (sec: HomeSection) => {
+    const render = SECTION_RENDERERS[sec.key];
+    if (!render) return null;
+    return (
+      <div key={sec.id}>
+        {render({ sec, products, featuredProducts, productsLoading, featuredLoading, trendingItems, newArrivalItems, curated })}
+      </div>
+    );
+  };
+
   return (
     <AppLayout>
-      <div className="container-editorial space-y-6 lg:space-y-14 pb-10 pt-2 lg:pt-4">
-        {user && (
-          <section className="section-x">
-            <div className="relative aurora-bg rounded-3xl border border-border/60 overflow-hidden p-5 lg:p-8">
-              <p className="eyebrow-bar mb-3">Today at ASIKON</p>
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6">
-                {/* Left — Mission (7 cols) */}
-                <div className="lg:col-span-7 min-w-0">
-                  <TodayMissionCard />
-                </div>
-                {/* Right — XP + Track (5 cols) */}
-                <div className="lg:col-span-5 space-y-4 min-w-0">
-                  <div className="rounded-2xl glass p-4 lg:p-5">
-                    <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-semibold mb-2">
-                      Your progress
-                    </p>
-                    <XPBar xp={profile?.xp ?? 0} />
-                    <div className="mt-3">
-                      <StreakBadge days={profile?.streak_days ?? 0} />
-                    </div>
-                  </div>
-                  <div className="rounded-2xl glass p-4 lg:p-5">
-                    <TrackProgress />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
+      <div className="container-editorial space-y-6 lg:space-y-10 pb-10 pt-2 lg:pt-4">
+        {heroSection && renderSection(heroSection)}
 
-        {enabledSections.map((sec) => {
-          const render = SECTION_RENDERERS[sec.key];
-          if (!render) return null;
-          return (
-            <div key={sec.id}>
-              {render({ sec, products, featuredProducts, productsLoading, featuredLoading, trendingItems, newArrivalItems, curated })}
-            </div>
-          );
-        })}
+        {user ? (
+          <>
+            <GreetingStrip />
+            <section className="section-x">
+              <TodayMissionCard />
+            </section>
+            <QuickAccessGrid />
+            <ProgressSnapshot />
+            <ContinueLearningRow />
+            <AiAssistantBox />
+            <ActivityFeed />
+            <UpcomingCard />
+            <InsightCard />
+          </>
+        ) : null}
+
+        {restSections.map(renderSection)}
       </div>
     </AppLayout>
   );
