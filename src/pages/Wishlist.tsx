@@ -60,7 +60,7 @@ const Wishlist = () => {
   return (
     <AppLayout>
       <div className="container mx-auto px-4 pt-3 pb-24 max-w-6xl">
-        <h1 className="text-2xl font-bold mb-6">My Wishlist</h1>
+        <h1 className="hidden lg:block text-2xl font-bold mb-6">My Wishlist</h1>
 
         {isLoading ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
