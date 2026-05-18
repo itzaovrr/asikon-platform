@@ -121,7 +121,7 @@ const Game = () => {
               return (
                 <MobileCard key={course.id} variant="glass" className="p-3">
                   <div className="flex gap-3">
-                    <img src={course.cover} alt={course.title} className="w-16 h-16 rounded-xl object-cover flex-shrink-0" />
+                    <img src={course.cover} alt={course.title} loading="lazy" decoding="async" width={64} height={64} className="w-16 h-16 rounded-xl object-cover flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-sm leading-tight truncate">{course.title}</h3>
                       <p className="text-xs text-muted-foreground mb-2">{course.instructor}</p>
@@ -196,7 +196,7 @@ const Game = () => {
             {rewards.map((reward) => (
               <MobileCard key={reward.id} variant="glass" noPadding className="overflow-hidden">
                 <div className="relative h-28">
-                  <img src={reward.image} alt={reward.title} className="w-full h-full object-cover" />
+                  <img src={reward.image} alt={reward.title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
                   <span className="absolute top-2 left-2 px-2 py-0.5 text-[10px] font-medium rounded-full bg-background/80 backdrop-blur-sm">
                     {reward.type}
