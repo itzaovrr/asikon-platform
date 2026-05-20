@@ -391,7 +391,7 @@ export default function AdminProducts() {
                     {uploading ? "Uploading…" : "Upload"}
                     <input
                       type="file"
-                      accept="image/*"
+                      accept="image/jpeg,image/png,image/gif,image/webp"
                       hidden
                       onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0])}
                     />
