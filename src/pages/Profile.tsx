@@ -368,7 +368,21 @@ const Profile = () => {
           userName={displayProfile.name}
         />
 
-        <MessagingDrawer open={showMessages} onOpenChange={setShowMessages} />
+        <MessagingDrawer
+          open={showMessages}
+          onOpenChange={(v) => {
+            setShowMessages(v);
+            if (!v) setActiveChatId(undefined);
+          }}
+          initialChatId={activeChatId}
+        />
+
+        <MediaLightbox
+          items={mediaItems}
+          index={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+          onIndexChange={setLightboxIndex}
+        />
 
         <FollowersSheet
           open={statSheet === "followers"}
