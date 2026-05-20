@@ -30,7 +30,7 @@ export default function Learn() {
         <div className="flex flex-col items-center justify-center h-full p-6 text-center">
           <img src={tutorAvatar} alt="ASIKON AI Tutor" className="w-20 h-20 mb-4" />
           <h1 className="text-2xl font-bold mb-2 text-gradient">ASIKON AI Tutor</h1>
-          <p className="text-muted-foreground mb-4">সাইন ইন করো তোমার AI শিক্ষকের সাথে কথা বলতে।</p>
+          <p className="text-muted-foreground mb-4">Sign in to chat with your AI tutor.</p>
           <Button onClick={() => navigate("/auth")}>Sign in</Button>
         </div>
       </AppLayout>
