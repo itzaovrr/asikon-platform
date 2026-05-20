@@ -11,10 +11,7 @@ import {
   ListChecks,
   Sparkles as SparklesIcon,
   Heart,
-  Plus,
-  MoreHorizontal,
   Mic,
-  Map as MapIcon,
   ChevronDown,
   PanelLeft,
   PenSquare,
@@ -40,19 +37,19 @@ import { ThreadList } from "@/components/learn/ThreadList";
 import tutorAvatar from "@/assets/asikon-tutor-avatar.png";
 
 const QUICK_PROMPTS = [
-  { icon: BookOpen, label: "SSC গণিত বুঝাও", prompt: "আমি SSC এর গণিতে দুর্বল। কোথায় থেকে শুরু করবো?" },
-  { icon: ListChecks, label: "Photosynthesis MCQ", prompt: "Make 5 MCQ on photosynthesis with answers and explanations." },
-  { icon: Brain, label: "Newton's 2nd law", prompt: "ভাই নিউটনের ২য় সূত্র সহজ করে বুঝাইয়া দাও।" },
-  { icon: SparklesIcon, label: "Study routine", prompt: "HSC পরীক্ষার জন্য একটা realistic ৭ দিনের revision routine বানাও।" },
-  { icon: Heart, label: "Motivate me", prompt: "আমি ফেল করবো মনে হচ্ছে। কিছু বলো।" },
+  { icon: BookOpen, label: "Explain SSC Math", prompt: "I'm weak at SSC math. Where should I start?" },
+  { icon: ListChecks, label: "Photosynthesis MCQ", prompt: "Make 5 MCQs on photosynthesis with answers and explanations." },
+  { icon: Brain, label: "Newton's 2nd law", prompt: "Explain Newton's second law in a simple way." },
+  { icon: SparklesIcon, label: "Study routine", prompt: "Build a realistic 7-day revision routine for HSC exams." },
+  { icon: Heart, label: "Motivate me", prompt: "I feel like I'm going to fail. Say something to motivate me." },
 ];
 
 const ACTION_CHIPS = [
-  "সহজ করে বলো",
-  "Bangla তে বলো",
-  "Quiz বানাও",
-  "Example দাও",
-  "Summary করো",
+  "Explain simply",
+  "Reply in Bangla",
+  "Make a quiz",
+  "Give an example",
+  "Summarize",
 ];
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
@@ -110,8 +107,8 @@ export function LearnChat({ threadId }: Props) {
     transport,
     onError: (e) => {
       const msg = (e as Error).message || "Something went wrong";
-      if (msg.includes("429")) toast.error("একটু পরে আবার চেষ্টা করো — অনেক request হয়ে গেছে।");
-      else if (msg.includes("402")) toast.error("AI credits শেষ। Workspace settings এ গিয়ে credits যোগ করো।");
+      if (msg.includes("429")) toast.error("Too many requests — please try again in a moment.");
+      else if (msg.includes("402")) toast.error("AI credits exhausted. Add credits in workspace settings.");
       else toast.error(msg);
     },
   });
@@ -178,14 +175,14 @@ export function LearnChat({ threadId }: Props) {
     el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
   };
 
-  const comingSoon = () => toast("শীঘ্রই আসছে");
+  const comingSoon = () => toast("Coming soon");
 
   if (!user) {
     return (
       <div className="flex flex-col items-center justify-center h-full p-6 text-center">
         <img src={tutorAvatar} alt="ASIKON AI Tutor" className="w-16 h-16 mb-4" />
         <h2 className="text-xl font-semibold mb-2">ASIKON AI Tutor</h2>
-        <p className="text-muted-foreground mb-4">সাইন ইন করো তোমার AI শিক্ষকের সাথে কথা বলতে।</p>
+        <p className="text-muted-foreground mb-4">Sign in to chat with your AI tutor.</p>
         <a href="/auth"><Button>Sign in</Button></a>
       </div>
     );
@@ -247,7 +244,7 @@ export function LearnChat({ threadId }: Props) {
             {status === "submitted" && (
               <div className="flex items-center gap-2 text-sm text-muted-foreground animate-pulse">
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary" />
-                চিন্তা করছি...
+                Thinking...
               </div>
             )}
             <div className="h-1" />
@@ -287,8 +284,8 @@ export function LearnChat({ threadId }: Props) {
             </div>
           )}
 
-          {/* Composer card */}
-          <div className="rounded-3xl border border-border bg-card/95 backdrop-blur shadow-[0_4px_24px_-10px_hsl(var(--primary)/0.25)] focus-within:border-primary/50 transition-colors">
+          {/* Composer card — slim */}
+          <div className="flex items-end gap-1.5 rounded-full border border-border bg-card/95 backdrop-blur shadow-[0_4px_18px_-10px_hsl(var(--primary)/0.3)] focus-within:border-primary/50 transition-colors pl-4 pr-1.5 py-1">
             <textarea
               ref={textareaRef}
               value={input}
@@ -299,76 +296,44 @@ export function LearnChat({ threadId }: Props) {
                   handleSend(input);
                 }
               }}
-              placeholder="তোমার প্রশ্ন লেখো..."
+              placeholder="Ask your question..."
               rows={1}
-              className="w-full resize-none bg-transparent outline-none text-[15px] leading-6 placeholder:text-muted-foreground/70 px-4 pt-3 pb-1 max-h-[160px]"
+              className="flex-1 resize-none bg-transparent outline-none text-[14px] leading-5 placeholder:text-muted-foreground/70 py-1.5 max-h-[140px]"
               autoFocus
             />
-            <div className="flex items-center justify-between px-2 pb-2 pt-1">
-              <div className="flex items-center gap-1">
-                <Button
-                  onClick={comingSoon}
-                  variant="ghost"
-                  size="icon"
-                  className="h-9 w-9 rounded-full bg-secondary/60 hover:bg-secondary"
-                  aria-label="Attach"
-                >
-                  <Plus className="w-4 h-4" />
-                </Button>
-                <Button
-                  onClick={comingSoon}
-                  variant="ghost"
-                  size="icon"
-                  className="h-9 w-9 rounded-full bg-secondary/60 hover:bg-secondary"
-                  aria-label="More"
-                >
-                  <MoreHorizontal className="w-4 h-4" />
-                </Button>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Button
-                  onClick={comingSoon}
-                  size="icon"
-                  className="h-9 w-9 rounded-full gradient-primary text-primary-foreground"
-                  aria-label="Quick action"
-                >
-                  <MapIcon className="w-4 h-4" />
-                </Button>
-                <Button
-                  onClick={comingSoon}
-                  variant="ghost"
-                  size="icon"
-                  className="h-9 w-9 rounded-full bg-secondary/60 hover:bg-secondary"
-                  aria-label="Voice"
-                >
-                  <Mic className="w-4 h-4" />
-                </Button>
-                {isBusy ? (
-                  <Button
-                    onClick={stop}
-                    size="icon"
-                    variant="secondary"
-                    className="h-9 w-9 rounded-full"
-                    aria-label="Stop"
-                  >
-                    <Square className="w-4 h-4 fill-current" />
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={() => handleSend(input)}
-                    disabled={!input.trim()}
-                    size="icon"
-                    className="h-9 w-9 rounded-full gradient-primary text-primary-foreground disabled:opacity-40"
-                    aria-label="Send"
-                  >
-                    <ArrowUp className="w-4 h-4" />
-                  </Button>
-                )}
-              </div>
-            </div>
+            <Button
+              onClick={comingSoon}
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 rounded-full shrink-0 text-muted-foreground hover:text-foreground"
+              aria-label="Voice"
+            >
+              <Mic className="w-4 h-4" />
+            </Button>
+            {isBusy ? (
+              <Button
+                onClick={stop}
+                size="icon"
+                variant="secondary"
+                className="h-8 w-8 rounded-full shrink-0"
+                aria-label="Stop"
+              >
+                <Square className="w-3.5 h-3.5 fill-current" />
+              </Button>
+            ) : (
+              <Button
+                onClick={() => handleSend(input)}
+                disabled={!input.trim()}
+                size="icon"
+                className="h-8 w-8 rounded-full shrink-0 gradient-primary text-primary-foreground disabled:opacity-40"
+                aria-label="Send"
+              >
+                <ArrowUp className="w-4 h-4" />
+              </Button>
+            )}
           </div>
           <p className="text-[10px] text-center text-muted-foreground/70 mt-1.5">
-            AI mistakes ঘটতে পারে — important info verify করো।
+            AI can make mistakes — verify important info.
           </p>
         </div>
       </div>
@@ -387,9 +352,9 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
           width={512}
           height={512}
         />
-        <h1 className="text-2xl font-bold mb-1.5 text-gradient">তোমার AI শিক্ষক</h1>
+        <h1 className="text-2xl font-bold mb-1.5 text-gradient">Your AI Tutor</h1>
         <p className="text-muted-foreground text-sm max-w-md leading-relaxed">
-          SSC, HSC, Math, Physics, English — যেকোনো প্রশ্ন করো। Bangla ও English দুটোতেই উত্তর দিবো।
+          SSC, HSC, Math, Physics, English — ask anything. Answers in both English and Bangla.
         </p>
       </div>
       <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground/70 mb-3 px-1">
