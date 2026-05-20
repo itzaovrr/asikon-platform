@@ -378,7 +378,7 @@ export function LearnChat({ threadId }: Props) {
 
 function EmptyState({ onPick }: { onPick: (s: string) => void }) {
   return (
-    <div className="mx-auto w-full max-w-2xl px-4 pt-8 pb-6">
+    <div className="mx-auto w-full max-w-2xl px-4 py-6">
       <div className="flex flex-col items-center text-center mb-7">
         <img
           src={tutorAvatar}
