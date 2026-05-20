@@ -191,55 +191,8 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
       <PostCard post={mockPosts[0]} />
     </Reveal>
   ),
-  how_it_works: ({ sec }) => (
-    <Reveal as="section" className="section-x">
-      <SectionHeader title={sec.title_override ?? "How it works"} />
-      <MobileScroller itemWidthMobile="72%" gridCols="md:grid md:grid-cols-3" gap="gap-3">
-        {[
-          { icon: Compass, title: "Discover", text: "Courses, books & prompts for your level." },
-          { icon: Target, title: "Practice", text: "Learn with the 24/7 AI tutor." },
-          { icon: Trophy, title: "Achieve", text: "Earn XP, badges, ship projects." },
-        ].map((step, i) => {
-          const Icon = step.icon;
-          return (
-            <div key={step.title} className="h-full rounded-2xl glass p-4 border border-border/60 hover-lift">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center shadow-[var(--shadow-glow)]">
-                  <Icon className="h-4 w-4 text-primary-foreground" />
-                </div>
-                <span className="eyebrow text-primary/80">Step {i + 1}</span>
-              </div>
-              <h3 className="font-semibold text-sm mb-1">{step.title}</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">{step.text}</p>
-            </div>
-          );
-        })}
-      </MobileScroller>
-    </Reveal>
-  ),
-  why_trust: ({ sec }) => (
-    <Reveal as="section" className="section-x">
-      <SectionHeader title={sec.title_override ?? "Why learners trust us"} />
-      {/* 2x2 on mobile — more scannable than scroll */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
-        {[
-          { icon: ShieldCheck, title: "Verified content", text: "Reviewed by experts." },
-          { icon: Users, title: "10K+ learners", text: "Active across BD." },
-          { icon: Headphones, title: "24/7 AI tutor", text: "Your language." },
-          { icon: Rocket, title: "Job-ready", text: "Real-world projects." },
-        ].map((p) => {
-          const Icon = p.icon;
-          return (
-            <div key={p.title} className="rounded-2xl border border-border/60 bg-card p-3 hover-lift">
-              <Icon className="h-4 w-4 text-primary mb-1.5" />
-              <p className="font-semibold text-[13px] leading-tight">{p.title}</p>
-              <p className="text-[11px] text-muted-foreground mt-0.5">{p.text}</p>
-            </div>
-          );
-        })}
-      </div>
-    </Reveal>
-  ),
+  how_it_works: ({ sec }) => <HowItWorks title={sec.title_override ?? undefined} />,
+  why_trust: ({ sec }) => <WhyTrust title={sec.title_override ?? undefined} />,
   curated: ({ sec, productsLoading, curated }) => (
     <section className="section-x">
       <SectionHeader title={sec.title_override ?? "Curated for you"} viewAllHref="/shop" />
