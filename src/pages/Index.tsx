@@ -1,4 +1,9 @@
 import { Gift, Flame, Sparkles, GraduationCap, BookOpen, ArrowUpRight, Compass, Target, Trophy, Users, ShieldCheck, Headphones, Star, HelpCircle, Rocket, PlayCircle } from "lucide-react";
+import { HowItWorks } from "@/components/home/sections/HowItWorks";
+import { WhyTrust } from "@/components/home/sections/WhyTrust";
+import { Testimonials } from "@/components/home/sections/Testimonials";
+import { Faq } from "@/components/home/sections/Faq";
+import { FinalCta } from "@/components/home/sections/FinalCta";
 import { Link, Navigate } from "react-router-dom";
 import { useMemo } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
