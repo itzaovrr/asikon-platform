@@ -19,11 +19,22 @@ export function useMeasuredHeaderHeight(ref: RefObject<HTMLElement>) {
 
     const apply = () => {
       const h = el.offsetHeight;
-      // eslint-disable-next-line no-console
-      console.log("[hdr]", h, el.tagName, el.className?.toString().slice(0, 40));
       if (h > 0) {
         document.documentElement.style.setProperty("--app-header-h", `${h}px`);
       }
+      // eslint-disable-next-line no-console
+      const m = document.querySelector("main");
+      const t = document.querySelector('[role="tablist"]');
+      const s = t?.closest("div.sticky") as HTMLElement | null;
+      console.log("[hdr]", {
+        h,
+        cls: el.className?.toString().slice(0, 30),
+        rootVar: document.documentElement.style.getPropertyValue("--app-header-h"),
+        mainPT: m && getComputedStyle(m).paddingTop,
+        stickyTop: s && getComputedStyle(s).top,
+        stickyY: s?.getBoundingClientRect().top,
+        scrollY: window.scrollY,
+      });
     };
 
     // Measure now (sync, pre-paint) and again after layout/fonts settle so
