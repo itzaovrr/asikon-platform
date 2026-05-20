@@ -234,7 +234,15 @@ const Profile = () => {
           />
         );
       case "media":
-        return <ProfileMediaTab media={mediaItems} />;
+        return (
+          <ProfileMediaTab
+            media={mediaItems}
+            onOpen={(item) => {
+              const idx = mediaItems.findIndex((m) => m.id === item.id);
+              if (idx >= 0) setLightboxIndex(idx);
+            }}
+          />
+        );
       case "reviews":
         return <ProfileReviewsTab reviews={reviews} />;
       case "learning":
