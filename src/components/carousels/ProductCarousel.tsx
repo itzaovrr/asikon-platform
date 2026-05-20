@@ -43,7 +43,7 @@ export function ProductCarousel({ products, title, viewAllHref, className }: Pro
     <div className={cn("relative", className)}>
       {/* Header — editorial style */}
       {(title || viewAllHref) && (
-        <div className="flex items-end justify-between gap-3 mb-4 px-4 lg:px-0">
+        <div className="flex items-end justify-between gap-3 mb-3 sm:mb-4 px-3 sm:px-4 lg:px-0">
           <div className="flex items-stretch gap-3 min-w-0">
             <span
               aria-hidden
@@ -86,7 +86,7 @@ export function ProductCarousel({ products, title, viewAllHref, className }: Pro
         />
 
         <div ref={emblaRef} className="overflow-hidden">
-          <div className="flex gap-3 lg:gap-4 pl-4 lg:pl-0 items-stretch">
+          <div className="flex gap-3 lg:gap-4 pl-3 sm:pl-4 lg:pl-0 pr-3 sm:pr-4 lg:pr-0 items-stretch">
             {products.map((product) => (
               <div
                 key={product.id}
