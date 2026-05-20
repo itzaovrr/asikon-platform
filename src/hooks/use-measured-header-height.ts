@@ -3,14 +3,7 @@ import { useLayoutEffect, RefObject } from "react";
 /**
  * Measures the live offsetHeight of a header element (including its own
  * safe-area-inset padding) and publishes it as the global CSS variable
- * `--app-header-h` on <html>. This becomes the single source of truth for
- * every sticky offset in the app (sticky tab bars, main content padding, etc.)
- * and stays accurate across:
- *   - device rotation
- *   - dynamic browser chrome (mobile URL bar)
- *   - safe-area changes (notch / status-bar variations)
- *   - layout/font changes that affect header height
- *   - header swap between Mobile/Desktop on viewport changes
+ * `--app-header-h` on <html>. Single source of truth for sticky offsets.
  */
 export function useMeasuredHeaderHeight(ref: RefObject<HTMLElement>) {
   useLayoutEffect(() => {
@@ -22,23 +15,8 @@ export function useMeasuredHeaderHeight(ref: RefObject<HTMLElement>) {
       if (h > 0) {
         document.documentElement.style.setProperty("--app-header-h", `${h}px`);
       }
-      // eslint-disable-next-line no-console
-      const m = document.querySelector("main");
-      const t = document.querySelector('[role="tablist"]');
-      const s = t?.closest("div.sticky") as HTMLElement | null;
-      console.log("[hdr]", {
-        h,
-        cls: el.className?.toString().slice(0, 30),
-        rootVar: document.documentElement.style.getPropertyValue("--app-header-h"),
-        mainPT: m && getComputedStyle(m).paddingTop,
-        stickyTop: s && getComputedStyle(s).top,
-        stickyY: s?.getBoundingClientRect().top,
-        scrollY: window.scrollY,
-      });
     };
 
-    // Measure now (sync, pre-paint) and again after layout/fonts settle so
-    // a stale value from a sibling header that just unmounted doesn't stick.
     apply();
     const raf = requestAnimationFrame(apply);
     const t1 = window.setTimeout(apply, 50);
@@ -56,8 +34,6 @@ export function useMeasuredHeaderHeight(ref: RefObject<HTMLElement>) {
       ro.disconnect();
       window.removeEventListener("orientationchange", apply);
       window.removeEventListener("resize", apply);
-      // Drop the inline value so a sibling header (e.g. Desktop→Mobile swap)
-      // doesn't inherit a stale height before its own effect runs.
       document.documentElement.style.removeProperty("--app-header-h");
     };
   }, [ref]);
