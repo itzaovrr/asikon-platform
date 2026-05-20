@@ -106,6 +106,14 @@ const About = () => {
         </div>
       </Reveal>
 
+      <div className="space-y-10 sm:space-y-14 py-10 sm:py-14">
+        <WhyTrust />
+        <HowItWorks />
+        <Testimonials />
+        <Faq />
+        <FinalCta variant="full" />
+      </div>
+
       <Reveal as="div"><AboutCTA /></Reveal>
     </AppLayout>
   );
