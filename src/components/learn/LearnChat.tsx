@@ -355,9 +355,9 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
           width={512}
           height={512}
         />
-        <h1 className="text-2xl font-bold mb-1.5 text-gradient">তোমার AI শিক্ষক</h1>
+        <h1 className="text-2xl font-bold mb-1.5 text-gradient">Your AI Tutor</h1>
         <p className="text-muted-foreground text-sm max-w-md leading-relaxed">
-          SSC, HSC, Math, Physics, English — যেকোনো প্রশ্ন করো। Bangla ও English দুটোতেই উত্তর দিবো।
+          SSC, HSC, Math, Physics, English — ask anything. Answers in both English and Bangla.
         </p>
       </div>
       <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground/70 mb-3 px-1">
