@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { LearnChat } from "@/components/learn/LearnChat";
-import { ThreadList, ThreadListSheet } from "@/components/learn/ThreadList";
+import { ThreadList } from "@/components/learn/ThreadList";
 import { useAiThreads, useCreateAiThread } from "@/hooks/useAiTutor";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
@@ -15,7 +15,6 @@ export default function Learn() {
   const { data: threads, isLoading } = useAiThreads();
   const createThread = useCreateAiThread();
 
-  // Auto-redirect to most recent thread or create one
   useEffect(() => {
     if (loading || isLoading || threadId || !user) return;
     if (threads && threads.length > 0) {
@@ -39,19 +38,12 @@ export default function Learn() {
   }
 
   return (
-    <AppLayout showBottomNav={false}>
-      <div className="flex h-[calc(100dvh-var(--app-header-h,56px)-58px)] lg:h-[calc(100dvh-var(--app-header-h,64px))]">
-        {/* Desktop thread list */}
+    <AppLayout showBottomNav>
+      <div className="flex h-[calc(100dvh-var(--app-header-h,56px)-7rem)] lg:h-[calc(100dvh-var(--app-header-h,64px))]">
         <aside className="hidden lg:flex w-64 border-r border-border flex-col">
           <ThreadList activeId={threadId} />
         </aside>
-
-        {/* Chat column */}
-        <div className="flex-1 flex flex-col min-w-0 relative">
-          {/* Floating thread switcher on mobile */}
-          <div className="lg:hidden absolute top-2 left-2 z-20">
-            <ThreadListSheet activeId={threadId} />
-          </div>
+        <div className="flex-1 flex flex-col min-w-0">
           {threadId ? (
             <LearnChat key={threadId} threadId={threadId} />
           ) : (
