@@ -41,6 +41,14 @@ export function StickyLayoutDebugger() {
         const tabRect = tab.getBoundingClientRect();
         const feedRect = firstFeedChild.getBoundingClientRect();
         const overlap = feedRect.top < tabRect.bottom - 0.5;
+        // Walk up the parent chain logging offsetTop
+        let chain = "";
+        let el: HTMLElement | null = tab;
+        while (el) {
+          chain += `${el.tagName}.${(el.className||"").toString().slice(0,20)}:${el.offsetTop} `;
+          el = el.offsetParent as HTMLElement | null;
+        }
+        (window as any).__chain = chain;
         setInfo({
           headerVar,
           tabTop: Math.round(tabRect.top),
