@@ -1,4 +1,4 @@
-import { useEffect, RefObject } from "react";
+import { useLayoutEffect, RefObject } from "react";
 
 /**
  * Measures the live offsetHeight of a header element (including its own
@@ -10,9 +10,10 @@ import { useEffect, RefObject } from "react";
  *   - dynamic browser chrome (mobile URL bar)
  *   - safe-area changes (notch / status-bar variations)
  *   - layout/font changes that affect header height
+ *   - header swap between Mobile/Desktop on viewport changes
  */
 export function useMeasuredHeaderHeight(ref: RefObject<HTMLElement>) {
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
 
@@ -23,7 +24,12 @@ export function useMeasuredHeaderHeight(ref: RefObject<HTMLElement>) {
       }
     };
 
+    // Measure now (sync, pre-paint) and again after layout/fonts settle so
+    // a stale value from a sibling header that just unmounted doesn't stick.
     apply();
+    const raf = requestAnimationFrame(apply);
+    const t1 = window.setTimeout(apply, 50);
+    const t2 = window.setTimeout(apply, 250);
 
     const ro = new ResizeObserver(apply);
     ro.observe(el);
@@ -31,6 +37,9 @@ export function useMeasuredHeaderHeight(ref: RefObject<HTMLElement>) {
     window.addEventListener("resize", apply);
 
     return () => {
+      cancelAnimationFrame(raf);
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
       ro.disconnect();
       window.removeEventListener("orientationchange", apply);
       window.removeEventListener("resize", apply);
