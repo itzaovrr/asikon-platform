@@ -13,6 +13,8 @@ import {
   Heart,
   Mic,
   ChevronDown,
+  ChevronUp,
+  Minus,
   PanelLeft,
   PenSquare,
 } from "lucide-react";
@@ -68,6 +70,7 @@ export function LearnChat({ threadId }: Props) {
   const awardedRef = useRef(false);
   const [input, setInput] = useState("");
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [composerCollapsed, setComposerCollapsed] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [showJump, setShowJump] = useState(false);
@@ -266,72 +269,97 @@ export function LearnChat({ threadId }: Props) {
       {/* Composer area — pinned flush against bottom nav */}
       <div className="shrink-0 px-3 pt-1.5 pb-1.5 bg-background/95 backdrop-blur border-t border-border/60">
         <div className="mx-auto w-full max-w-3xl">
-          {/* Action chips */}
-          {messages.length > 0 && (
-            <div className="flex gap-2 overflow-x-auto scrollbar-none pb-1.5 -mx-1 px-1">
-              {ACTION_CHIPS.map((chip) => (
-                <button
-                  key={chip}
-                  onClick={() => {
-                    setInput((v) => (v ? `${v} ${chip}` : chip));
-                    textareaRef.current?.focus();
-                  }}
-                  className="shrink-0 px-3 py-1 rounded-full border border-border bg-card/80 hover:bg-secondary text-[11px] font-medium whitespace-nowrap transition-colors"
-                >
-                  {chip}
-                </button>
-              ))}
-            </div>
-          )}
-
-          {/* Composer card — slim pill */}
-          <div className="flex items-end gap-1 rounded-full border border-border bg-card shadow-[0_4px_18px_-10px_hsl(var(--primary)/0.35)] focus-within:border-primary/50 transition-colors pl-4 pr-1 py-1">
-            <textarea
-              ref={textareaRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend(input);
-                }
+          {composerCollapsed ? (
+            <button
+              onClick={() => {
+                setComposerCollapsed(false);
+                setTimeout(() => textareaRef.current?.focus(), 0);
               }}
-              placeholder="Ask your question..."
-              rows={1}
-              className="flex-1 resize-none bg-transparent outline-none text-[14px] leading-5 placeholder:text-muted-foreground/70 py-1.5 max-h-[120px]"
-              autoFocus
-            />
-            <Button
-              onClick={comingSoon}
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 rounded-full shrink-0 text-muted-foreground hover:text-foreground"
-              aria-label="Voice"
+              className="w-full flex items-center justify-between gap-2 h-9 px-4 rounded-full border border-border bg-card/95 text-muted-foreground hover:text-foreground hover:bg-secondary/60 transition-colors text-sm"
+              aria-label="Expand chat input"
             >
-              <Mic className="w-4 h-4" />
-            </Button>
-            {isBusy ? (
-              <Button
-                onClick={stop}
-                size="icon"
-                variant="secondary"
-                className="h-8 w-8 rounded-full shrink-0"
-                aria-label="Stop"
-              >
-                <Square className="w-3.5 h-3.5 fill-current" />
-              </Button>
-            ) : (
-              <Button
-                onClick={() => handleSend(input)}
-                disabled={!input.trim()}
-                size="icon"
-                className="h-8 w-8 rounded-full shrink-0 gradient-primary text-primary-foreground disabled:opacity-40"
-                aria-label="Send"
-              >
-                <ArrowUp className="w-4 h-4" />
-              </Button>
-            )}
-          </div>
+              <span className="truncate">Tap to ask...</span>
+              <ChevronUp className="w-4 h-4 shrink-0" />
+            </button>
+          ) : (
+            <>
+              {/* Action chips */}
+              {messages.length > 0 && (
+                <div className="flex gap-2 overflow-x-auto scrollbar-none pb-1.5 -mx-1 px-1">
+                  {ACTION_CHIPS.map((chip) => (
+                    <button
+                      key={chip}
+                      onClick={() => {
+                        setInput((v) => (v ? `${v} ${chip}` : chip));
+                        textareaRef.current?.focus();
+                      }}
+                      className="shrink-0 px-3 py-1 rounded-full border border-border bg-card/80 hover:bg-secondary text-[11px] font-medium whitespace-nowrap transition-colors"
+                    >
+                      {chip}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Composer card — slim pill */}
+              <div className="flex items-end gap-1 rounded-full border border-border bg-card shadow-[0_4px_18px_-10px_hsl(var(--primary)/0.35)] focus-within:border-primary/50 transition-colors pl-1 pr-1 py-1">
+                <Button
+                  onClick={() => setComposerCollapsed(true)}
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-full shrink-0 text-muted-foreground hover:text-foreground"
+                  aria-label="Minimize"
+                >
+                  <Minus className="w-4 h-4" />
+                </Button>
+                <textarea
+                  ref={textareaRef}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSend(input);
+                    }
+                  }}
+                  placeholder="Ask your question..."
+                  rows={1}
+                  className="flex-1 resize-none bg-transparent outline-none text-[14px] leading-5 placeholder:text-muted-foreground/70 py-1.5 max-h-[120px]"
+                  autoFocus
+                />
+                <Button
+                  onClick={comingSoon}
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-full shrink-0 text-muted-foreground hover:text-foreground"
+                  aria-label="Voice"
+                >
+                  <Mic className="w-4 h-4" />
+                </Button>
+                {isBusy ? (
+                  <Button
+                    onClick={stop}
+                    size="icon"
+                    variant="secondary"
+                    className="h-8 w-8 rounded-full shrink-0"
+                    aria-label="Stop"
+                  >
+                    <Square className="w-3.5 h-3.5 fill-current" />
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => handleSend(input)}
+                    disabled={!input.trim()}
+                    size="icon"
+                    className="h-8 w-8 rounded-full shrink-0 gradient-primary text-primary-foreground disabled:opacity-40"
+                    aria-label="Send"
+                  >
+                    <ArrowUp className="w-4 h-4" />
+                  </Button>
+                )}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
