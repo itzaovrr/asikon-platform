@@ -7,7 +7,7 @@ import { Sidebar } from "./Sidebar";
 
 import { MobileSearchOverlay } from "@/components/search/MobileSearchOverlay";
 import { cn } from "@/lib/utils";
-import { StickyLayoutDebugger } from "@/components/dev/StickyLayoutDebugger";
+
 
 // Context to share sidebar state
 interface SidebarContextType {
@@ -140,7 +140,6 @@ export function AppLayout({
 
 
         {/* BottomNav is rendered once at App root (persistent app-shell) — never remounts */}
-        <StickyLayoutDebugger />
       </div>
     </SidebarContext.Provider>
   );
