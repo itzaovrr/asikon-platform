@@ -7,6 +7,7 @@ import { Sidebar } from "./Sidebar";
 
 import { MobileSearchOverlay } from "@/components/search/MobileSearchOverlay";
 import { cn } from "@/lib/utils";
+import { StickyLayoutDebugger } from "@/components/dev/StickyLayoutDebugger";
 
 // Context to share sidebar state
 interface SidebarContextType {
