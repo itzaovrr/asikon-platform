@@ -124,8 +124,6 @@ function PersistentMobileShell() {
   const { pathname } = useLocation();
   // Hide nav on auth/onboarding-style routes; otherwise keep mounted permanently.
   const hideOn = ["/auth", "/asikonasik", "/checkout", "/lesson", "/create", "/reset-password"];
-  // Hide on chat threads (/learn/:threadId) but keep on /learn root
-  if (pathname.startsWith("/learn/")) return null;
   if (!isMobile || hideOn.some((p) => pathname.startsWith(p))) return null;
   return <BottomNav />;
 }
