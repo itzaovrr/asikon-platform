@@ -43,6 +43,9 @@ export function useMeasuredHeaderHeight(ref: RefObject<HTMLElement>) {
       ro.disconnect();
       window.removeEventListener("orientationchange", apply);
       window.removeEventListener("resize", apply);
+      // Drop the inline value so a sibling header (e.g. Desktop→Mobile swap)
+      // doesn't inherit a stale height before its own effect runs.
+      document.documentElement.style.removeProperty("--app-header-h");
     };
   }, [ref]);
 }
