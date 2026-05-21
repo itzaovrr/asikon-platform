@@ -1,34 +1,50 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { AppLayout } from "@/components/layout/AppLayout";
+import { ArrowLeft, Plus, Menu } from "lucide-react";
 import { LearnChat } from "@/components/learn/LearnChat";
 import { ThreadList } from "@/components/learn/ThreadList";
 import { useAiThreads, useCreateAiThread } from "@/hooks/useAiTutor";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import tutorAvatar from "@/assets/asikon-tutor-avatar.png";
+
+function StandaloneShell({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="fixed inset-0 z-50 flex flex-col bg-background">
+      {children}
+    </div>
+  );
+}
+
+function TopBar({ onNew, onBack, showMenu }: { onNew?: () => void; onBack: () => void; showMenu?: React.ReactNode }) {
+  return (
+    <header className="flex items-center gap-2 h-12 px-2 border-b border-border bg-background/80 backdrop-blur-md shrink-0">
+      <Button variant="ghost" size="icon" onClick={onBack} aria-label="Back" className="h-9 w-9">
+        <ArrowLeft className="h-5 w-5" />
+      </Button>
+      {showMenu}
+      <div className="flex-1 min-w-0">
+        <h1 className="text-sm font-semibold leading-tight truncate">Apu · AI Tutor</h1>
+      </div>
+      {onNew && (
+        <Button variant="ghost" size="icon" onClick={onNew} aria-label="New chat" className="h-9 w-9">
+          <Plus className="h-5 w-5" />
+        </Button>
+      )}
+    </header>
+  );
+}
 
 function LearnSkeleton() {
   return (
-    <div className="flex h-full min-h-0">
-      <aside className="hidden lg:flex w-64 border-r border-border flex-col p-3 gap-2">
-        <Skeleton className="h-9 w-full" />
-        <Skeleton className="h-9 w-full" />
-        <div className="mt-4 space-y-1.5">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <Skeleton key={i} className="h-9 w-full" />
-          ))}
-        </div>
-      </aside>
-      <div className="flex-1 flex flex-col min-w-0 min-h-0 p-4 gap-3">
-        <Skeleton className="h-10 w-2/3" />
-        <Skeleton className="h-24 w-full rounded-2xl" />
-        <Skeleton className="h-24 w-3/4 rounded-2xl" />
-        <div className="mt-auto">
-          <Skeleton className="h-14 w-full rounded-3xl" />
-        </div>
+    <div className="flex-1 flex flex-col min-h-0 p-4 gap-3">
+      <Skeleton className="h-24 w-full rounded-2xl" />
+      <Skeleton className="h-24 w-3/4 rounded-2xl" />
+      <div className="mt-auto">
+        <Skeleton className="h-14 w-full rounded-3xl" />
       </div>
     </div>
   );
@@ -50,42 +66,62 @@ export default function Learn() {
     }
   }, [threads, threadId, isLoading, loading, user]);
 
-  // Still resolving auth → skeleton (no blank flash)
+  const handleNew = async () => {
+    const t = await createThread.mutateAsync();
+    navigate(`/learn/${t.id}`);
+  };
+
+  const handleBack = () => navigate("/game");
+
   if (loading) {
     return (
-      <AppLayout showBottomNav fillViewport>
-        <Helmet>
-          <title>Apu · AI Tutor — Asikon</title>
-        </Helmet>
+      <StandaloneShell>
+        <Helmet><title>Apu · AI Tutor — Asikon</title></Helmet>
+        <TopBar onBack={handleBack} />
         <LearnSkeleton />
-      </AppLayout>
+      </StandaloneShell>
     );
   }
 
   if (!user) {
     return (
-      <AppLayout showBottomNav fillViewport>
+      <StandaloneShell>
         <Helmet>
           <title>Apu · AI Tutor — Asikon</title>
           <meta name="description" content="Chat 24/7 with Apu, your personal AI tutor for SSC, HSC, and beyond." />
         </Helmet>
-        <div className="flex flex-col items-center justify-center h-full p-6 text-center">
+        <TopBar onBack={handleBack} />
+        <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
           <img src={tutorAvatar} alt="Apu, your ASIKON tutor" className="w-20 h-20 mb-4" />
           <h1 className="text-2xl font-bold mb-2 text-gradient">Hi, I'm Apu</h1>
           <p className="text-muted-foreground mb-4">Sign in to start chatting with Apu.</p>
           <Button onClick={() => navigate("/auth?redirect=/learn")}>Sign in</Button>
         </div>
-      </AppLayout>
+      </StandaloneShell>
     );
   }
 
+  const mobileMenu = (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="ghost" size="icon" aria-label="Chats" className="h-9 w-9 lg:hidden">
+          <Menu className="h-5 w-5" />
+        </Button>
+      </SheetTrigger>
+      <SheetContent side="left" className="p-0 w-72">
+        <ThreadList activeId={threadId} />
+      </SheetContent>
+    </Sheet>
+  );
+
   return (
-    <AppLayout showBottomNav fillViewport>
+    <StandaloneShell>
       <Helmet>
         <title>Apu · AI Tutor — Asikon</title>
         <meta name="description" content="Chat with Apu, your 24/7 AI study buddy on Asikon. Get answers, MCQs, and revision plans in seconds." />
       </Helmet>
-      <div className="flex h-full min-h-0">
+      <TopBar onBack={handleBack} onNew={handleNew} showMenu={mobileMenu} />
+      <div className="flex flex-1 min-h-0">
         <aside className="hidden lg:flex w-64 border-r border-border flex-col">
           <ThreadList activeId={threadId} />
         </aside>
@@ -101,6 +137,7 @@ export default function Learn() {
           )}
         </div>
       </div>
-    </AppLayout>
+    </StandaloneShell>
   );
 }
+
