@@ -922,43 +922,58 @@ export type Database = {
           avatar_url: string | null
           bio: string | null
           coins: number
+          cover_gradient: string | null
           cover_url: string | null
           created_at: string
           full_name: string | null
           id: string
           is_banned: boolean
           is_verified: boolean
+          joined_at: string | null
+          last_seen_at: string | null
+          location: string | null
           trust_score: number
           updated_at: string
           username: string | null
+          website: string | null
         }
         Insert: {
           avatar_url?: string | null
           bio?: string | null
           coins?: number
+          cover_gradient?: string | null
           cover_url?: string | null
           created_at?: string
           full_name?: string | null
           id: string
           is_banned?: boolean
           is_verified?: boolean
+          joined_at?: string | null
+          last_seen_at?: string | null
+          location?: string | null
           trust_score?: number
           updated_at?: string
           username?: string | null
+          website?: string | null
         }
         Update: {
           avatar_url?: string | null
           bio?: string | null
           coins?: number
+          cover_gradient?: string | null
           cover_url?: string | null
           created_at?: string
           full_name?: string | null
           id?: string
           is_banned?: boolean
           is_verified?: boolean
+          joined_at?: string | null
+          last_seen_at?: string | null
+          location?: string | null
           trust_score?: number
           updated_at?: string
           username?: string | null
+          website?: string | null
         }
         Relationships: []
       }
@@ -1060,6 +1075,45 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      user_activity_log: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          meta: Json | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          meta?: Json | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          meta?: Json | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_activity_log_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_activity_log_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "public_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_followers: {
         Row: {
