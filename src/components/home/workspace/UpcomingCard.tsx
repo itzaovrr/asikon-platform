@@ -52,7 +52,7 @@ export function UpcomingCard() {
         </div>
         <div className="rounded-2xl glass border border-border/60 p-4">
           <div className="flex items-center gap-2 mb-2">
-            <Target className="h-4 w-4 text-emerald-400" />
+            <Target className="h-4 w-4 text-primary" />
             <p className="text-[11px] uppercase tracking-[0.16em] font-semibold text-muted-foreground">Weekly goal</p>
           </div>
           <p className="font-semibold text-sm">Finish {weeklyGoal} lessons</p>

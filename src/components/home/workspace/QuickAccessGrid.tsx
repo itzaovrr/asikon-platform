@@ -16,29 +16,33 @@ type Tile = {
   tone: string;
 };
 
-// iOS / Material-inspired colored chips. Soft gradients with matching icon color.
+// All tiles use the brand dark-red gradient. Subtle opacity variations keep
+// the row visually rhythmic without breaking the single-brand identity.
+const BRAND_A = "from-primary to-primary/70";
+const BRAND_B = "from-primary/85 to-primary/55";
+const BRAND_C = "from-primary/95 to-primary/65";
 const TILES: Tile[] = [
-  { icon: BookOpenText,   label: "Continue", href: "/learn",              tone: "from-rose-500 to-pink-500" },
-  { icon: Sparkles,       label: "AI Tutor", href: "/learn",              tone: "from-violet-500 to-fuchsia-500" },
-  { icon: CalendarCheck2, label: "Planner",  href: "/learn",              tone: "from-sky-500 to-cyan-500" },
-  { icon: LineChart,      label: "Progress", href: "/profile",            tone: "from-emerald-500 to-teal-500" },
-  { icon: GraduationCap,  label: "Mentors",  href: "/mentors",            tone: "from-amber-500 to-orange-500" },
-  { icon: Wand2,          label: "Prompts",  href: "/prompts",            tone: "from-indigo-500 to-purple-500" },
-  { icon: Store,          label: "Shop",     href: "/shop",               tone: "from-emerald-500 to-green-600" },
-  { icon: Users,          label: "Community",href: "/community",          tone: "from-sky-500 to-indigo-500" },
-  { icon: Heart,          label: "Saved",    href: "/wishlist",           tone: "from-pink-500 to-rose-500" },
-  { icon: ShoppingBag,    label: "Cart",     href: "/cart",               tone: "from-orange-500 to-red-500" },
-  { icon: PackageCheck,   label: "Orders",   href: "/orders",             tone: "from-lime-500 to-emerald-500" },
-  { icon: Compass,        label: "Tracks",   href: "/shop?type=courses",  tone: "from-blue-500 to-indigo-500" },
-  { icon: PlayCircle,     label: "Lessons",  href: "/learn",              tone: "from-fuchsia-500 to-pink-500" },
-  { icon: Gamepad2,       label: "Games",    href: "/game",               tone: "from-purple-500 to-violet-500" },
-  { icon: MessagesSquare, label: "Messages", href: "/community",          tone: "from-cyan-500 to-blue-500" },
-  { icon: BellRing,       label: "Alerts",   href: "/profile",            tone: "from-yellow-500 to-amber-500" },
-  { icon: PlusCircle,     label: "Create",   href: "/create",             tone: "from-red-500 to-rose-500" },
-  { icon: UserCircle2,    label: "Profile",  href: "/profile",            tone: "from-purple-500 to-fuchsia-500" },
-  { icon: LifeBuoy,       label: "Help",     href: "/about",              tone: "from-teal-500 to-emerald-500" },
-  { icon: Info,           label: "About",    href: "/about",              tone: "from-teal-500 to-cyan-500" },
-  { icon: Settings2,      label: "Settings", href: "/settings",           tone: "from-slate-500 to-zinc-500" },
+  { icon: BookOpenText,   label: "Continue", href: "/learn",              tone: BRAND_A },
+  { icon: Sparkles,       label: "AI Tutor", href: "/learn",              tone: BRAND_B },
+  { icon: CalendarCheck2, label: "Planner",  href: "/learn",              tone: BRAND_C },
+  { icon: LineChart,      label: "Progress", href: "/profile",            tone: BRAND_A },
+  { icon: GraduationCap,  label: "Mentors",  href: "/mentors",            tone: BRAND_B },
+  { icon: Wand2,          label: "Prompts",  href: "/prompts",            tone: BRAND_C },
+  { icon: Store,          label: "Shop",     href: "/shop",               tone: BRAND_A },
+  { icon: Users,          label: "Community",href: "/community",          tone: BRAND_B },
+  { icon: Heart,          label: "Saved",    href: "/wishlist",           tone: BRAND_C },
+  { icon: ShoppingBag,    label: "Cart",     href: "/cart",               tone: BRAND_A },
+  { icon: PackageCheck,   label: "Orders",   href: "/orders",             tone: BRAND_B },
+  { icon: Compass,        label: "Tracks",   href: "/shop?type=courses",  tone: BRAND_C },
+  { icon: PlayCircle,     label: "Lessons",  href: "/learn",              tone: BRAND_A },
+  { icon: Gamepad2,       label: "Games",    href: "/game",               tone: BRAND_B },
+  { icon: MessagesSquare, label: "Messages", href: "/community",          tone: BRAND_C },
+  { icon: BellRing,       label: "Alerts",   href: "/profile",            tone: BRAND_A },
+  { icon: PlusCircle,     label: "Create",   href: "/create",             tone: BRAND_B },
+  { icon: UserCircle2,    label: "Profile",  href: "/profile",            tone: BRAND_C },
+  { icon: LifeBuoy,       label: "Help",     href: "/about",              tone: BRAND_A },
+  { icon: Info,           label: "About",    href: "/about",              tone: BRAND_B },
+  { icon: Settings2,      label: "Settings", href: "/settings",           tone: BRAND_C },
 ];
 
 export function QuickAccessGrid() {
@@ -86,13 +90,13 @@ function Tile({ icon: Icon, label, href, tone }: Tile) {
     >
       <div
         className={cn(
-          "w-[52px] h-[52px] rounded-[18px] bg-gradient-to-br shadow-[0_6px_14px_-6px_rgba(0,0,0,0.35)]",
-          "flex items-center justify-center ring-1 ring-white/15",
-          "group-hover:shadow-[0_10px_20px_-8px_rgba(0,0,0,0.45)] transition-shadow",
+          "w-[52px] h-[52px] rounded-[18px] bg-gradient-to-br shadow-[0_6px_14px_-6px_hsl(var(--primary)/0.45)]",
+          "flex items-center justify-center ring-1 ring-primary/20",
+          "group-hover:shadow-[0_10px_20px_-8px_hsl(var(--primary)/0.6)] transition-shadow",
           tone,
         )}
       >
-        <Icon className="h-[22px] w-[22px] text-white" strokeWidth={2.25} />
+        <Icon className="h-[22px] w-[22px] text-primary-foreground" strokeWidth={2.25} />
       </div>
       <span className="text-[10.5px] font-medium leading-tight text-center truncate w-full text-foreground/85">
         {label}

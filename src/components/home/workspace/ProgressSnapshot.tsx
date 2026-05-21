@@ -37,9 +37,9 @@ export function ProgressSnapshot() {
       <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-semibold mb-2">This week</p>
       <div className="grid grid-cols-4 gap-2">
         <RingStat icon={Trophy} label="XP" value={xp} pct={xpPct} accent="text-primary" />
-        <Stat icon={Flame} label="Streak" value={`${streak}d`} accent="text-amber-400" />
-        <Stat icon={Clock} label="Minutes" value={stats?.minutes ?? 0} accent="text-emerald-400" />
-        <Stat icon={Target} label="Done" value={stats?.missions ?? 0} accent="text-sky-400" />
+        <Stat icon={Flame} label="Streak" value={`${streak}d`} accent="text-primary" />
+        <Stat icon={Clock} label="Minutes" value={stats?.minutes ?? 0} accent="text-primary" />
+        <Stat icon={Target} label="Done" value={stats?.missions ?? 0} accent="text-primary" />
       </div>
     </section>
   );

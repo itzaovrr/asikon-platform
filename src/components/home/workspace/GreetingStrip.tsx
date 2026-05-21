@@ -35,7 +35,7 @@ export function GreetingStrip() {
           <div className="flex items-center gap-2 flex-wrap">
             <p className="font-semibold text-sm truncate">{timeGreeting()}, {name} 👋</p>
             {streak > 0 && (
-              <span className="inline-flex items-center gap-1 text-[11px] font-semibold rounded-full px-2 py-0.5 bg-amber-400/15 text-amber-400 border border-amber-400/30">
+              <span className="inline-flex items-center gap-1 text-[11px] font-semibold rounded-full px-2 py-0.5 bg-primary/15 text-primary border border-primary/30">
                 <Flame className="h-3 w-3" />
                 {streak}d
               </span>
