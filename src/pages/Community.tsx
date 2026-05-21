@@ -31,6 +31,10 @@ const Community = () => {
 
   return (
     <AppLayout>
+      <Helmet>
+        <title>Community — Asikon Learners</title>
+        <meta name="description" content="Follow learners, share posts, watch videos and read trusted reviews on the Asikon community." />
+      </Helmet>
       <MobilePage
         sticky={<CommunityTabs activeTab={activeTab} onTabChange={setActiveTab} />}
         spacing="space-y-4"
