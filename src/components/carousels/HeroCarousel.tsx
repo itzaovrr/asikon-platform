@@ -78,8 +78,8 @@ export function HeroCarousel({ slides, autoplayDelay = 5000, className }: HeroCa
       aria-label="Featured highlights"
       className={cn(
         "relative group/hero overflow-hidden rounded-3xl",
-        "border border-primary/30",
-        "shadow-[0_20px_60px_-20px_hsl(var(--primary)/0.45)]",
+        "border border-primary/15",
+        "shadow-[0_12px_40px_-18px_hsl(var(--primary)/0.35)]",
         className,
       )}
       onMouseEnter={() => setIsPaused(true)}
@@ -104,7 +104,7 @@ export function HeroCarousel({ slides, autoplayDelay = 5000, className }: HeroCa
                 aria-label={`${index + 1} of ${slides.length}: ${slide.title}`}
                 className="flex-[0_0_100%] min-w-0 relative"
               >
-                <div className="relative aspect-[5/4] sm:aspect-[16/9] md:aspect-[21/9] overflow-hidden">
+                <div className="relative aspect-[16/10] sm:aspect-[21/9] md:aspect-[24/8] overflow-hidden">
                   <img
                     src={slide.image}
                     alt={slide.title}
@@ -129,25 +129,25 @@ export function HeroCarousel({ slides, autoplayDelay = 5000, className }: HeroCa
                   />
 
                   {/* Text block */}
-                  <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 md:p-8">
+                  <div className="absolute inset-x-0 bottom-0 p-3.5 sm:p-5 md:p-6 pb-6 sm:pb-7">
                     <div
                       key={`text-${selectedIndex}-${slide.id}`}
                       className={cn("max-w-md", isActive && "animate-fade-in")}
                     >
                       {(slide.eyebrow ?? `Slide ${index + 1}`) && (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 mb-2.5 rounded-full text-[10.5px] font-semibold uppercase tracking-[0.14em] bg-background/60 backdrop-blur-md border border-primary/30 text-foreground">
-                          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 mb-2 rounded-full text-[10px] font-semibold uppercase tracking-[0.14em] bg-background/60 backdrop-blur-md border border-primary/25 text-foreground">
+                          <span className="w-1 h-1 rounded-full bg-primary animate-pulse" />
                           {slide.eyebrow ?? `Slide ${index + 1}`}
                         </span>
                       )}
-                      <h2 className="font-display font-bold text-xl sm:text-2xl md:text-4xl leading-tight tracking-tight text-foreground">
+                      <h2 className="font-display font-bold text-lg sm:text-2xl md:text-3xl leading-tight tracking-tight text-foreground">
                         <span className="text-gradient">{slide.title.split(" ").slice(0, 2).join(" ")}</span>
                         {slide.title.split(" ").length > 2 && (
                           <> {slide.title.split(" ").slice(2).join(" ")}</>
                         )}
                       </h2>
                       {slide.subtitle && (
-                        <p className="mt-2 text-sm sm:text-base text-foreground/80 line-clamp-2">
+                        <p className="mt-1.5 text-xs sm:text-sm text-foreground/80 line-clamp-2">
                           {slide.subtitle}
                         </p>
                       )}
@@ -196,7 +196,7 @@ export function HeroCarousel({ slides, autoplayDelay = 5000, className }: HeroCa
       </button>
 
       {/* Progress segments */}
-      <div className="absolute bottom-3 left-4 right-4 sm:left-6 sm:right-auto sm:w-40 flex gap-1.5">
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 sm:left-6 sm:translate-x-0 w-24 sm:w-28 flex gap-1">
         {slides.map((_, index) => {
           const active = index === selectedIndex;
           return (
@@ -204,7 +204,7 @@ export function HeroCarousel({ slides, autoplayDelay = 5000, className }: HeroCa
               key={index}
               onClick={() => scrollTo(index)}
               aria-label={`Go to slide ${index + 1}`}
-              className="group/seg flex-1 h-1 rounded-full bg-background/40 backdrop-blur-sm overflow-hidden"
+              className="group/seg flex-1 h-[3px] rounded-full bg-foreground/15 backdrop-blur-sm overflow-hidden"
             >
               <span
                 key={`fill-${selectedIndex}-${index}`}

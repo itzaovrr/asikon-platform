@@ -61,10 +61,10 @@ const transformProduct = (p: any) => ({
 });
 
 const quickCategories = [
-  { icon: GraduationCap, label: "Courses", href: "/shop?type=courses", color: "from-primary/25 to-primary/5" },
-  { icon: BookOpen, label: "Books", href: "/shop?type=books", color: "from-primary/20 to-primary/5" },
-  { icon: Sparkles, label: "Prompts", href: "/prompts", color: "from-primary/25 to-primary/10" },
-  { icon: Flame, label: "Trending", href: "/shop?filter=trending", color: "from-primary/30 to-primary/10" },
+  { icon: GraduationCap, label: "Courses", href: "/shop?type=courses" },
+  { icon: BookOpen, label: "Books", href: "/shop?type=books" },
+  { icon: Sparkles, label: "Prompts", href: "/prompts" },
+  { icon: Flame, label: "Trending", href: "/shop?filter=trending" },
 ];
 
 const ProductCardSkeleton = () => (
@@ -162,9 +162,11 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
             <Reveal key={cat.label} delay={i * 60} variant="scale">
               <Link
                 to={cat.href}
-                className={`pressable focus-ring flex flex-col items-center justify-center gap-1.5 aspect-[1.1] rounded-2xl bg-gradient-to-br ${cat.color} border border-border/60 hover:border-primary/40`}
+                className="pressable focus-ring flex flex-col items-center justify-center gap-1.5 aspect-[1.1] rounded-2xl glass border border-border/50 hover:border-primary/30 transition-colors"
               >
-                <Icon className="h-[18px] w-[18px] text-primary" />
+                <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
+                  <Icon className="h-[16px] w-[16px] text-primary" />
+                </div>
                 <span className="text-[11px] font-medium">{cat.label}</span>
               </Link>
             </Reveal>
@@ -265,7 +267,7 @@ const Index = () => {
         <title>Asikon — AI-Powered Learning Platform</title>
         <meta name="description" content="Master AI, Python, and modern skills with expert-led courses, a 24/7 AI tutor, and a community of learners." />
       </Helmet>
-      <MobilePage spacing="space-y-5 lg:space-y-10">
+      <MobilePage spacing="space-y-4 lg:space-y-10">
         {user ? (
           <>
             {/* Personal, fast — top of fold */}
