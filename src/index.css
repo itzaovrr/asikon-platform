@@ -74,7 +74,7 @@
 
     --app-header-h: calc(52px + env(safe-area-inset-top, 0px));
     --mobile-bottomnav-h: 72px;
-    --bottom-nav-h: calc(58px + env(safe-area-inset-bottom, 0px));
+    --bottom-nav-h: calc(72px + env(safe-area-inset-bottom, 0px));
   }
 
   .dark {
@@ -274,15 +274,17 @@
   /* Nav-specific liquid glass — used on top header & bottom tab bar.
      Adds a refraction hairline on the inner edge for depth. */
   .liquid-nav {
-    position: relative;
+    isolation: isolate;
     background:
-      linear-gradient(180deg, hsl(var(--glass-highlight) / 0.12) 0%, transparent 50%),
-      hsl(var(--glass-bg) / 0.72);
-    backdrop-filter: blur(28px) saturate(180%);
-    -webkit-backdrop-filter: blur(28px) saturate(180%);
+      linear-gradient(180deg, hsl(var(--glass-highlight) / 0.18) 0%, transparent 45%),
+      linear-gradient(135deg, hsl(var(--primary) / 0.08), transparent 42%),
+      hsl(var(--glass-bg) / 0.74);
+    backdrop-filter: blur(30px) saturate(190%);
+    -webkit-backdrop-filter: blur(30px) saturate(190%);
     box-shadow:
-      0 8px 32px -12px hsl(0 0% 0% / 0.28),
-      inset 0 1px 0 hsl(var(--glass-highlight) / 0.14);
+      0 18px 42px -22px hsl(0 0% 0% / 0.55),
+      inset 0 1px 0 hsl(var(--glass-highlight) / 0.16),
+      inset 0 -1px 0 hsl(0 0% 100% / 0.04);
   }
   .liquid-nav::after {
     content: "";
