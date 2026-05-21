@@ -280,26 +280,6 @@ const Shop = () => {
                 </div>
               )}
             </div>
-                          }}
-                        />
-                      </Link>
-                    </Reveal>
-                  ))}
-                </div>
-              ) : (
-                <div className="flex flex-col items-center justify-center py-16 text-center glass rounded-2xl">
-                  <p className="text-muted-foreground mb-4">No products found</p>
-                  {(searchQuery || activeFiltersCount > 0) && (
-                    <button
-                      onClick={handleClearFilters}
-                      className="text-primary hover:underline text-sm font-semibold"
-                    >
-                      Clear all filters
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
           </div>
         </div>
       </div>
