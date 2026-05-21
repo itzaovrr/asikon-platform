@@ -136,9 +136,12 @@ export function DesktopHeader({
           isScrolled ? "h-0 overflow-hidden opacity-0" : "py-2"
         )}
       >
-        <div className="container-editorial flex justify-center">
+        <div className="container-editorial flex items-center justify-between gap-4">
+          <Breadcrumbs />
           <NavigationMenu />
+          <span aria-hidden className="hidden lg:block w-[1px]" />
         </div>
+
       </div>
     </header>
   );
