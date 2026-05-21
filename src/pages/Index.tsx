@@ -25,7 +25,8 @@ import { AiAssistantBox } from "@/components/home/workspace/AiAssistantBox";
 import { ActivityFeed } from "@/components/home/workspace/ActivityFeed";
 import { MobileCoursesTop } from "@/components/home/mobile/MobileCoursesTop";
 import { CategoriesScroll } from "@/components/home/mobile/CategoriesScroll";
-import { OfferStrip } from "@/components/home/mobile/OfferStrip";
+import { ImageHeroSlider } from "@/components/home/mobile/ImageHeroSlider";
+import { ImageOfferGrid } from "@/components/home/mobile/ImageOfferGrid";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import { useHomeSections, HomeSection } from "@/hooks/useHomeSections";
 import { useAuth } from "@/hooks/useAuth";
@@ -107,13 +108,7 @@ type RenderCtx = {
 };
 
 const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> = {
-  hero: () => (
-    <section>
-      <div className="section-x">
-        <HeroCarousel slides={heroSlides} />
-      </div>
-    </section>
-  ),
+  hero: () => <ImageHeroSlider />,
   mentorship: () => <MentorshipHomeSection />,
   quick_actions: () => (
     <Reveal as="section" className="section-x">
@@ -260,20 +255,16 @@ const Index = () => {
           <>
             {/* Header greeting */}
             <GreetingStrip />
-            {/* Hero slider */}
-            {heroSection && (
-              <section className="section-x">
-                <HeroCarousel slides={heroSlides} />
-              </section>
-            )}
+            {/* Hero slider (admin-uploaded image banners) */}
+            {heroSection && <ImageHeroSlider />}
             {/* Quick actions (category-style chips) */}
             <QuickAccessGrid />
             {/* Popular Courses (mobile) */}
             <MobileCoursesTop />
             {/* Categories (Asikon, scrollable like quick access) */}
             <CategoriesScroll />
-            {/* Offers */}
-            <OfferStrip />
+            {/* Offers (admin-uploaded image cards) */}
+            <ImageOfferGrid />
 
             <section className="section-x">
               <TodayMissionCard />
