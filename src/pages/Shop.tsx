@@ -1,6 +1,7 @@
 import { Sparkles, Heart } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { CategoryCarousel } from "@/components/carousels";
 import { ShopFilters } from "@/components/shop/ShopFilters";
