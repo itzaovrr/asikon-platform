@@ -35,6 +35,9 @@ export function useUpdateProfile() {
       bio?: string;
       avatar_url?: string;
       cover_url?: string;
+      website?: string | null;
+      location?: string | null;
+      cover_gradient?: string | null;
     }) => {
       if (!user) throw new Error("Not authenticated");
 

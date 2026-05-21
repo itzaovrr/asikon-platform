@@ -156,6 +156,11 @@ const Profile = () => {
 
   if (profileLoading) return <ProfileSkeleton />;
 
+  const lastSeenAt = (profile as any)?.last_seen_at as string | undefined;
+  const isOnlineNow =
+    isOwnProfile ||
+    (!!lastSeenAt && Date.now() - new Date(lastSeenAt).getTime() < 5 * 60 * 1000);
+
   const displayProfile = {
     id: profile?.id || targetUserId || "",
     name: profile?.full_name || profile?.username || "Anonymous User",
@@ -164,10 +169,14 @@ const Profile = () => {
       profile?.avatar_url ||
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200",
     coverImage: profile?.cover_url || undefined,
+    coverGradient: (profile as any)?.cover_gradient ?? null,
     bio: profile?.bio || "",
     isVerified: profile?.is_verified || false,
     trustScore: profile?.trust_score ?? 0,
-    isOnline: isOwnProfile,
+    isOnline: isOnlineNow,
+    location: (profile as any)?.location ?? null,
+    website: (profile as any)?.website ?? null,
+    joinedAt: (profile as any)?.joined_at ?? profile?.created_at ?? null,
   };
 
   const feedPosts = (userPosts || []).map((p: any) => ({
@@ -414,6 +423,9 @@ const Profile = () => {
               bio: profile.bio,
               avatar_url: profile.avatar_url,
               cover_url: profile.cover_url,
+              website: (profile as any).website ?? null,
+              location: (profile as any).location ?? null,
+              cover_gradient: (profile as any).cover_gradient ?? null,
             }}
             onSave={async (updates) => {
               await updateProfile.mutateAsync(updates);
