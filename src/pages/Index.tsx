@@ -108,13 +108,7 @@ type RenderCtx = {
 };
 
 const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> = {
-  hero: () => (
-    <section>
-      <div className="section-x">
-        <HeroCarousel slides={heroSlides} />
-      </div>
-    </section>
-  ),
+  hero: () => <ImageHeroSlider />,
   mentorship: () => <MentorshipHomeSection />,
   quick_actions: () => (
     <Reveal as="section" className="section-x">
