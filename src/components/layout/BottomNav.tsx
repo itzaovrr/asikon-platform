@@ -178,7 +178,7 @@ function NavItem({
   };
   active: boolean;
 }) {
-  const [isHovered, setIsHovered] = React.useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const shouldFill = active || isHovered;
   const Icon = shouldFill ? item.iconFill : item.iconOutline;
   const { pathname } = useLocation();
