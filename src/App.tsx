@@ -11,6 +11,7 @@ import { BottomNav } from "@/components/layout/BottomNav";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { installFetchTimer, logRoute } from "@/lib/perf";
 import Index from "./pages/Index";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 
 
 installFetchTimer();
@@ -144,8 +145,8 @@ function AnimatedRoutes() {
         <Routes location={location}>
           <Route path="/" element={<Index />} />
           <Route path="/index" element={<Navigate to="/" replace />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/community" element={<Community />} />
+          <Route path="/shop" element={<ErrorBoundary><Shop /></ErrorBoundary>} />
+          <Route path="/community" element={<ErrorBoundary><Community /></ErrorBoundary>} />
           <Route path="/game" element={<Game />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/:userId" element={<Profile />} />
@@ -160,8 +161,8 @@ function AnimatedRoutes() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/create" element={<CreateContent />} />
           <Route path="/mentors" element={<Mentors />} />
-          <Route path="/learn" element={<Learn />} />
-          <Route path="/learn/:threadId" element={<Learn />} />
+          <Route path="/learn" element={<ErrorBoundary><Learn /></ErrorBoundary>} />
+          <Route path="/learn/:threadId" element={<ErrorBoundary><Learn /></ErrorBoundary>} />
           <Route path="/about" element={<About />} />
           <Route path="/prompts" element={<Prompts />} />
           <Route path="/welcome" element={<Welcome />} />
