@@ -1,0 +1,20 @@
+{
+  "name": "Asikon — AI-Powered Learning Platform",
+  "short_name": "Asikon",
+  "description": "AI-powered learning for SSC & HSC students. Courses, books, and a 24/7 AI tutor.",
+  "theme_color": "#0a0a0f",
+  "background_color": "#0a0a0f",
+  "display": "standalone",
+  "orientation": "portrait",
+  "start_url": "/",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["education", "books", "productivity"],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}
