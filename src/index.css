@@ -1,7 +1,19 @@
-/* Fonts loaded async in index.html with preconnect + font-display:swap */
+/* Fonts self-hosted via @fontsource (imported in src/main.tsx). */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    overscroll-behavior-y: contain;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+}
 
 @layer base {
   :root {
