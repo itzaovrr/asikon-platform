@@ -258,15 +258,23 @@ const Index = () => {
       <MobilePage spacing="space-y-3 lg:space-y-14">
         {user ? (
           <>
-            {/* Personal, fast — top of fold */}
+            {/* Header greeting */}
             <GreetingStrip />
-            <MobileCoursesTop />
-            <QuickAccessGrid />
+            {/* Hero slider */}
             {heroSection && (
               <section className="section-x">
                 <HeroCarousel slides={heroSlides} />
               </section>
             )}
+            {/* Quick actions (category-style chips) */}
+            <QuickAccessGrid />
+            {/* Popular Courses (mobile) */}
+            <MobileCoursesTop />
+            {/* Categories (Asikon, scrollable like quick access) */}
+            <CategoriesScroll />
+            {/* Offers */}
+            <OfferStrip />
+
             <section className="section-x">
               <TodayMissionCard />
             </section>
