@@ -24,7 +24,7 @@ function getObserver() {
         if (cb) cb(entry.isIntersecting);
       }
     },
-    { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+    { threshold: 0.01, rootMargin: "200px 0px 400px 0px" },
   );
   return sharedIO;
 }

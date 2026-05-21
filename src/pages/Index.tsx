@@ -267,7 +267,7 @@ const Index = () => {
         <title>Asikon — AI-Powered Learning Platform</title>
         <meta name="description" content="Master AI, Python, and modern skills with expert-led courses, a 24/7 AI tutor, and a community of learners." />
       </Helmet>
-      <MobilePage spacing="space-y-4 lg:space-y-10">
+      <MobilePage spacing="space-y-4 lg:space-y-14">
         {user ? (
           <>
             {/* Personal, fast — top of fold */}
