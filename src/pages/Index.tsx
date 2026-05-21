@@ -258,6 +258,7 @@ const Index = () => {
           <>
             {/* Personal, fast — top of fold */}
             <GreetingStrip />
+            <MobileCoursesTop />
             <QuickAccessGrid />
             {heroSection && (
               <section className="section-x">
