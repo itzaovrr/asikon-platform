@@ -11,6 +11,7 @@ import { NotificationsMenu } from "./NotificationsMenu";
 import { TrustStrip } from "./TrustStrip";
 import { NavigationMenu } from "./NavigationMenu";
 import { CurrencyToggle } from "@/components/ui/currency-toggle";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import logo from "@/assets/logo.png";
 
 interface DesktopHeaderProps {
@@ -120,6 +121,7 @@ export function DesktopHeader({
               </Button>
             </Link>
             <NotificationsMenu />
+            <ThemeToggle />
             <UserMenu />
           </div>
         </div>

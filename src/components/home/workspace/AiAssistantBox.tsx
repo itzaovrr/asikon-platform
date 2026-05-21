@@ -1,14 +1,27 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Sparkles, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-const CHIPS = ["Summarize a topic", "Build a study routine", "Improve my prompt"];
+const ALL_CHIPS = [
+  "Explain SSC Physics",
+  "Make a study plan",
+  "Quiz me on HSC Math",
+  "Summarise a chapter",
+  "Help me with English grammar",
+  "Explain the water cycle",
+  "What is photosynthesis?",
+  "Help me memorise vocabulary",
+];
 
 export function AiAssistantBox() {
   const [q, setQ] = useState("");
   const nav = useNavigate();
+  const CHIPS = useMemo(() => {
+    const shuffled = [...ALL_CHIPS].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, 3);
+  }, []);
   const go = (text: string) => {
     const trimmed = text.trim();
     if (!trimmed) return nav("/learn");

@@ -7,6 +7,7 @@ import { useMeasuredHeaderHeight } from "@/hooks/use-measured-header-height";
 import { CurrencyToggle } from "@/components/ui/currency-toggle";
 import { isInnerRoute, getRouteTitle, getActiveTab } from "@/lib/nav-map";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import logo from "@/assets/logo.png";
 
 interface MobileHeaderProps {
@@ -82,6 +83,7 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
           <Button variant="ghost" size="icon" onClick={onSearchClick} aria-label="Search">
             <Search className="w-5 h-5" />
           </Button>
+          <ThemeToggle />
           <Link to="/cart" aria-label="Cart">
             <Button variant="ghost" size="icon" className="relative">
               <ShoppingCart className="w-5 h-5" />
