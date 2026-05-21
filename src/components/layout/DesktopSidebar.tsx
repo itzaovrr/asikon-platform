@@ -163,6 +163,33 @@ export function DesktopSidebar({
   const expanded = !isCollapsed || isHoverExpanded;
   const iconOnly = isCollapsed && !isHoverExpanded;
 
+  // Collapsible group state, persisted per-group
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
+    if (typeof window === "undefined") return { menu: true, library: true, account: true };
+    try {
+      const stored = window.localStorage.getItem("sidebar:groups");
+      if (stored) return { menu: true, library: true, account: true, ...JSON.parse(stored) };
+    } catch {}
+    return { menu: true, library: true, account: true };
+  });
+  useEffect(() => {
+    window.localStorage.setItem("sidebar:groups", JSON.stringify(openGroups));
+  }, [openGroups]);
+  const toggleGroup = (key: string) =>
+    setOpenGroups((g) => ({ ...g, [key]: !g[key] }));
+
+  // Auto-open the group that contains the active route
+  useEffect(() => {
+    const path = location.pathname + location.search;
+    if (mainNavItems.some((i) => i.href === location.pathname))
+      setOpenGroups((g) => ({ ...g, menu: true }));
+    if (shopNavItems.some((i) => i.href === path))
+      setOpenGroups((g) => ({ ...g, library: true }));
+    if (userNavItems.some((i) => i.href === location.pathname))
+      setOpenGroups((g) => ({ ...g, account: true }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname, location.search]);
+
   // Scroll the active nav item into view on route change
   const activeRef = useRef<HTMLAnchorElement | null>(null);
   useEffect(() => {
@@ -181,6 +208,24 @@ export function DesktopSidebar({
       innerRef={active ? activeRef : undefined}
     />
   );
+
+  const GroupHeader = ({ id, label }: { id: string; label: string }) => (
+    <button
+      type="button"
+      onClick={() => toggleGroup(id)}
+      className="group/grp w-full flex items-center justify-between px-3 mb-2 text-[10px] font-semibold text-muted-foreground/80 uppercase tracking-[0.18em] hover:text-foreground transition-colors"
+      aria-expanded={openGroups[id]}
+    >
+      <span>{label}</span>
+      <ChevronDown
+        className={cn(
+          "h-3 w-3 transition-transform duration-200",
+          openGroups[id] ? "rotate-0" : "-rotate-90"
+        )}
+      />
+    </button>
+  );
+
 
   return (
     <aside
