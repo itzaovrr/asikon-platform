@@ -10,6 +10,7 @@ import { UserMenu } from "./UserMenu";
 import { NotificationsMenu } from "./NotificationsMenu";
 import { TrustStrip } from "./TrustStrip";
 import { NavigationMenu } from "./NavigationMenu";
+import { Breadcrumbs } from "./Breadcrumbs";
 import { CurrencyToggle } from "@/components/ui/currency-toggle";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import logo from "@/assets/logo.png";
@@ -135,9 +136,12 @@ export function DesktopHeader({
           isScrolled ? "h-0 overflow-hidden opacity-0" : "py-2"
         )}
       >
-        <div className="container-editorial flex justify-center">
+        <div className="container-editorial flex items-center justify-between gap-4">
+          <Breadcrumbs />
           <NavigationMenu />
+          <span aria-hidden className="hidden lg:block w-[1px]" />
         </div>
+
       </div>
     </header>
   );

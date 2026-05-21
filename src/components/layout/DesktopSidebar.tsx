@@ -13,6 +13,7 @@ import {
   HelpCircle,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
   GraduationCap,
   BookOpen,
   Wand2,
@@ -27,6 +28,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+
 
 interface NavItemProps {
   icon: React.ElementType;
@@ -161,6 +163,33 @@ export function DesktopSidebar({
   const expanded = !isCollapsed || isHoverExpanded;
   const iconOnly = isCollapsed && !isHoverExpanded;
 
+  // Collapsible group state, persisted per-group
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
+    if (typeof window === "undefined") return { menu: true, library: true, account: true };
+    try {
+      const stored = window.localStorage.getItem("sidebar:groups");
+      if (stored) return { menu: true, library: true, account: true, ...JSON.parse(stored) };
+    } catch {}
+    return { menu: true, library: true, account: true };
+  });
+  useEffect(() => {
+    window.localStorage.setItem("sidebar:groups", JSON.stringify(openGroups));
+  }, [openGroups]);
+  const toggleGroup = (key: string) =>
+    setOpenGroups((g) => ({ ...g, [key]: !g[key] }));
+
+  // Auto-open the group that contains the active route
+  useEffect(() => {
+    const path = location.pathname + location.search;
+    if (mainNavItems.some((i) => i.href === location.pathname))
+      setOpenGroups((g) => ({ ...g, menu: true }));
+    if (shopNavItems.some((i) => i.href === path))
+      setOpenGroups((g) => ({ ...g, library: true }));
+    if (userNavItems.some((i) => i.href === location.pathname))
+      setOpenGroups((g) => ({ ...g, account: true }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname, location.search]);
+
   // Scroll the active nav item into view on route change
   const activeRef = useRef<HTMLAnchorElement | null>(null);
   useEffect(() => {
@@ -179,6 +208,24 @@ export function DesktopSidebar({
       innerRef={active ? activeRef : undefined}
     />
   );
+
+  const GroupHeader = ({ id, label }: { id: string; label: string }) => (
+    <button
+      type="button"
+      onClick={() => toggleGroup(id)}
+      className="group/grp w-full flex items-center justify-between px-3 mb-2 text-[10px] font-semibold text-muted-foreground/80 uppercase tracking-[0.18em] hover:text-foreground transition-colors"
+      aria-expanded={openGroups[id]}
+    >
+      <span>{label}</span>
+      <ChevronDown
+        className={cn(
+          "h-3 w-3 transition-transform duration-200",
+          openGroups[id] ? "rotate-0" : "-rotate-90"
+        )}
+      />
+    </button>
+  );
+
 
   return (
     <aside
@@ -212,43 +259,35 @@ export function DesktopSidebar({
         <div className="space-y-5 px-3">
           {/* Main Navigation */}
           <div className="space-y-0.5">
-            {expanded && (
-              <p className="px-3 mb-2 text-[10px] font-semibold text-muted-foreground/80 uppercase tracking-[0.18em] transition-opacity duration-200">
-                Menu
-              </p>
-            )}
-            {mainNavItems.map((item) =>
-              renderItem(item, location.pathname === item.href)
-            )}
+            {expanded && <GroupHeader id="menu" label="Menu" />}
+            {(iconOnly || openGroups.menu) &&
+              mainNavItems.map((item) =>
+                renderItem(item, location.pathname === item.href)
+              )}
           </div>
 
           <Separator className="mx-3 opacity-60" />
 
           <div className="space-y-0.5">
-            {expanded && (
-              <p className="px-3 mb-2 text-[10px] font-semibold text-muted-foreground/80 uppercase tracking-[0.18em] transition-opacity duration-200">
-                Library
-              </p>
-            )}
-            {shopNavItems.map((item) =>
-              renderItem(item, location.pathname + location.search === item.href)
-            )}
+            {expanded && <GroupHeader id="library" label="Library" />}
+            {(iconOnly || openGroups.library) &&
+              shopNavItems.map((item) =>
+                renderItem(item, location.pathname + location.search === item.href)
+              )}
           </div>
 
           <Separator className="mx-3 opacity-60" />
 
           <div className="space-y-0.5">
-            {expanded && (
-              <p className="px-3 mb-2 text-[10px] font-semibold text-muted-foreground/80 uppercase tracking-[0.18em] transition-opacity duration-200">
-                Account
-              </p>
-            )}
-            {userNavItems.map((item) =>
-              renderItem(item, location.pathname === item.href)
-            )}
+            {expanded && <GroupHeader id="account" label="Account" />}
+            {(iconOnly || openGroups.account) &&
+              userNavItems.map((item) =>
+                renderItem(item, location.pathname === item.href)
+              )}
           </div>
         </div>
       </ScrollArea>
+
 
       {/* Bottom Navigation */}
       <div className="border-t border-border/60 p-3 space-y-0.5 bg-background/40">
