@@ -19,12 +19,11 @@ export function BottomNav() {
     <nav
       aria-label="Primary"
       className={cn(
-        "fixed inset-x-0 bottom-0 z-50",
+        "fixed inset-x-0 bottom-0 z-50 h-[var(--bottom-nav-h)] overflow-hidden supports-[padding:max(0px)]:pb-[env(safe-area-inset-bottom)]",
         "liquid-nav border-t border-border/40"
       )}
-      style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
-      <ul className="flex h-[60px] items-stretch">
+      <ul className="flex h-[72px] items-stretch px-1.5">
         {tabs.map((item) => (
           <li key={item.path} className="flex-1 min-w-0">
             <NavItem item={item} active={activeTab === item.id} />
@@ -59,16 +58,16 @@ function NavItem({
       aria-label={item.label}
       aria-current={active ? "page" : undefined}
       onClick={handleClick}
-      className="relative flex h-full w-full flex-col items-center justify-center gap-0.5 select-none touch-manipulation outline-none group"
+      className="relative flex h-full w-full flex-col items-center justify-center gap-1 select-none touch-manipulation outline-none group"
       style={{ WebkitTapHighlightColor: "transparent" }}
     >
       {/* Decorative active pill — never intercept taps */}
       <span
         aria-hidden
         className={cn(
-          "pointer-events-none absolute inset-x-2.5 top-1.5 bottom-1.5 rounded-2xl transition-all duration-300 ease-out",
+          "pointer-events-none absolute inset-x-1.5 top-2 bottom-2 rounded-[1.1rem] transition-all duration-300 ease-out",
           active
-            ? "bg-primary/12 opacity-100 scale-100 shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.2)]"
+            ? "bg-primary/12 opacity-100 scale-100 shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.2),0_8px_18px_-14px_hsl(var(--primary)/0.6)]"
             : "opacity-0 scale-90 group-active:opacity-60 group-active:scale-95 group-active:bg-foreground/5"
         )}
       />
@@ -82,7 +81,7 @@ function NavItem({
       />
       <span
         className={cn(
-          "pointer-events-none relative text-[10px] leading-none tracking-tight transition-colors duration-200",
+          "pointer-events-none relative text-[10px] leading-none transition-colors duration-200",
           active ? "font-semibold text-primary" : "font-medium text-muted-foreground"
         )}
       >
