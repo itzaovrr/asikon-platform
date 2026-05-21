@@ -1,8 +1,19 @@
-import { Sparkles, type LucideIcon } from "lucide-react";
+import { type LucideIcon } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { getActiveTab, TabId } from "@/lib/nav-map";
 import { useCart } from "@/hooks/useCart";
+import asikonMark from "@/assets/icons/asikon-mark.svg";
+
+const AsikonIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({ className, ...props }) => (
+  <img
+    src={asikonMark}
+    alt=""
+    aria-hidden
+    className={className as string}
+    style={{ objectFit: "contain" }}
+  />
+);
 
 type IconComponent =
   | LucideIcon
