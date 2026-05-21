@@ -1,54 +1,47 @@
-import { Flame } from "lucide-react";
+import { Bell, SlidersHorizontal } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile } from "@/hooks/useProfile";
-import { useLearnerProfile } from "@/hooks/useLearnerProfile";
-
-function timeGreeting(d = new Date()) {
-  const h = d.getHours();
-  if (h < 12) return "Good morning";
-  if (h < 17) return "Good afternoon";
-  return "Good evening";
-}
-
-const STATES = [
-  "You're making steady progress.",
-  "One small step today beats none.",
-  "Momentum loves a curious mind.",
-  "Tiny wins compound. Keep going.",
-];
 
 export function GreetingStrip() {
   const { user } = useAuth();
   const { data: profile } = useProfile(user?.id);
-  const { data: learner } = useLearnerProfile();
-  const name = profile?.full_name?.split(" ")[0] || profile?.username || "friend";
-  const streak = learner?.streak_days ?? 0;
-  const state = STATES[new Date().getDate() % STATES.length];
+  const name = profile?.full_name || profile?.username || "Learner";
   const initial = (name[0] || "A").toUpperCase();
 
   return (
     <section className="section-x">
-      <div className="flex items-center gap-3 rounded-2xl glass border border-border/60 px-4 py-3">
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2 flex-wrap">
-            <p className="font-semibold text-sm truncate">{timeGreeting()}, {name} 👋</p>
-            {streak > 0 && (
-              <span className="inline-flex items-center gap-1 text-[11px] font-semibold rounded-full px-2 py-0.5 bg-primary/15 text-primary border border-primary/30">
-                <Flame className="h-3 w-3" />
-                {streak}d
-              </span>
-            )}
-          </div>
-          <p className="text-xs text-muted-foreground truncate mt-0.5">{state}</p>
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-medium">Welcome</p>
+          <h1 className="font-display text-[20px] sm:text-[22px] font-bold tracking-tight truncate leading-tight">
+            {name}
+          </h1>
         </div>
-        <Link to="/profile" className="focus-ring rounded-full">
-          <Avatar className="h-10 w-10 border border-border/60">
-            <AvatarImage src={profile?.avatar_url ?? undefined} alt={name} />
-            <AvatarFallback className="bg-primary/15 text-primary text-xs font-semibold">{initial}</AvatarFallback>
-          </Avatar>
-        </Link>
+        <div className="flex items-center gap-2 shrink-0">
+          <Link
+            to="/profile"
+            aria-label="Notifications"
+            className="relative h-10 w-10 rounded-2xl glass border border-border/60 flex items-center justify-center pressable focus-ring shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.18)]"
+          >
+            <Bell className="h-[18px] w-[18px] text-foreground/80" />
+            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary ring-2 ring-background" />
+          </Link>
+          <Link to="/profile" aria-label="Profile" className="focus-ring rounded-2xl">
+            <Avatar className="h-10 w-10 rounded-2xl border border-border/60 shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.18)]">
+              <AvatarImage src={profile?.avatar_url ?? undefined} alt={name} className="rounded-2xl" />
+              <AvatarFallback className="rounded-2xl bg-primary/15 text-primary text-sm font-bold">{initial}</AvatarFallback>
+            </Avatar>
+          </Link>
+          <Link
+            to="/settings"
+            aria-label="Settings"
+            className="h-10 w-10 rounded-2xl glass border border-border/60 flex items-center justify-center pressable focus-ring shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.18)]"
+          >
+            <SlidersHorizontal className="h-[18px] w-[18px] text-foreground/80" />
+          </Link>
+        </div>
       </div>
     </section>
   );

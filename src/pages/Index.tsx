@@ -24,6 +24,8 @@ import { ContinueLearningRow } from "@/components/home/workspace/ContinueLearnin
 import { AiAssistantBox } from "@/components/home/workspace/AiAssistantBox";
 import { ActivityFeed } from "@/components/home/workspace/ActivityFeed";
 import { MobileCoursesTop } from "@/components/home/mobile/MobileCoursesTop";
+import { CategoriesScroll } from "@/components/home/mobile/CategoriesScroll";
+import { OfferStrip } from "@/components/home/mobile/OfferStrip";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import { useHomeSections, HomeSection } from "@/hooks/useHomeSections";
 import { useAuth } from "@/hooks/useAuth";
@@ -256,15 +258,23 @@ const Index = () => {
       <MobilePage spacing="space-y-3 lg:space-y-14">
         {user ? (
           <>
-            {/* Personal, fast — top of fold */}
+            {/* Header greeting */}
             <GreetingStrip />
-            <MobileCoursesTop />
-            <QuickAccessGrid />
+            {/* Hero slider */}
             {heroSection && (
               <section className="section-x">
                 <HeroCarousel slides={heroSlides} />
               </section>
             )}
+            {/* Quick actions (category-style chips) */}
+            <QuickAccessGrid />
+            {/* Popular Courses (mobile) */}
+            <MobileCoursesTop />
+            {/* Categories (Asikon, scrollable like quick access) */}
+            <CategoriesScroll />
+            {/* Offers */}
+            <OfferStrip />
+
             <section className="section-x">
               <TodayMissionCard />
             </section>
