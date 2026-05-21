@@ -16,7 +16,7 @@ export function Testimonials({ title = "Loved by learners" }: { title?: string }
       <MobileScroller itemWidthMobile="78%" gridCols="md:grid md:grid-cols-3" gap="gap-3">
         {ITEMS.map((t) => (
           <div key={t.name} className="h-full rounded-2xl glass p-4 border border-border/60 flex flex-col">
-            <div className="flex gap-0.5 mb-2 text-amber-400">
+            <div className="flex gap-0.5 mb-2 text-primary">
               {Array.from({ length: 5 }).map((_, s) => <Star key={s} className="h-3 w-3 fill-current" />)}
             </div>
             <p className="text-[13px] leading-relaxed text-foreground/90 flex-1">"{t.quote}"</p>

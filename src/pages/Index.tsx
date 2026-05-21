@@ -60,10 +60,10 @@ const transformProduct = (p: any) => ({
 });
 
 const quickCategories = [
-  { icon: GraduationCap, label: "Courses", href: "/shop?type=courses", color: "from-primary/20 to-primary/5" },
-  { icon: BookOpen, label: "Books", href: "/shop?type=books", color: "from-accent/20 to-accent/5" },
-  { icon: Sparkles, label: "Prompts", href: "/prompts", color: "from-primary/20 to-accent/10" },
-  { icon: Flame, label: "Trending", href: "/shop?filter=trending", color: "from-accent/20 to-primary/10" },
+  { icon: GraduationCap, label: "Courses", href: "/shop?type=courses", color: "from-primary/25 to-primary/5" },
+  { icon: BookOpen, label: "Books", href: "/shop?type=books", color: "from-primary/20 to-primary/5" },
+  { icon: Sparkles, label: "Prompts", href: "/prompts", color: "from-primary/25 to-primary/10" },
+  { icon: Flame, label: "Trending", href: "/shop?filter=trending", color: "from-primary/30 to-primary/10" },
 ];
 
 const ProductCardSkeleton = () => (
@@ -140,8 +140,8 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
         </Link>
         <div className="flex items-center justify-between p-3 sm:p-4 rounded-2xl glass">
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-amber-400/30 to-amber-500/10 border border-amber-400/20 flex items-center justify-center shrink-0">
-              <Gift className="h-4 w-4 sm:h-5 sm:w-5 text-amber-400" />
+            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-primary/30 to-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+              <Gift className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
             </div>
             <div className="min-w-0">
               <p className="font-semibold text-[13px] sm:text-sm truncate">Daily streak</p>

@@ -48,7 +48,7 @@ export function TodayMissionCard() {
   if (mission.completed) {
     return (
       <CardShell>
-        <div className="flex items-center gap-2 text-emerald-400 mb-2">
+        <div className="flex items-center gap-2 text-primary mb-2">
           <CheckCircle2 className="h-5 w-5" />
           <span className="text-xs font-semibold uppercase tracking-[0.16em]">{copy.mission.completedTitle}</span>
         </div>

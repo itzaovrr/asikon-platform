@@ -13,8 +13,8 @@ export function InsightCard() {
   return (
     <section className="section-x">
       <div className="rounded-2xl border border-border/60 bg-card p-4 flex gap-3 items-start">
-        <div className="w-8 h-8 rounded-lg bg-amber-400/15 border border-amber-400/30 flex items-center justify-center shrink-0">
-          <Lightbulb className="h-4 w-4 text-amber-400" />
+        <div className="w-8 h-8 rounded-lg bg-primary/15 border border-primary/30 flex items-center justify-center shrink-0">
+          <Lightbulb className="h-4 w-4 text-primary" />
         </div>
         <div className="min-w-0">
           <p className="text-[10px] uppercase tracking-[0.16em] font-semibold text-muted-foreground">{tip.tag}</p>
