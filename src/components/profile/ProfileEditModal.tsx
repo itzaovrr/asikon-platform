@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { X, Camera, Loader2 } from "lucide-react";
+import { Camera, Loader2, Check } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
+import { COVER_GRADIENTS, type CoverGradientKey } from "@/lib/cover-gradients";
+import { cn } from "@/lib/utils";
 
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
 const ALLOWED_IMAGE_EXTS = ["jpg", "jpeg", "png", "gif", "webp"];
@@ -25,6 +27,14 @@ const profileSchema = z.object({
     .or(z.literal("")),
   full_name: z.string().trim().max(100, "Full name too long").optional().or(z.literal("")),
   bio: z.string().trim().max(500, "Bio must be ≤ 500 characters").optional().or(z.literal("")),
+  location: z.string().trim().max(80, "Location too long").optional().or(z.literal("")),
+  website: z
+    .string()
+    .trim()
+    .regex(/^https?:\/\/.+/i, "Website must start with http:// or https://")
+    .max(200, "Website URL too long")
+    .optional()
+    .or(z.literal("")),
 });
 
 interface ProfileEditModalProps {
@@ -37,6 +47,9 @@ interface ProfileEditModalProps {
     bio?: string | null;
     avatar_url?: string | null;
     cover_url?: string | null;
+    website?: string | null;
+    location?: string | null;
+    cover_gradient?: string | null;
   };
   onSave: (updates: {
     username?: string;
@@ -44,6 +57,9 @@ interface ProfileEditModalProps {
     bio?: string;
     avatar_url?: string;
     cover_url?: string;
+    website?: string | null;
+    location?: string | null;
+    cover_gradient?: string | null;
   }) => Promise<void>;
 }
 
@@ -52,13 +68,16 @@ export function ProfileEditModal({ isOpen, onClose, profile, onSave }: ProfileEd
   const [loading, setLoading] = useState(false);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     username: profile.username || "",
     full_name: profile.full_name || "",
     bio: profile.bio || "",
     avatar_url: profile.avatar_url || "",
     cover_url: profile.cover_url || "",
+    website: profile.website || "",
+    location: profile.location || "",
+    cover_gradient: (profile.cover_gradient as CoverGradientKey) || "gradient-1",
   });
 
   const avatarInputRef = useRef<HTMLInputElement>(null);
@@ -140,6 +159,8 @@ export function ProfileEditModal({ isOpen, onClose, profile, onSave }: ProfileEd
       username: formData.username,
       full_name: formData.full_name,
       bio: formData.bio,
+      location: formData.location,
+      website: formData.website,
     });
     if (!parsed.success) {
       const first = parsed.error.errors[0];
@@ -153,7 +174,11 @@ export function ProfileEditModal({ isOpen, onClose, profile, onSave }: ProfileEd
 
     setLoading(true);
     try {
-      await onSave(formData);
+      await onSave({
+        ...formData,
+        website: formData.website?.trim() ? formData.website.trim() : null,
+        location: formData.location?.trim() ? formData.location.trim() : null,
+      });
       toast({
         title: "Profile updated",
         description: "Your profile has been updated successfully.",
@@ -211,6 +236,38 @@ export function ProfileEditModal({ isOpen, onClose, profile, onSave }: ProfileEd
               onChange={handleCoverChange}
               className="hidden"
             />
+          </div>
+
+          {/* Cover gradient picker (used when no cover image is set) */}
+          <div className="space-y-2">
+            <Label>Cover Gradient</Label>
+            <p className="text-xs text-muted-foreground">Used when you don't upload a cover photo.</p>
+            <div className="grid grid-cols-3 gap-2">
+              {(Object.entries(COVER_GRADIENTS) as [CoverGradientKey, { label: string; css: string }][]).map(
+                ([key, g]) => {
+                  const selected = formData.cover_gradient === key;
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => setFormData((p) => ({ ...p, cover_gradient: key }))}
+                      className={cn(
+                        "relative h-12 rounded-lg overflow-hidden border-2 transition-all",
+                        selected ? "border-primary scale-[1.02]" : "border-transparent hover:border-border",
+                      )}
+                      style={{ background: g.css }}
+                      aria-label={`Cover gradient ${g.label}`}
+                    >
+                      {selected && (
+                        <span className="absolute top-1 right-1 h-4 w-4 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
+                          <Check className="h-3 w-3" />
+                        </span>
+                      )}
+                    </button>
+                  );
+                },
+              )}
+            </div>
           </div>
 
           {/* Avatar */}
@@ -282,19 +339,43 @@ export function ProfileEditModal({ isOpen, onClose, profile, onSave }: ProfileEd
             />
           </div>
 
+          {/* Location */}
+          <div className="space-y-2">
+            <Label htmlFor="location">Location</Label>
+            <Input
+              id="location"
+              value={formData.location}
+              onChange={(e) => setFormData((prev) => ({ ...prev, location: e.target.value }))}
+              placeholder="City, Country"
+              maxLength={80}
+            />
+          </div>
+
+          {/* Website */}
+          <div className="space-y-2">
+            <Label htmlFor="website">Website</Label>
+            <Input
+              id="website"
+              type="url"
+              value={formData.website}
+              onChange={(e) => setFormData((prev) => ({ ...prev, website: e.target.value }))}
+              placeholder="https://your-site.com"
+            />
+          </div>
+
           {/* Actions */}
           <div className="flex gap-3 pt-4">
-            <Button 
-              type="button" 
-              variant="secondary" 
+            <Button
+              type="button"
+              variant="secondary"
               className="flex-1"
               onClick={onClose}
               disabled={loading}
             >
               Cancel
             </Button>
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               className="flex-1 gradient-primary border-0"
               disabled={loading || uploadingAvatar || uploadingCover}
             >
