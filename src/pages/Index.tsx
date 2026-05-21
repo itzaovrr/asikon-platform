@@ -40,9 +40,9 @@ import coursePython from "@/assets/course-python.jpg";
 import promptLibrary from "@/assets/prompt-library.jpg";
 
 const heroSlides = [
-  { id: "1", image: courseAiMl, title: "Learn AI with Asikon", subtitle: "Master ML, Python, and modern AI tools — taught by experts", cta: { label: "Browse Courses", href: "/shop?type=courses" } },
-  { id: "2", image: promptLibrary, title: "1000+ AI Prompts", subtitle: "Boost your productivity with our curated prompt library", cta: { label: "Get the Library", href: "/prompts" } },
-  { id: "3", image: coursePython, title: "Skill-Up Friday — 50% Off", subtitle: "Limited time deals on top-rated courses and books", cta: { label: "View Deals", href: "/shop?filter=deals" } },
+  { id: "1", image: courseAiMl, eyebrow: "New course", title: "Learn AI with Asikon", subtitle: "Master ML, Python, and modern AI tools — taught by experts", cta: { label: "Browse Courses", href: "/shop?type=courses" }, secondaryCta: { label: "See syllabus", href: "/shop?type=courses" } },
+  { id: "2", image: promptLibrary, eyebrow: "Prompt library", title: "1000+ AI Prompts", subtitle: "Boost your productivity with our curated prompt library", cta: { label: "Get the Library", href: "/prompts" } },
+  { id: "3", image: coursePython, eyebrow: "Limited deal", title: "Skill-Up Friday — 50% Off", subtitle: "Limited time deals on top-rated courses and books", cta: { label: "View Deals", href: "/shop?filter=deals" } },
 ];
 
 const transformProduct = (p: any) => ({
