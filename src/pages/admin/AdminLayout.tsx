@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { supabase } from "@/integrations/supabase/client";
 import { useMemo, useState } from "react";
+import asikonLogo from "@/assets/logo.png";
 
 export const adminNavItems = [
   { title: "Overview", url: "/asikonasik", icon: LayoutDashboard, end: true },
@@ -72,9 +73,14 @@ function AdminSidebar() {
       style={{ background: "var(--gradient-surface)" }}
     >
       <div className="px-4 pt-5 pb-4 flex items-center gap-2.5">
-        <div className="h-10 w-10 rounded-xl gradient-primary grid place-items-center shadow-[var(--shadow-glow)]">
-          <ShieldCheck className="h-5 w-5 text-primary-foreground" />
-        </div>
+        <NavLink
+          to="/"
+          aria-label="Back to Asikon app"
+          title="Back to Asikon app"
+          className="h-10 w-10 rounded-xl overflow-hidden ring-1 ring-border/60 grid place-items-center bg-background shadow-[var(--shadow-glow)] hover:ring-primary/40 transition"
+        >
+          <img src={asikonLogo} alt="Asikon" className="h-7 w-7 object-contain" />
+        </NavLink>
         <div className="flex-1 min-w-0">
           <div className="font-display font-semibold leading-tight truncate">asikonasik</div>
           <div className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
@@ -175,9 +181,14 @@ export default function AdminLayout() {
           <header
             className="h-16 sticky top-0 z-30 border-b border-border/50 flex items-center px-3 md:px-6 gap-3 glass-strong"
           >
-            <div className="md:hidden h-9 w-9 rounded-xl gradient-primary grid place-items-center shadow-[var(--shadow-glow)]">
-              <ShieldCheck className="h-4 w-4 text-primary-foreground" />
-            </div>
+            <NavLink
+              to="/"
+              aria-label="Back to Asikon app"
+              title="Back to Asikon app"
+              className="md:hidden h-9 w-9 rounded-xl overflow-hidden ring-1 ring-border/60 grid place-items-center bg-background shadow-[var(--shadow-glow)] hover:ring-primary/40 transition"
+            >
+              <img src={asikonLogo} alt="Asikon" className="h-6 w-6 object-contain" />
+            </NavLink>
             <div className="flex flex-col leading-tight min-w-0">
               <div className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground hidden sm:block">
                 asikonasik · {isSuperAdmin ? "Super Admin" : "Admin"}
