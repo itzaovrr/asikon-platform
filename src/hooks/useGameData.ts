@@ -66,7 +66,7 @@ export function useGameStats() {
 
       const [profileRes, learnerRes, completionsRes] = await Promise.all([
         supabase.from("profiles").select("coins").eq("id", user.id).maybeSingle(),
-        db
+        supabase
           .from("learner_profiles")
           .select("xp,streak_days,longest_streak")
           .eq("user_id", user.id)
@@ -188,7 +188,7 @@ export function useRewards() {
   return useQuery<RewardItem[]>({
     queryKey: ["rewards"],
     queryFn: async () => {
-      const { data, error } = await db
+      const { data, error } = await supabase
         .from("rewards")
         .select("id,title,description,type,coins_required,image_url,display_order")
         .eq("is_active", true)
@@ -203,7 +203,7 @@ export function useLeaderboard() {
   return useQuery<LeaderboardEntry[]>({
     queryKey: ["leaderboard-top10"],
     queryFn: async () => {
-      const { data: top, error } = await db
+      const { data: top, error } = await supabase
         .from("learner_profiles")
         .select("user_id,xp,streak_days,longest_streak")
         .order("xp", { ascending: false })
