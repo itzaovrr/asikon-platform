@@ -183,16 +183,16 @@ export function HeroCarousel({ slides, autoplayDelay = 5000, className }: HeroCa
       <button
         onClick={scrollPrev}
         aria-label="Previous slide"
-        className="absolute left-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-background/60 backdrop-blur-md border border-primary/25 hover:bg-background/80 transition-all hidden md:flex items-center justify-center opacity-0 group-hover/hero:opacity-100"
+        className="absolute left-3 lg:left-5 top-1/2 -translate-y-1/2 h-10 w-10 lg:h-12 lg:w-12 rounded-full bg-background/60 backdrop-blur-md border border-primary/25 hover:bg-background/85 hover:border-primary/50 hover:scale-105 transition-all hidden md:flex items-center justify-center opacity-0 group-hover/hero:opacity-100"
       >
-        <ChevronLeft className="h-5 w-5" />
+        <ChevronLeft className="h-5 w-5 lg:h-6 lg:w-6" />
       </button>
       <button
         onClick={scrollNext}
         aria-label="Next slide"
-        className="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-background/60 backdrop-blur-md border border-primary/25 hover:bg-background/80 transition-all hidden md:flex items-center justify-center opacity-0 group-hover/hero:opacity-100"
+        className="absolute right-3 lg:right-5 top-1/2 -translate-y-1/2 h-10 w-10 lg:h-12 lg:w-12 rounded-full bg-background/60 backdrop-blur-md border border-primary/25 hover:bg-background/85 hover:border-primary/50 hover:scale-105 transition-all hidden md:flex items-center justify-center opacity-0 group-hover/hero:opacity-100"
       >
-        <ChevronRight className="h-5 w-5" />
+        <ChevronRight className="h-5 w-5 lg:h-6 lg:w-6" />
       </button>
 
       {/* Progress segments */}
