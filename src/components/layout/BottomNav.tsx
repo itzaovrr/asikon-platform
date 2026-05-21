@@ -1,8 +1,19 @@
-import { Sparkles, type LucideIcon } from "lucide-react";
+import { type LucideIcon } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { getActiveTab, TabId } from "@/lib/nav-map";
 import { useCart } from "@/hooks/useCart";
+import asikonMark from "@/assets/icons/asikon-mark.svg";
+
+const AsikonIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({ className, ...props }) => (
+  <img
+    src={asikonMark}
+    alt=""
+    aria-hidden
+    className={className as string}
+    style={{ objectFit: "contain" }}
+  />
+);
 
 type IconComponent =
   | LucideIcon
@@ -128,7 +139,7 @@ export function BottomNav() {
   const tabs: (Tab & { badge?: number; dot?: boolean })[] = [
     { id: "home", iconOutline: HomeOutline, iconFill: HomeFill, label: "Home", path: "/" },
     { id: "explore", iconOutline: ShopOutline, iconFill: ShopFill, label: "Shop", path: "/shop", badge: cartCount },
-    { id: "ai", iconOutline: Sparkles, iconFill: Sparkles, label: "AI", path: "/learn" },
+    { id: "ai", iconOutline: AsikonIcon, iconFill: AsikonIcon, label: "AI", path: "/learn" },
     { id: "community", iconOutline: CommunityOutline, iconFill: CommunityFill, label: "Community", path: "/community", dot: false },
     { id: "profile", iconOutline: ProfileOutline, iconFill: ProfileFill, label: "Profile", path: "/profile" },
   ];
