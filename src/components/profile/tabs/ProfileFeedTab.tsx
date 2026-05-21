@@ -3,7 +3,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn, formatCount, timeAgo } from "@/lib/utils";
 import { Newspaper } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import { useLikePost } from "@/hooks/usePosts";
 
 export interface FeedPost {
