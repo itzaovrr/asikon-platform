@@ -13,6 +13,7 @@ import {
   HelpCircle,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
   GraduationCap,
   BookOpen,
   Wand2,
@@ -27,6 +28,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+
 
 interface NavItemProps {
   icon: React.ElementType;
