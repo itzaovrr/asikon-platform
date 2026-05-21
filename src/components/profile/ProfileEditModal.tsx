@@ -339,31 +339,6 @@ export function ProfileEditModal({ isOpen, onClose, profile, onSave }: ProfileEd
             />
           </div>
 
-          {/* Actions */}
-          <div className="flex gap-3 pt-4">
-            <Button 
-              type="button" 
-              variant="secondary" 
-              className="flex-1"
-              onClick={onClose}
-              disabled={loading}
-            >
-              Cancel
-            </Button>
-            <Button 
-              type="submit" 
-              className="flex-1 gradient-primary border-0"
-              disabled={loading || uploadingAvatar || uploadingCover}
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                  Saving...
-                </>
-              ) : (
-                "Save Changes"
-              )}
-            </Button>
           {/* Location */}
           <div className="space-y-2">
             <Label htmlFor="location">Location</Label>
@@ -387,6 +362,34 @@ export function ProfileEditModal({ isOpen, onClose, profile, onSave }: ProfileEd
               placeholder="https://your-site.com"
             />
           </div>
+
+          {/* Actions */}
+          <div className="flex gap-3 pt-4">
+            <Button
+              type="button"
+              variant="secondary"
+              className="flex-1"
+              onClick={onClose}
+              disabled={loading}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              className="flex-1 gradient-primary border-0"
+              disabled={loading || uploadingAvatar || uploadingCover}
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  Saving...
+                </>
+              ) : (
+                "Save Changes"
+              )}
+            </Button>
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   );
