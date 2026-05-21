@@ -78,8 +78,8 @@ export function HeroCarousel({ slides, autoplayDelay = 5000, className }: HeroCa
       aria-label="Featured highlights"
       className={cn(
         "relative group/hero overflow-hidden rounded-3xl",
-        "border border-primary/30",
-        "shadow-[0_20px_60px_-20px_hsl(var(--primary)/0.45)]",
+        "border border-primary/15",
+        "shadow-[0_12px_40px_-18px_hsl(var(--primary)/0.35)]",
         className,
       )}
       onMouseEnter={() => setIsPaused(true)}
