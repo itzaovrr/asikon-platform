@@ -129,18 +129,18 @@ export function HeroCarousel({ slides, autoplayDelay = 5000, className }: HeroCa
                   />
 
                   {/* Text block */}
-                  <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 md:p-8">
+                  <div className="absolute inset-x-0 bottom-0 p-3.5 sm:p-5 md:p-6 pb-6 sm:pb-7">
                     <div
                       key={`text-${selectedIndex}-${slide.id}`}
                       className={cn("max-w-md", isActive && "animate-fade-in")}
                     >
                       {(slide.eyebrow ?? `Slide ${index + 1}`) && (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 mb-2.5 rounded-full text-[10.5px] font-semibold uppercase tracking-[0.14em] bg-background/60 backdrop-blur-md border border-primary/30 text-foreground">
-                          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 mb-2 rounded-full text-[10px] font-semibold uppercase tracking-[0.14em] bg-background/60 backdrop-blur-md border border-primary/25 text-foreground">
+                          <span className="w-1 h-1 rounded-full bg-primary animate-pulse" />
                           {slide.eyebrow ?? `Slide ${index + 1}`}
                         </span>
                       )}
-                      <h2 className="font-display font-bold text-xl sm:text-2xl md:text-4xl leading-tight tracking-tight text-foreground">
+                      <h2 className="font-display font-bold text-lg sm:text-2xl md:text-3xl leading-tight tracking-tight text-foreground">
                         <span className="text-gradient">{slide.title.split(" ").slice(0, 2).join(" ")}</span>
                         {slide.title.split(" ").length > 2 && (
                           <> {slide.title.split(" ").slice(2).join(" ")}</>
