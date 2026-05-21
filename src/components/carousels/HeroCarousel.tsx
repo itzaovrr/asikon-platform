@@ -104,7 +104,7 @@ export function HeroCarousel({ slides, autoplayDelay = 5000, className }: HeroCa
                 aria-label={`${index + 1} of ${slides.length}: ${slide.title}`}
                 className="flex-[0_0_100%] min-w-0 relative"
               >
-                <div className="relative aspect-[16/10] sm:aspect-[21/9] md:aspect-[24/8] overflow-hidden">
+                <div className="relative aspect-[16/10] sm:aspect-[21/9] md:aspect-[21/8] lg:aspect-auto lg:h-[420px] xl:h-[480px] overflow-hidden">
                   <img
                     src={slide.image}
                     alt={slide.title}
@@ -129,42 +129,42 @@ export function HeroCarousel({ slides, autoplayDelay = 5000, className }: HeroCa
                   />
 
                   {/* Text block */}
-                  <div className="absolute inset-x-0 bottom-0 p-3.5 sm:p-5 md:p-6 pb-6 sm:pb-7">
+                  <div className="absolute inset-x-0 bottom-0 p-3.5 sm:p-5 md:p-6 lg:p-10 pb-6 sm:pb-7 lg:pb-12">
                     <div
                       key={`text-${selectedIndex}-${slide.id}`}
-                      className={cn("max-w-md", isActive && "animate-fade-in")}
+                      className={cn("max-w-md lg:max-w-xl", isActive && "animate-fade-in")}
                     >
                       {(slide.eyebrow ?? `Slide ${index + 1}`) && (
-                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 mb-2 rounded-full text-[10px] font-semibold uppercase tracking-[0.14em] bg-background/60 backdrop-blur-md border border-primary/25 text-foreground">
+                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 lg:px-3 lg:py-1 mb-2 lg:mb-3 rounded-full text-[10px] lg:text-[11px] font-semibold uppercase tracking-[0.14em] bg-background/60 backdrop-blur-md border border-primary/25 text-foreground">
                           <span className="w-1 h-1 rounded-full bg-primary animate-pulse" />
                           {slide.eyebrow ?? `Slide ${index + 1}`}
                         </span>
                       )}
-                      <h2 className="font-display font-bold text-lg sm:text-2xl md:text-3xl leading-tight tracking-tight text-foreground">
+                      <h2 className="font-display font-bold text-lg sm:text-2xl md:text-3xl lg:text-[44px] xl:text-5xl leading-tight tracking-tight text-foreground">
                         <span className="text-gradient">{slide.title.split(" ").slice(0, 2).join(" ")}</span>
                         {slide.title.split(" ").length > 2 && (
                           <> {slide.title.split(" ").slice(2).join(" ")}</>
                         )}
                       </h2>
                       {slide.subtitle && (
-                        <p className="mt-1.5 text-xs sm:text-sm text-foreground/80 line-clamp-2">
+                        <p className="mt-1.5 lg:mt-3 text-xs sm:text-sm lg:text-base text-foreground/80 line-clamp-2 lg:line-clamp-3 lg:max-w-lg">
                           {slide.subtitle}
                         </p>
                       )}
-                      <div className="mt-3 sm:mt-4 flex items-center gap-2">
+                      <div className="mt-3 sm:mt-4 lg:mt-6 flex items-center gap-2 lg:gap-3">
                         {slide.cta && (
                           <Link
                             to={slide.cta.href}
-                            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full gradient-primary text-primary-foreground text-sm font-semibold shadow-[0_8px_24px_-8px_hsl(var(--primary)/0.6)] hover:shadow-[0_10px_28px_-6px_hsl(var(--primary)/0.7)] active:scale-95 transition-all"
+                            className="inline-flex items-center gap-1.5 px-4 py-2 lg:px-6 lg:py-3 rounded-full gradient-primary text-primary-foreground text-sm lg:text-base font-semibold shadow-[0_8px_24px_-8px_hsl(var(--primary)/0.6)] hover:shadow-[0_14px_36px_-8px_hsl(var(--primary)/0.7)] hover:-translate-y-0.5 active:scale-95 transition-all"
                           >
                             {slide.cta.label}
-                            <ArrowUpRight className="h-4 w-4" />
+                            <ArrowUpRight className="h-4 w-4 lg:h-5 lg:w-5" />
                           </Link>
                         )}
                         {slide.secondaryCta && (
                           <Link
                             to={slide.secondaryCta.href}
-                            className="hidden sm:inline-flex items-center gap-1 px-3 py-2 rounded-full text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-background/40 backdrop-blur-sm transition-colors"
+                            className="hidden sm:inline-flex items-center gap-1 px-3 py-2 lg:px-4 lg:py-3 rounded-full text-sm lg:text-[15px] font-medium text-foreground/80 hover:text-foreground hover:bg-background/40 backdrop-blur-sm transition-colors"
                           >
                             {slide.secondaryCta.label}
                           </Link>
@@ -183,16 +183,16 @@ export function HeroCarousel({ slides, autoplayDelay = 5000, className }: HeroCa
       <button
         onClick={scrollPrev}
         aria-label="Previous slide"
-        className="absolute left-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-background/60 backdrop-blur-md border border-primary/25 hover:bg-background/80 transition-all hidden md:flex items-center justify-center opacity-0 group-hover/hero:opacity-100"
+        className="absolute left-3 lg:left-5 top-1/2 -translate-y-1/2 h-10 w-10 lg:h-12 lg:w-12 rounded-full bg-background/60 backdrop-blur-md border border-primary/25 hover:bg-background/85 hover:border-primary/50 hover:scale-105 transition-all hidden md:flex items-center justify-center opacity-0 group-hover/hero:opacity-100"
       >
-        <ChevronLeft className="h-5 w-5" />
+        <ChevronLeft className="h-5 w-5 lg:h-6 lg:w-6" />
       </button>
       <button
         onClick={scrollNext}
         aria-label="Next slide"
-        className="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-background/60 backdrop-blur-md border border-primary/25 hover:bg-background/80 transition-all hidden md:flex items-center justify-center opacity-0 group-hover/hero:opacity-100"
+        className="absolute right-3 lg:right-5 top-1/2 -translate-y-1/2 h-10 w-10 lg:h-12 lg:w-12 rounded-full bg-background/60 backdrop-blur-md border border-primary/25 hover:bg-background/85 hover:border-primary/50 hover:scale-105 transition-all hidden md:flex items-center justify-center opacity-0 group-hover/hero:opacity-100"
       >
-        <ChevronRight className="h-5 w-5" />
+        <ChevronRight className="h-5 w-5 lg:h-6 lg:w-6" />
       </button>
 
       {/* Progress segments */}

@@ -75,7 +75,7 @@ export function QuickAccessGrid() {
       </div>
 
       {/* Desktop: responsive grid */}
-      <div className="hidden md:grid grid-cols-6 lg:grid-cols-9 gap-3">
+      <div className="hidden md:grid grid-cols-6 lg:grid-cols-10 xl:grid-cols-11 gap-2.5 lg:gap-3">
         {TILES.map((t) => <Tile key={t.label} {...t} />)}
       </div>
     </Reveal>
@@ -86,19 +86,19 @@ function Tile({ icon: Icon, label, href, tone }: Tile) {
   return (
     <Link
       to={href}
-      className="group focus-ring flex flex-col items-center gap-1.5 rounded-2xl py-2.5 px-1.5 active:scale-[0.94] transition-transform"
+      className="group focus-ring flex flex-col items-center gap-1.5 lg:gap-2 rounded-2xl py-2.5 lg:py-3 px-1.5 active:scale-[0.94] hover:-translate-y-0.5 transition-transform"
     >
       <div
         className={cn(
-          "w-[52px] h-[52px] rounded-[18px] bg-gradient-to-br shadow-[0_6px_14px_-6px_hsl(var(--primary)/0.45)]",
+          "w-[52px] h-[52px] lg:w-[58px] lg:h-[58px] rounded-[18px] bg-gradient-to-br shadow-[0_6px_14px_-6px_hsl(var(--primary)/0.45)]",
           "flex items-center justify-center ring-1 ring-primary/20",
-          "group-hover:shadow-[0_10px_20px_-8px_hsl(var(--primary)/0.6)] transition-shadow",
+          "group-hover:shadow-[0_14px_28px_-8px_hsl(var(--primary)/0.65)] group-hover:ring-primary/40 transition-all duration-300",
           tone,
         )}
       >
-        <Icon className="h-[22px] w-[22px] text-primary-foreground" strokeWidth={2.25} />
+        <Icon className="h-[22px] w-[22px] lg:h-6 lg:w-6 text-primary-foreground" strokeWidth={2.25} />
       </div>
-      <span className="text-[10.5px] font-medium leading-tight text-center truncate w-full text-foreground/85">
+      <span className="text-[10.5px] lg:text-[11.5px] font-medium leading-tight text-center truncate w-full text-foreground/85 group-hover:text-foreground transition-colors">
         {label}
       </span>
     </Link>
