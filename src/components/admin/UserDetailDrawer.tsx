@@ -191,14 +191,21 @@ export function UserDetailDrawer({ userId, onClose }: Props) {
     mutationFn: async (banned: boolean) => {
       const { error } = await supabase.from("profiles").update({ is_banned: banned }).eq("id", userId!);
       if (error) throw error;
+      await audit({
+        action: banned ? "user.ban" : "user.unban",
+        target_type: "user",
+        target_id: userId!,
+      });
     },
     onSuccess: (_, banned) => {
       toast.success(banned ? "User banned" : "User unbanned");
       qc.invalidateQueries({ queryKey: ["admin-user-profile", userId] });
-      qc.invalidateQueries({ queryKey: ["admin-users-list"] });
+      qc.invalidateQueries({ queryKey: ["admin-users"] });
+      qc.invalidateQueries({ queryKey: ["admin-user-audit", userId] });
     },
     onError: (e: any) => toast.error(e.message),
   });
+
 
   const resetCoins = useMutation({
     mutationFn: async () => {
