@@ -1,13 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Trash2, Pin, PinOff } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Trash2, Pin, PinOff, Search } from "lucide-react";
 import { toast } from "sonner";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/transitions/Reveal";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
+import { useState, useMemo, useDeferredValue } from "react";
+import { useAuditLog } from "@/hooks/useAuditLog";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
@@ -15,7 +17,10 @@ import {
 
 export default function AdminCommunity() {
   const qc = useQueryClient();
+  const audit = useAuditLog();
   const [confirmDel, setConfirmDel] = useState<any | null>(null);
+  const [q, setQ] = useState("");
+  const dq = useDeferredValue(q);
 
   const { data: posts } = useQuery({
     queryKey: ["admin-posts"],
@@ -47,6 +52,7 @@ export default function AdminCommunity() {
     mutationFn: async (id: string) => {
       const { error } = await supabase.from("posts").delete().eq("id", id);
       if (error) throw error;
+      void audit({ action: "post.delete", target_type: "post", target_id: id });
     },
     onSuccess: () => {
       toast.success("Post removed");
@@ -59,6 +65,7 @@ export default function AdminCommunity() {
     mutationFn: async (id: string) => {
       const { error } = await supabase.from("post_comments").delete().eq("id", id);
       if (error) throw error;
+      void audit({ action: "comment.delete", target_type: "comment", target_id: id });
     },
     onSuccess: () => {
       toast.success("Comment removed");
@@ -71,10 +78,38 @@ export default function AdminCommunity() {
     mutationFn: async ({ id, value }: { id: string; value: boolean }) => {
       const { error } = await supabase.from("posts").update({ is_pinned: value }).eq("id", id);
       if (error) throw error;
+      void audit({
+        action: value ? "post.pin" : "post.unpin",
+        target_type: "post",
+        target_id: id,
+      });
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["admin-posts"] }),
     onError: (e: any) => toast.error(e.message),
   });
+
+  const filteredPosts = useMemo(() => {
+    const list = posts ?? [];
+    if (!dq.trim()) return list;
+    const n = dq.toLowerCase();
+    return list.filter(
+      (p: any) =>
+        (p.content ?? "").toLowerCase().includes(n) ||
+        (p.profiles?.username ?? "").toLowerCase().includes(n) ||
+        (p.type ?? "").toLowerCase().includes(n),
+    );
+  }, [posts, dq]);
+
+  const filteredComments = useMemo(() => {
+    const list = comments ?? [];
+    if (!dq.trim()) return list;
+    const n = dq.toLowerCase();
+    return list.filter(
+      (c: any) =>
+        (c.content ?? "").toLowerCase().includes(n) ||
+        (c.profiles?.username ?? "").toLowerCase().includes(n),
+    );
+  }, [comments, dq]);
 
   return (
     <div className="space-y-5">
