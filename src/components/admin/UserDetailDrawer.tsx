@@ -105,6 +105,45 @@ export function UserDetailDrawer({ userId, onClose }: Props) {
     },
   });
 
+  const { data: userRoleList } = useQuery({
+    queryKey: ["admin-user-roles", userId],
+    enabled: !!userId,
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId!);
+      return (data ?? []).map((r: any) => r.role as string);
+    },
+  });
+
+  const { data: auditTrail } = useQuery({
+    queryKey: ["admin-user-audit", userId],
+    enabled: !!userId,
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("admin_audit_log")
+        .select("id, action, meta, created_at, actor_id")
+        .eq("target_type", "user")
+        .eq("target_id", userId!)
+        .order("created_at", { ascending: false })
+        .limit(30);
+      const rows = data ?? [];
+      const actorIds = Array.from(new Set(rows.map((r: any) => r.actor_id).filter(Boolean)));
+      const names = await resolveActorNames(actorIds as string[]);
+      return rows.map((r: any) => ({ ...r, actor_name: names[r.actor_id] ?? "system" }));
+    },
+  });
+
+  const roleHistory = useMemo(
+    () =>
+      (auditTrail ?? []).filter((e: any) =>
+        ["role.grant", "role.revoke", "user.ban", "user.unban"].includes(e.action),
+      ),
+    [auditTrail],
+  );
+
+
   // --- Edit state ---
   const [editing, setEditing] = useState<Record<string, any>>({});
   const value = (k: string) => editing[k] ?? (profile as any)?.[k] ?? "";
