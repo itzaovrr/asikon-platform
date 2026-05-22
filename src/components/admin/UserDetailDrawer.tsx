@@ -406,9 +406,10 @@ export function UserDetailDrawer({ userId, onClose }: Props) {
         </SheetHeader>
 
         <Tabs defaultValue="profile" className="px-5 py-4">
-          <TabsList className="grid grid-cols-5 mb-4 h-9">
+          <TabsList className="grid grid-cols-6 mb-4 h-9">
             <TabsTrigger value="profile" className="text-[11px]">Profile</TabsTrigger>
             <TabsTrigger value="game" className="text-[11px]">Game</TabsTrigger>
+            <TabsTrigger value="roles" className="text-[11px]">Roles</TabsTrigger>
             <TabsTrigger value="orders" className="text-[11px]">Orders</TabsTrigger>
             <TabsTrigger value="activity" className="text-[11px]">Activity</TabsTrigger>
             <TabsTrigger value="danger" className="text-[11px] text-destructive">Danger</TabsTrigger>
@@ -416,8 +417,44 @@ export function UserDetailDrawer({ userId, onClose }: Props) {
 
           {/* TAB 1 — PROFILE */}
           <TabsContent value="profile" className="space-y-3 mt-0">
+            {/* Quick info header */}
+            <div className="glass rounded-2xl p-3 space-y-2">
+              <div className="grid grid-cols-4 gap-2 text-center">
+                <Metric label="Level" value={xpToLevel(learner?.xp ?? 0)} />
+                <Metric label="Coins" value={(profile as any)?.coins ?? 0} />
+                <Metric label="Lessons" value={lessonCount ?? 0} />
+                <Metric label="Streak" value={`${learner?.streak_days ?? 0}d`} />
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                {(userRoleList ?? ["user"]).map((r) => (
+                  <Badge key={r} variant={r === "super_admin" ? "destructive" : r === "admin" ? "default" : "secondary"} className="text-[10px]">
+                    {r}
+                  </Badge>
+                ))}
+              </div>
+              <div className="flex items-center justify-between gap-2 text-[10.5px] text-muted-foreground pt-1">
+                <span className="font-mono truncate">{userId}</span>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="h-6 w-6"
+                  onClick={() => {
+                    navigator.clipboard.writeText(userId ?? "");
+                    toast.success("ID copied");
+                  }}
+                >
+                  <Copy className="h-3 w-3" />
+                </Button>
+              </div>
+              <div className="flex items-center justify-between gap-2 text-[10.5px] text-muted-foreground">
+                <span>Joined {(profile as any)?.created_at ? new Date((profile as any).created_at).toLocaleDateString() : "—"}</span>
+                <span>Last seen {(profile as any)?.last_seen_at ? new Date((profile as any).last_seen_at).toLocaleString() : "—"}</span>
+              </div>
+            </div>
+
             <Field label="Full name">
               <Input
+
                 value={value("full_name") ?? ""}
                 onChange={(e) => setEditing({ ...editing, full_name: e.target.value })}
               />
