@@ -1,77 +1,83 @@
-## Goal
+# Sub-Page Redesign — Native-App Minimal
 
-Make `/asikonasik/users` scale to large datasets and turn each row into a real moderation surface.
+Goal: bring Product, Course/Track, Lesson, Cart, Checkout, Orders, Order Detail, and Wishlist up to the same clean, native-app quality as the new MobileHeader. Mobile-first (393px) with full desktop layouts. No new business logic — presentation only.
 
-## 1. Server-side pagination & filtering (`AdminUsers.tsx`)
+## Shared design language
 
-Replace the single 1000-row `profiles` query with a paginated query keyed on all filter state:
+All pages adopt the same primitives so they feel like one app:
 
-```ts
-queryKey: ["admin-users", { dq, roleFilter, useRange, range, banFilter, page, sort }]
-```
+- **Page chrome**: transparent on top of scroll, frosted `bg-background/80 backdrop-blur-2xl` + 1px hairline once scrolled (reuse `useScrollTop`).
+- **Type**: Space Grotesk for page titles (28/32 mobile, 40/44 desktop), Inter for body. Tight tracking on titles, no all-caps eyebrows.
+- **Surfaces**: flat by default. One subtle elevation only where it earns it (sticky bars, drawers). No nested glass cards.
+- **Borders**: `border-border/40` hairlines, never double-bordered.
+- **Spacing**: 16px gutters mobile, 32px desktop; 24/32/48 section rhythm.
+- **CTAs**: full-width primary on mobile sticky bar; inline on desktop right rail.
+- **Motion**: 200ms ease, opacity + 4px translate only. No bouncy springs.
 
-Query construction:
-- Base: `supabase.from("profiles").select("...", { count: "exact" })`
-- Search (`dq`): `.or("username.ilike.%q%,full_name.ilike.%q%,id.ilike.%q%")`
-- Date range: `.gte("created_at", from).lt("created_at", toPlus1)`
-- Ban filter (new control: All / Active / Banned): `.eq("is_banned", true/false)`
-- Sort: `.order(sort.col, { ascending: sort.asc })` (default `created_at desc`)
-- Page window: `.range(page*PAGE_SIZE, page*PAGE_SIZE + PAGE_SIZE - 1)`
+A small set of shared primitives gets added/extended:
 
-Role filter (special — roles live in `user_roles`):
-- When `roleFilter !== "all"`, first run `select("user_id").eq("role", roleFilter)` (cached separately), then `.in("id", ids)` on the profiles query. When the role has zero users, short-circuit and render an empty page without hitting profiles.
+- `PageHero` (title + subtitle + optional meta row)
+- `DetailSection` (h2 + content with consistent vertical rhythm)
+- `MetaRow` (icon + label + value, used for price, duration, level, etc.)
+- Reuse existing `StickyActionBar`, `SectionHeader`, `Skeleton`.
 
-Auxiliary lookups (`learner_profiles`, `lesson_completions` counts, `user_roles`) are scoped to the current page only via `.in("user_id", pageIds)` — no more "fetch everything".
+## Page-by-page changes
 
-Reset to page 0 on filter change with a `useEffect` that watches `[dq, roleFilter, useRange, range.from, range.to, banFilter, sort]`.
+### 1. ProductDetail (`src/pages/ProductDetail.tsx`)
+- Mobile: edge-to-edge gallery (swipe), title block, price row, variant chips (size/color), trust row (COD, return), expandable description, reviews summary + top 3, related products carousel, FAQ. Sticky bottom: qty stepper + Add to cart / Buy now.
+- Desktop: 60/40 split — gallery left (thumbnail rail), info column right with sticky CTA card.
+- Strip nested glass cards from current 316-line file; use flat sections divided by hairlines.
 
-## 2. Visible pagination controls
+### 2. TrackDetail (`src/pages/TrackDetail.tsx`)
+- Hero: cover image (16:9 mobile / 21:9 desktop), title, instructor row, rating + enrollments.
+- Meta row: lessons count · duration · level · language.
+- Tabs: Overview · Curriculum · Reviews · FAQ.
+- Curriculum: collapsible modules with lesson list, lock/complete icons.
+- Sticky enroll CTA mobile; desktop sticky right card with price + Enroll.
 
-Below the table:
-- `« First`  `‹ Prev`  `[1] [2] … [k-1] [k] [k+1] … [N]`  `Next ›`  `Last »`
-- Page numbers built from `totalCount / PAGE_SIZE`, windowed (current ±2, always show first/last, ellipsis in between).
-- Show `Showing X–Y of Z`.
-- All buttons are real `<Button>` and disabled appropriately. Page state survives navigation via the query key (no URL sync requested).
+### 3. LessonDetail (`src/pages/LessonDetail.tsx`)
+- Mobile: video/content full-bleed top, title, progress bar, prev/next pager, notes accordion, "Up next" list.
+- Desktop: left video column, right rail with curriculum tree (current lesson highlighted), Mark complete button.
 
-CSV export switches to "export current page" (default) plus an explicit "Export all matches" that streams via repeated `.range()` calls in 1000-row chunks so it works on very large filtered sets.
+### 4. Cart (`src/pages/Cart.tsx`)
+- Clean list rows (thumbnail · title · variant · qty stepper · line price · remove icon). Hairline dividers, no card-in-card.
+- Summary block: subtotal, shipping, discount input, total.
+- Mobile sticky checkout bar; desktop right summary card.
+- Empty state with single CTA.
 
-## 3. Row-level promote/demote/ban/unban with confirmation
+### 5. Checkout (`src/pages/Checkout.tsx`)
+- Single column on mobile with numbered steps (Contact → Shipping → Payment → Review). Each step a `DetailSection` with inline edit.
+- Desktop: 60/40 split with order summary sticky right.
+- Form inputs use existing shadcn `Input`/`Select` with `h-12` and clean labels above.
 
-Add a per-row actions column using a `DropdownMenu` with items:
-- **Promote to moderator / admin** (super_admin only for admin)
-- **Demote from moderator / admin**
-- **Ban** / **Unban**
-- **Open details**
+### 6. Orders (`src/pages/Orders.tsx`)
+- Filter chips row (All · Processing · Shipped · Delivered · Cancelled).
+- Order rows: id · date · item thumbnails stack · status badge · total · chevron.
+- Empty state.
 
-Each destructive item opens an `AlertDialog` with a clear summary ("Promote @user to admin?") before dispatching the mutation. Mutations:
-- `promote(role)` → `user_roles.insert({ user_id, role })` then `audit({ action: "role.grant", target_type: "user", target_id, meta: { role } })`
-- `demote(role)` → `user_roles.delete().eq(user_id).eq(role)` + `audit("role.revoke")`
-- `setBan(boolean)` → `profiles.update({ is_banned })` + `audit("user.ban" | "user.unban")`
+### 7. OrderDetail (`src/pages/OrderDetail.tsx`)
+- Status timeline (Placed → Confirmed → Shipped → Delivered) horizontal on desktop, vertical on mobile.
+- Items list, shipping address card, payment summary, support CTA.
 
-After success: toast, invalidate `["admin-users"]` and `["admin-all-roles"]`. Super-admin role grants/revokes are blocked in UI (only super admin email can hold that). Bulk-ban bar gains a "Bulk unban" sibling and also logs to audit.
-
-## 4. UserDetailDrawer completion
-
-New 6-tab layout: **Profile · Game · Roles · Orders · Activity · Danger**.
-
-New **Roles tab**:
-- Current role badges (chips with × to revoke).
-- "Grant role" select (`moderator`, `admin`) + Grant button (super_admin only for `admin`).
-- **Role history** list: `admin_audit_log.select("*").eq("target_type","user").eq("target_id", userId).in("action", ["role.grant","role.revoke","user.ban","user.unban"]).order("created_at desc").limit(20)` rendered as a timeline with actor username (joined via a small `profiles` lookup on `actor_id`s).
-
-**Profile tab** gains a read-only header block: User ID (copy), email-domain hint (from auth not available client-side — skip), joined date, last seen, current roles summary, XP / coins / lessons / streak quick stats.
-
-**Activity tab** already shows recent lessons + posts; add an "Audit trail" sub-section that reuses the same `admin_audit_log` query (any action on this user) so admins see the full moderation history in one place.
-
-All role/ban mutations inside the drawer share the same `audit()` calls as the row actions to keep history complete.
-
-## Files
-
-- `src/pages/admin/AdminUsers.tsx` — rewrite query layer, add page-number bar, dropdown actions, ban-status filter, reset-on-filter effect.
-- `src/components/admin/UserDetailDrawer.tsx` — add Roles tab, role history, audit trail section, header stats block.
+### 8. Wishlist (`src/pages/Wishlist.tsx`)
+- 2-col mobile / 4-col desktop product grid reusing `ProductCard`.
+- Bulk "Move all to cart" action in header.
+- Empty state.
 
 ## Out of scope
+- No data model / hook changes. Pages keep reading from the same hooks.
+- Cart/checkout business logic, payment integration, and order state machine are unchanged.
+- Admin pages, Community, Profile, Home are not touched.
+- Header, BottomNav, AppLayout untouched (already redesigned).
 
-- URL-syncing filters/page (can follow if you want it).
-- Hard-deleting `auth.users` (still requires a service-role edge function — current soft delete stays).
-- Realtime updates to the user list.
+## Technical notes
+- Add primitives under `src/components/ui/page-hero.tsx`, `detail-section.tsx`, `meta-row.tsx`.
+- Keep all colors via semantic tokens (`text-foreground`, `bg-background`, `border-border`, `text-primary`). No raw hex.
+- Use `embla-carousel-react` for product gallery and related carousel (matches existing carousel pattern).
+- Use `Tabs` from shadcn for TrackDetail tabs.
+- Skeletons for every async section using `<Skeleton />`.
+- Preserve all current routes, props, and hook calls; only swap JSX/markup.
+
+## Verification
+After implementation: load each route at 393px and 1440px, confirm sticky bars, gallery swipe, tab switching, and empty states render cleanly; typecheck.
+
