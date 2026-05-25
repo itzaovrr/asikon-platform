@@ -1,83 +1,36 @@
-# Sub-Page Redesign — Native-App Minimal
+## Goal
+Make every page feel like it loads in ~1 second on a mid-range phone over 4G. We'll attack the three things that matter most: initial JS cost, image weight, and data-fetch waterfalls.
 
-Goal: bring Product, Course/Track, Lesson, Cart, Checkout, Orders, Order Detail, and Wishlist up to the same clean, native-app quality as the new MobileHeader. Mobile-first (393px) with full desktop layouts. No new business logic — presentation only.
+## What we'll change
 
-## Shared design language
+### 1. Cut initial JavaScript
+- Lazy-load `Index` (currently eagerly imported in `App.tsx`) and keep only the shell + router in the entry bundle.
+- Move heavy below-the-fold home sections (`Testimonials`, `Faq`, `WhyTrust`, `HowItWorks`, `FinalCta`, curated/new-arrivals carousels) behind `React.lazy` + `IntersectionObserver` so they only load when scrolled near.
+- Inside `vite.config.ts`, split `framer-motion`, `next-themes`, `sonner`, and date libs into their own chunks; drop `componentTagger` from production (already dev-only — verify).
+- Replace the `lucide-react` barrel imports with per-icon imports (`lucide-react/dist/esm/icons/...`) on the 5–6 hottest pages so tree-shaking actually works.
 
-All pages adopt the same primitives so they feel like one app:
+### 2. Image weight & LCP
+- Add `vite-imagetools`; serve hero/product/category images as AVIF with WebP fallback at the exact rendered size (393px viewport today).
+- Add `loading="lazy"` + explicit `width`/`height` to every off-screen `<img>`; mark the hero image `fetchpriority="high"` and add a `<link rel="preload">` for it in `index.html`.
+- Convert PNG assets in `src/assets` (logo, avatar, hero) to optimized WebP; remove unused ones.
 
-- **Page chrome**: transparent on top of scroll, frosted `bg-background/80 backdrop-blur-2xl` + 1px hairline once scrolled (reuse `useScrollTop`).
-- **Type**: Space Grotesk for page titles (28/32 mobile, 40/44 desktop), Inter for body. Tight tracking on titles, no all-caps eyebrows.
-- **Surfaces**: flat by default. One subtle elevation only where it earns it (sticky bars, drawers). No nested glass cards.
-- **Borders**: `border-border/40` hairlines, never double-bordered.
-- **Spacing**: 16px gutters mobile, 32px desktop; 24/32/48 section rhythm.
-- **CTAs**: full-width primary on mobile sticky bar; inline on desktop right rail.
-- **Motion**: 200ms ease, opacity + 4px translate only. No bouncy springs.
+### 3. Data fetching
+- Wrap the app in a tuned `QueryClient` (staleTime 60s, gcTime 5m, `refetchOnWindowFocus: false`) and add `placeholderData` so navigations render instantly from cache.
+- On `Index`, batch the home queries (sections, banners, categories, products, mentors) into parallel `useQueries` and prefetch on hover/visible for nav links.
+- Fix the broken `posts?select=*,profiles(*)` query (PGRST200 in current logs) — it's currently retrying and blocking Community render. Switch to a manual join on `user_id` or add the FK.
+- Add `<link rel="preconnect">` to the Supabase domain in `index.html` so the first REST call doesn't pay TLS cost.
 
-A small set of shared primitives gets added/extended:
+### 4. Runtime polish
+- Warm route chunks on idle (`requestIdleCallback`) right after first paint for the BottomNav targets (Shop, Community, Learn, Profile) so taps feel instant.
+- Memoize the heaviest list renderers (product grid, post feed) with `React.memo` + stable keys.
+- Guard `framer-motion` page transitions behind `prefers-reduced-motion` (already partially done) and shorten durations to 180ms to remove perceived latency.
 
-- `PageHero` (title + subtitle + optional meta row)
-- `DetailSection` (h2 + content with consistent vertical rhythm)
-- `MetaRow` (icon + label + value, used for price, duration, level, etc.)
-- Reuse existing `StickyActionBar`, `SectionHeader`, `Skeleton`.
-
-## Page-by-page changes
-
-### 1. ProductDetail (`src/pages/ProductDetail.tsx`)
-- Mobile: edge-to-edge gallery (swipe), title block, price row, variant chips (size/color), trust row (COD, return), expandable description, reviews summary + top 3, related products carousel, FAQ. Sticky bottom: qty stepper + Add to cart / Buy now.
-- Desktop: 60/40 split — gallery left (thumbnail rail), info column right with sticky CTA card.
-- Strip nested glass cards from current 316-line file; use flat sections divided by hairlines.
-
-### 2. TrackDetail (`src/pages/TrackDetail.tsx`)
-- Hero: cover image (16:9 mobile / 21:9 desktop), title, instructor row, rating + enrollments.
-- Meta row: lessons count · duration · level · language.
-- Tabs: Overview · Curriculum · Reviews · FAQ.
-- Curriculum: collapsible modules with lesson list, lock/complete icons.
-- Sticky enroll CTA mobile; desktop sticky right card with price + Enroll.
-
-### 3. LessonDetail (`src/pages/LessonDetail.tsx`)
-- Mobile: video/content full-bleed top, title, progress bar, prev/next pager, notes accordion, "Up next" list.
-- Desktop: left video column, right rail with curriculum tree (current lesson highlighted), Mark complete button.
-
-### 4. Cart (`src/pages/Cart.tsx`)
-- Clean list rows (thumbnail · title · variant · qty stepper · line price · remove icon). Hairline dividers, no card-in-card.
-- Summary block: subtotal, shipping, discount input, total.
-- Mobile sticky checkout bar; desktop right summary card.
-- Empty state with single CTA.
-
-### 5. Checkout (`src/pages/Checkout.tsx`)
-- Single column on mobile with numbered steps (Contact → Shipping → Payment → Review). Each step a `DetailSection` with inline edit.
-- Desktop: 60/40 split with order summary sticky right.
-- Form inputs use existing shadcn `Input`/`Select` with `h-12` and clean labels above.
-
-### 6. Orders (`src/pages/Orders.tsx`)
-- Filter chips row (All · Processing · Shipped · Delivered · Cancelled).
-- Order rows: id · date · item thumbnails stack · status badge · total · chevron.
-- Empty state.
-
-### 7. OrderDetail (`src/pages/OrderDetail.tsx`)
-- Status timeline (Placed → Confirmed → Shipped → Delivered) horizontal on desktop, vertical on mobile.
-- Items list, shipping address card, payment summary, support CTA.
-
-### 8. Wishlist (`src/pages/Wishlist.tsx`)
-- 2-col mobile / 4-col desktop product grid reusing `ProductCard`.
-- Bulk "Move all to cart" action in header.
-- Empty state.
+### 5. Verify
+- Run `browser--performance_profile` on Home, Shop, Community, Learn, Profile before/after and report LCP, TBT, and JS transfer size. Target: LCP < 1.2s on the 393×701 viewport, initial JS < 180KB gzipped.
 
 ## Out of scope
-- No data model / hook changes. Pages keep reading from the same hooks.
-- Cart/checkout business logic, payment integration, and order state machine are unchanged.
-- Admin pages, Community, Profile, Home are not touched.
-- Header, BottomNav, AppLayout untouched (already redesigned).
+No business-logic, schema, or visual redesign changes — purely loading/perf. The one DB exception is fixing the broken `posts → profiles` relationship, because it's actively failing in the network log.
 
 ## Technical notes
-- Add primitives under `src/components/ui/page-hero.tsx`, `detail-section.tsx`, `meta-row.tsx`.
-- Keep all colors via semantic tokens (`text-foreground`, `bg-background`, `border-border`, `text-primary`). No raw hex.
-- Use `embla-carousel-react` for product gallery and related carousel (matches existing carousel pattern).
-- Use `Tabs` from shadcn for TrackDetail tabs.
-- Skeletons for every async section using `<Skeleton />`.
-- Preserve all current routes, props, and hook calls; only swap JSX/markup.
-
-## Verification
-After implementation: load each route at 393px and 1440px, confirm sticky bars, gallery swipe, tab switching, and empty states render cleanly; typecheck.
-
+- Files touched: `src/App.tsx`, `vite.config.ts`, `index.html`, `src/pages/Index.tsx`, `src/components/home/**`, `src/lib/queryClient.ts` (new), a handful of hot pages for icon imports, and possibly one migration to add the `posts.user_id → profiles.user_id` FK.
+- No new runtime deps except `vite-imagetools` (build-time only).
