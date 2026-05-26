@@ -10,7 +10,6 @@ import { PageTransition } from "@/components/transitions/PageTransition";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { installFetchTimer, logRoute } from "@/lib/perf";
-import Index from "./pages/Index";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
 
@@ -58,6 +57,8 @@ const AdminAuditLogMod = () => import("./pages/admin/AdminAuditLog");
 
 const TrackDetailMod = () => import("./pages/TrackDetail");
 const LessonDetailMod = () => import("./pages/LessonDetail");
+const IndexMod = () => import("./pages/Index");
+const Index = lazy(IndexMod);
 
 const Shop = lazy(ShopMod);
 const Community = lazy(CommunityMod);
@@ -125,10 +126,14 @@ function useIdlePrefetch() {
       }
     };
     idle(() => {
+      // Warm the most likely next-nav targets so taps feel instant.
       ShopMod();
+      CommunityMod();
       LearnMod();
+      ProfileMod();
       ProductDetailMod();
       AuthMod();
+      CartMod();
     });
   }, []);
 }
