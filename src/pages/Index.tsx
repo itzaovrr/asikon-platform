@@ -1,9 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { Gift, Flame, Sparkles, GraduationCap, BookOpen, ArrowUpRight } from "lucide-react";
-import { HowItWorks } from "@/components/home/sections/HowItWorks";
-import { WhyTrust } from "@/components/home/sections/WhyTrust";
 import { Link, Navigate } from "react-router-dom";
-import { useMemo } from "react";
+import { lazy, Suspense, useMemo } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { MobilePage } from "@/components/layout/MobilePage";
 
@@ -16,7 +14,6 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/transitions/Reveal";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { MobileScroller } from "@/components/ui/mobile-scroller";
-import { MentorshipHomeSection } from "@/components/mentorship/MentorshipHomeSection";
 import { GreetingStrip } from "@/components/home/workspace/GreetingStrip";
 import { QuickAccessGrid } from "@/components/home/workspace/QuickAccessGrid";
 import { ProgressSnapshot } from "@/components/home/workspace/ProgressSnapshot";
@@ -38,6 +35,13 @@ import { XPBar } from "@/features/progress/XPBar";
 import courseAiMl from "@/assets/course-ai-ml.jpg";
 import coursePython from "@/assets/course-python.jpg";
 import promptLibrary from "@/assets/prompt-library.jpg";
+
+// Lazy-load below-the-fold sections so their JS doesn't block first paint.
+const HowItWorks = lazy(() => import("@/components/home/sections/HowItWorks").then(m => ({ default: m.HowItWorks })));
+const WhyTrust = lazy(() => import("@/components/home/sections/WhyTrust").then(m => ({ default: m.WhyTrust })));
+const MentorshipHomeSection = lazy(() => import("@/components/mentorship/MentorshipHomeSection").then(m => ({ default: m.MentorshipHomeSection })));
+const SectionFallback = () => <div className="section-x"><Skeleton className="w-full h-32 rounded-2xl" /></div>;
+
 
 const heroSlides = [
   { id: "1", image: courseAiMl, eyebrow: "New course", title: "Learn AI with Asikon", subtitle: "Master ML, Python, and modern AI tools — taught by experts", cta: { label: "Browse Courses", href: "/shop?type=courses" }, secondaryCta: { label: "See syllabus", href: "/shop?type=courses" } },
