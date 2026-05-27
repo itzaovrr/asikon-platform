@@ -11,6 +11,7 @@ import {
   clearRecentSearches,
   TRENDING_TERMS,
 } from "@/hooks/useGlobalSearch";
+import { track } from "@/lib/analytics";
 
 interface SmartSearchProps {
   className?: string;
@@ -47,6 +48,7 @@ export function SmartSearch({ className }: SmartSearchProps) {
   const submit = (term: string) => {
     if (!term.trim()) return;
     pushRecentSearch(term);
+    void track("search_performed", { q: term, surface: "desktop" });
     setIsFocused(false);
     setQuery("");
     navigate(`/shop?q=${encodeURIComponent(term)}`);

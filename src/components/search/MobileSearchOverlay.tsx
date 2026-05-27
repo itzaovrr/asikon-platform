@@ -10,6 +10,7 @@ import {
   clearRecentSearches,
   TRENDING_TERMS,
 } from "@/hooks/useGlobalSearch";
+import { track } from "@/lib/analytics";
 
 interface MobileSearchOverlayProps {
   open: boolean;
@@ -56,6 +57,7 @@ export function MobileSearchOverlay({ open, onClose }: MobileSearchOverlayProps)
   const submit = (term: string) => {
     if (!term.trim()) return;
     pushRecentSearch(term);
+    void track("search_performed", { q: term, surface: "mobile" });
     onClose();
     setQuery("");
     navigate(`/shop?q=${encodeURIComponent(term)}`);

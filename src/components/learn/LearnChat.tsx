@@ -225,6 +225,7 @@ export function LearnChat({ threadId }: Props) {
     const value = text.trim();
     if (!value || isBusy) return;
     setInput("");
+    void import("@/lib/analytics").then(({ track }) => track("ai_tutor_message", { thread_id: threadId, length: value.length }));
     sendMessage({ text: value });
   };
 
