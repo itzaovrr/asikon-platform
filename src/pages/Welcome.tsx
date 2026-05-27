@@ -120,14 +120,11 @@ const stories = [
 export default function Welcome() {
   return (
     <div className="min-h-screen bg-background text-foreground antialiased">
-      <Helmet>
-        <title>Asikon — Learn AI, the Bangladeshi Way</title>
-        <meta
-          name="description"
-          content="Asikon is an AI-powered learning platform for Bangladesh. Expert courses, a 24/7 Bangla AI tutor, curated books, and 1-on-1 mentorship."
-        />
-        <link rel="canonical" href="/welcome" />
-      </Helmet>
+      <SEO
+        title="Asikon — Learn AI, the Bangladeshi Way"
+        description="Asikon is an AI-powered learning platform for Bangladesh. Expert courses, a 24/7 Bangla AI tutor, curated books, and 1-on-1 mentorship."
+        url="https://asikonpro.lovable.app/welcome"
+      />
 
       {/* Top Nav */}
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/60">
