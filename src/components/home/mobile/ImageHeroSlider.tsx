@@ -154,7 +154,7 @@ export function ImageHeroSlider() {
               onClick={() => emblaApi?.scrollTo(i)}
               className={cn(
                 "h-1.5 rounded-full transition-all",
-                selected === i ? "w-5 bg-primary" : "w-1.5 bg-white/20",
+                selected === i ? "w-5 bg-primary" : "w-1.5 bg-muted-foreground/30",
               )}
             />
           ))}
