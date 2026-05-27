@@ -24,6 +24,7 @@ import { MobileCoursesTop } from "@/components/home/mobile/MobileCoursesTop";
 import { ImageHeroSlider } from "@/components/home/mobile/ImageHeroSlider";
 import { GalleryCarousel } from "@/components/home/mobile/GalleryCarousel";
 import { FlexiTopSection } from "@/components/home/mobile/FlexiTopSection";
+import { DesktopHeroBento } from "@/components/home/desktop/DesktopHeroBento";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import { useHomeSections, HomeSection } from "@/hooks/useHomeSections";
 import { useAuth } from "@/hooks/useAuth";
@@ -352,7 +353,8 @@ const Index = () => {
         <MobilePage spacing="space-y-5 lg:space-y-14">
           {user ? (
             <>
-              <FlexiTopSection />
+              <div className="hidden lg:block"><DesktopHeroBento /></div>
+              <div className="lg:hidden"><FlexiTopSection /></div>
               {/* 1 — Calm greeting */}
               <GreetingStrip />
 
@@ -384,7 +386,8 @@ const Index = () => {
             </>
           ) : (
             <>
-              <FlexiTopSection />
+              <div className="hidden lg:block"><DesktopHeroBento /></div>
+              <div className="lg:hidden"><FlexiTopSection /></div>
               {heroSection && renderSection(heroSection)}
               <GalleryCarousel />
               {restSections.map(renderSection)}
