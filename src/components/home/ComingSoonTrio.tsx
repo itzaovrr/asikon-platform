@@ -17,26 +17,26 @@ type Item = {
 
 const ITEMS: Item[] = [
   {
-    chip: "Welcome Bonus",
-    title: "Welcome Bonus",
-    subtitle: "Spin the Wheel and win Free Spins!",
-    href: "/courses",
+    chip: "New Courses",
+    title: "Master AI & ML",
+    subtitle: "Expert-led courses in Python, ML and modern AI tools",
+    href: "/shop?type=courses",
     art: courseArt,
     tone: "dark",
   },
   {
-    chip: "Learn for Free",
-    title: "No purchase\nneccessary!",
-    subtitle: "Learn without payment today!",
-    href: "/shop",
+    chip: "Free Library",
+    title: "1000+ AI Prompts",
+    subtitle: "Boost your productivity with our curated prompts",
+    href: "/prompts",
     art: bookArt,
     tone: "gray",
   },
   {
-    chip: "Free Coins",
-    title: "Free Sweep Coins",
-    subtitle: "Earn for free every day!",
-    href: "/mentors",
+    chip: "Rewards",
+    title: "Learning Rewards",
+    subtitle: "Earn coins and XP for every lesson you complete",
+    href: "/game",
     art: teachArt,
     tone: "lime",
   },
@@ -106,15 +106,13 @@ export default function ComingSoonTrio() {
           <h1
             className="font-grotesk text-[26px] font-black leading-[1.02] tracking-[-0.03em] text-[#0e0e10] sm:text-[56px]"
           >
-            Nº1 Free-To-Play
+            NO-1 Free-To-Learn
             <br />
             <span className="relative inline-block">
-              Social Casino
+              Platformeeee
               {/* tilted sticker */}
               <span className="absolute -right-0.5 top-[38%] rotate-[-8deg] rounded-[5px] border border-black/10 bg-white px-1 py-0.5 text-center text-[7px] font-semibold leading-tight text-[#0e0e10] shadow-sm sm:-right-3 sm:rounded-[6px] sm:px-1.5 sm:text-[10px]">
-                No purchase
-                <br />
-                neccessary
+                Platform 2026eeee
               </span>
             </span>
           </h1>
