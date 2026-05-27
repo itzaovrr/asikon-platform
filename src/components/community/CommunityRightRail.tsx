@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Sparkles, TrendingUp, Radio, ArrowUpRight } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const creators = [
   { id: "1", name: "Asikon Academy", username: "asikon_academy", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop", followers: "84k" },
