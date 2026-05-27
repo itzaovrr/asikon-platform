@@ -389,24 +389,24 @@ const Index = () => {
               </section>
 
               {/* 4 — Continue where you left off */}
-              <ContinueLearningRow />
+              <Suspense fallback={<SectionFallback />}><ContinueLearningRow /></Suspense>
 
               {/* 5 — Four calm tiles: Tutor / Shop / Community / Mentors */}
               <QuickAccessGrid />
 
               {/* 6 — AI assistant entry */}
-              <AiAssistantBox />
+              <Suspense fallback={<SectionFallback />}><AiAssistantBox /></Suspense>
 
               {/* 7 — Discovery: courses + commerce sections (admin-ordered) */}
-              <MobileCoursesTop />
-              <GalleryCarousel />
-              <MasterpieceShowcase />
-              <ComingSoonTrio />
+              <Suspense fallback={<SectionFallback />}><MobileCoursesTop /></Suspense>
+              <Suspense fallback={<SectionFallback />}><GalleryCarousel /></Suspense>
+              <Suspense fallback={<SectionFallback />}><MasterpieceShowcase /></Suspense>
+              <Suspense fallback={<SectionFallback />}><ComingSoonTrio /></Suspense>
               {restSections.map(renderSection)}
 
               {/* 8 — Quiet personal footer: progress + activity */}
-              <ProgressSnapshot />
-              <ActivityFeed />
+              <Suspense fallback={<SectionFallback />}><ProgressSnapshot /></Suspense>
+              <Suspense fallback={<SectionFallback />}><ActivityFeed /></Suspense>
             </>
           ) : (
             <>
@@ -414,9 +414,9 @@ const Index = () => {
               <div className="lg:hidden"><FlexiTopSection /></div>
               {heroSection && renderSection(heroSection)}
               <BrandStrip />
-              <GalleryCarousel />
-              <MasterpieceShowcase />
-              <ComingSoonTrio />
+              <Suspense fallback={<SectionFallback />}><GalleryCarousel /></Suspense>
+              <Suspense fallback={<SectionFallback />}><MasterpieceShowcase /></Suspense>
+              <Suspense fallback={<SectionFallback />}><ComingSoonTrio /></Suspense>
               {restSections.map(renderSection)}
             </>
           )}
