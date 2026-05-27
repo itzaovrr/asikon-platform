@@ -1,39 +1,38 @@
-# New · Coming soon section
+# Exact-match Coming Soon cards
 
-Add a new section to the home page showing 3 upcoming items: one course, one book, one teaching service. Layout inspired by the reference (3-column card row with category chip, title, subtitle, and visual).
+Rebuild `src/components/home/ComingSoonTrio.tsx` so the three cards visually match the reference 1:1.
 
-## Placement
+## Card specs (3-column grid, equal height, rounded-3xl)
 
-`src/pages/Index.tsx` — insert directly after `<MasterpieceShowcase />` (in both logged-in and logged-out branches) so it sits within the discovery flow.
+| # | Background | Text | Chip | Illustration |
+|---|---|---|---|---|
+| 1 Course | Solid black `#0e0e10` | White | White pill, dark text, leading dot | Stylized 3D "course wheel" (course cards fanned out) |
+| 2 Book | Light gray `#ececec` | Near-black | White pill, dark text, leading dot | 3D book + AI chip illustration overlapping the card |
+| 3 Teaching | Lime green `#c8ff5a` | Near-black | White pill, dark text, leading dot | 3D "GAME ON"–style tag → swap to "BOOK NOW" tutor badge illustration |
 
-## New component
+Colors are baked in to match the reference exactly (per user request); brand red tokens are not used here.
 
-`src/components/home/ComingSoonTrio.tsx`
+## Layout per card (matches reference precisely)
+- Padding `p-5`, fixed min-height
+- Top: small white pill chip with `•` dot + label
+- Big bold title (Inter/Space Grotesk, ~28px, tight tracking)
+- One-line subtitle below title
+- Illustration anchored bottom, slightly overflowing the bottom-right edge (negative margins + `overflow-hidden` on card)
+- Card uses subtle shadow + hover lift
 
-- Section header: "New · Coming soon" (Space Grotesk), small subtitle "Fresh drops landing soon".
-- Grid: `grid-cols-1 md:grid-cols-3 gap-4`.
-- Three cards, each:
-  - Category chip pill ("Course" / "Book" / "1-on-1 Teaching")
-  - Title + one-line subtitle
-  - Visual area (image or illustrative tile) at bottom
-  - "Coming soon" status badge with countdown-style dot
-  - Hover lift + glow using existing `midnight-tile` / brand dark-red gradient tokens
-- CTA per card: "Notify me" → opens existing `MentorWaitlistSheet` for the teaching card; for course/book, routes to `/courses` and `/shop` respectively with a toast "We'll notify you on launch".
+## Illustrations
+Generate 3 PNG illustrations with transparent backgrounds via `imagegen` (premium tier for crispness):
+- `src/assets/coming-soon-course.png` — playful 3D fanned course-cards wheel
+- `src/assets/coming-soon-book.png` — 3D hardcover book + glowing AI chip
+- `src/assets/coming-soon-teaching.png` — 3D rounded tag "BOOK NOW" + tutor avatar card, isometric
 
-## Card content (initial static seed)
+Style prompt across all 3: "playful 3D isometric illustration, soft shadows, glossy plastic and matte surfaces, clean studio render, on transparent background, modern web illustration"
 
-1. **Course** — "Agentic AI Engineering" · "Build production AI agents end-to-end" · launches Q3
-2. **Book** — "Prompting in Practice" · "Field guide for serious AI users" · launches next month
-3. **Teaching** — "1-on-1 Python for Kids" · "Personal tutor, weekly sessions" · waitlist open
+## Section header
+Keep the existing "What's next / New · Coming soon" header above the trio.
 
-Images: reuse existing course/book covers from `src/assets` where available; otherwise generate 3 brand-aligned illustrations (dark red gradient, glass) at 1024x1024.
+## Files
+- Rewrite: `src/components/home/ComingSoonTrio.tsx`
+- New assets: 3 PNGs in `src/assets/`
 
-## Styling
-
-- Use semantic tokens only (`bg-card`, `text-foreground`, `border-border`, `--gradient-primary`).
-- Each card gets a distinct accent: course = primary red gradient, book = muted glass, teaching = accent highlight — all within brand palette (no neon green from reference).
-- Rounded `rounded-3xl`, `p-5`, subtle ring on hover.
-
-## Out of scope
-
-- No backend table; static array in component for now. Easy to swap to Supabase later.
+No other files change.
