@@ -90,13 +90,13 @@ export function AdminBottomNav() {
               <span>More</span>
             </button>
           </SheetTrigger>
-          <SheetContent side="bottom" className="rounded-t-3xl glass-strong border-border/60 max-h-[80vh] overflow-y-auto">
+          <SheetContent side="bottom" className="rounded-t-3xl glass-strong border-border/60 max-h-[85vh] overflow-y-auto pb-8">
             <SheetHeader className="text-left">
               <SheetTitle>
                 <span className="text-gradient">Admin menu</span>
               </SheetTitle>
             </SheetHeader>
-            <div className="grid grid-cols-3 gap-3 mt-4 pb-6">
+            <div className="grid grid-cols-3 gap-3 mt-4">
               {more.map((item) => {
                 const active = isActive(item.url, item.end);
                 return (
