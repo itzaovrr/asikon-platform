@@ -105,7 +105,7 @@ export function GalleryCarousel() {
         </motion.div>
 
         {/* Cards stage */}
-        <div className="relative h-[280px] sm:h-[360px] flex items-center justify-center">
+        <div className="relative h-[240px] sm:h-[320px] flex items-center justify-center">
           {SLIDES.map((s, i) => {
             const isHover = hovered === i;
             return (
