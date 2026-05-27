@@ -272,20 +272,15 @@ export function LearnChat({ threadId }: Props) {
 
   return (
     <div className="relative flex flex-col h-full min-h-0 bg-background">
-      {/* Header — slim glass bar, brand wash */}
-      <header className="shrink-0 relative flex items-center gap-2 px-3 lg:px-6 h-12 border-b border-border/60 backdrop-blur-xl bg-background/75">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.12]"
-          style={{ background: "var(--gradient-primary)" }}
-          aria-hidden
-        />
+      {/* Header — calm white bar, hairline border */}
+      <header className="shrink-0 relative flex items-center gap-2 px-3 lg:px-6 h-14 border-b border-border bg-background/85 backdrop-blur-xl">
         {/* Mobile thread switcher */}
         <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
           <SheetTrigger asChild>
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden relative h-9 w-9 rounded-full"
+              className="lg:hidden h-9 w-9 rounded-full"
               aria-label="Your chats"
             >
               <PanelLeft className="w-4 h-4" />
@@ -300,22 +295,15 @@ export function LearnChat({ threadId }: Props) {
         </Sheet>
 
         {/* Title + persona */}
-        <div className="relative flex-1 min-w-0 flex items-center gap-2.5">
-          <div className="relative shrink-0">
-            <span
-              className="absolute inset-0 rounded-full blur-md opacity-60"
-              style={{ background: "var(--gradient-primary)" }}
-              aria-hidden
-            />
-            <img
-              src={tutorAvatar}
-              alt=""
-              className="relative w-7 h-7 rounded-full"
-            />
-          </div>
+        <div className="flex-1 min-w-0 flex items-center gap-2.5">
+          <img
+            src={tutorAvatar}
+            alt=""
+            className="w-7 h-7 rounded-full shrink-0"
+          />
           <div className="min-w-0">
             <div className="text-sm font-semibold truncate leading-tight">{threadTitle}</div>
-            <div className="text-[10.5px] text-muted-foreground leading-tight">
+            <div className="text-[11px] text-muted-foreground leading-tight">
               Apu · your ASIKON tutor
             </div>
           </div>
@@ -405,14 +393,9 @@ export function LearnChat({ threadId }: Props) {
         </button>
       )}
 
-      {/* Composer — last flex child, never under the bottom nav */}
-      <div className="shrink-0 relative px-3 sm:px-6 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] border-t border-border/60 backdrop-blur-xl bg-background/90">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.08]"
-          style={{ background: "var(--gradient-primary)" }}
-          aria-hidden
-        />
-        <div className="relative mx-auto w-full max-w-3xl space-y-2">
+      {/* Composer — calm white surface, hairline border, no gradient wash */}
+      <div className="shrink-0 px-3 sm:px-6 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] border-t border-border bg-background/95 backdrop-blur-xl">
+        <div className="mx-auto w-full max-w-3xl space-y-2">
           {/* Action chips */}
           {!isEmpty && (
             <div className="flex gap-2 overflow-x-auto scrollbar-none -mx-1 px-1">
@@ -423,7 +406,7 @@ export function LearnChat({ threadId }: Props) {
                     setInput((v) => (v ? `${v} ${chip}` : chip));
                     textareaRef.current?.focus();
                   }}
-                  className="shrink-0 px-3 py-1 rounded-full border border-border bg-card/80 hover:bg-card hover:border-primary/40 text-[11px] font-medium whitespace-nowrap transition-colors"
+                  className="shrink-0 px-3 py-1 rounded-full border border-border bg-card hover:bg-secondary text-[12px] font-medium whitespace-nowrap transition-colors"
                 >
                   {chip}
                 </button>
@@ -434,10 +417,9 @@ export function LearnChat({ threadId }: Props) {
           {/* Composer card */}
           <div
             className={cn(
-              "rounded-3xl border border-border bg-card",
-              "shadow-[0_8px_28px_-14px_hsl(var(--primary)/0.45)]",
-              "focus-within:border-primary/60 focus-within:shadow-[0_10px_36px_-12px_hsl(var(--primary)/0.6)]",
-              "transition-all px-3 pt-2 pb-1.5",
+              "rounded-2xl border border-border bg-card shadow-sm",
+              "focus-within:border-primary focus-within:shadow-md",
+              "transition-[border-color,box-shadow] duration-200 px-3 pt-2 pb-1.5",
             )}
           >
             <textarea
@@ -452,7 +434,7 @@ export function LearnChat({ threadId }: Props) {
               }}
               placeholder="Ask Apu anything…"
               rows={1}
-              className="w-full resize-none bg-transparent outline-none text-[15px] leading-6 placeholder:text-muted-foreground/70 max-h-[200px]"
+              className="w-full resize-none bg-transparent outline-none text-[15px] leading-6 placeholder:text-muted-foreground max-h-[200px]"
               autoFocus
               aria-label="Message Apu"
             />
@@ -462,7 +444,7 @@ export function LearnChat({ threadId }: Props) {
                   onClick={filesComingSoon}
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8 rounded-full text-muted-foreground/70 hover:text-foreground"
+                  className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
                   aria-label="Attach a file — coming soon"
                   title="Attach a file — coming soon"
                 >
@@ -472,7 +454,7 @@ export function LearnChat({ threadId }: Props) {
                   onClick={voiceComingSoon}
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8 rounded-full text-muted-foreground/70 hover:text-foreground"
+                  className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
                   aria-label="Voice input — coming soon"
                   title="Voice input — coming soon"
                 >
@@ -484,9 +466,7 @@ export function LearnChat({ threadId }: Props) {
                   <span
                     className={cn(
                       "text-[11px] tabular-nums",
-                      input.length > 2000
-                        ? "text-destructive"
-                        : "text-muted-foreground/70",
+                      input.length > 2000 ? "text-destructive" : "text-muted-foreground",
                     )}
                   >
                     {input.length}
@@ -497,19 +477,18 @@ export function LearnChat({ threadId }: Props) {
                     onClick={stop}
                     size="icon"
                     variant="secondary"
-                    className="h-9 w-9 rounded-full relative"
+                    className="h-9 w-9 rounded-full"
                     aria-label="Stop reply"
                     title="Stop reply"
                   >
-                    <span className="absolute inset-0 rounded-full animate-ping bg-primary/30" />
-                    <Square className="w-3.5 h-3.5 fill-current relative" />
+                    <Square className="w-3.5 h-3.5 fill-current" />
                   </Button>
                 ) : (
                   <Button
                     onClick={() => handleSend(input)}
                     disabled={!input.trim()}
                     size="icon"
-                    className="h-9 w-9 rounded-full gradient-primary text-primary-foreground disabled:opacity-40 transition-transform active:scale-95 hover:shadow-[0_0_20px_-2px_hsl(var(--primary)/0.7)]"
+                    className="h-9 w-9 rounded-full"
                     aria-label="Send message"
                     title="Send"
                   >
@@ -519,7 +498,7 @@ export function LearnChat({ threadId }: Props) {
               </div>
             </div>
           </div>
-          <p className="text-[10.5px] text-center text-muted-foreground/70 pt-0.5">
+          <p className="text-[11px] text-center text-muted-foreground pt-1">
             Apu can make mistakes — double-check important facts.
           </p>
         </div>
@@ -551,63 +530,55 @@ function TypingIndicator() {
   return (
     <div className="flex items-center gap-2.5 animate-fade-in" aria-live="polite">
       <img src={tutorAvatar} alt="" className="w-6 h-6 rounded-full shrink-0" />
-      <span className="inline-flex items-end gap-1 h-4">
-        <span className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce [animation-delay:-0.3s]" />
-        <span className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce [animation-delay:-0.15s]" />
-        <span className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" />
+      <span
+        className="text-sm font-medium bg-clip-text text-transparent bg-[linear-gradient(90deg,hsl(var(--muted-foreground)),hsl(var(--foreground)),hsl(var(--muted-foreground)))] bg-[length:200%_100%] animate-[shimmer_2s_linear_infinite] motion-reduce:animate-none motion-reduce:text-muted-foreground"
+      >
+        Apu is thinking…
       </span>
-      <span className="text-sm text-muted-foreground">Apu is thinking…</span>
     </div>
   );
 }
 
 function EmptyState({ onPick }: { onPick: (s: string) => void }) {
   return (
-    <div className="mx-auto w-full max-w-2xl px-4 py-6 animate-fade-in">
-      <div className="flex flex-col items-center text-center mb-7">
-        <div className="relative mb-4">
-          <div
-            className="absolute inset-0 -m-6 rounded-full blur-2xl opacity-60 animate-pulse"
-            style={{ background: "var(--gradient-primary)" }}
-            aria-hidden
-          />
-          <img
-            src={tutorAvatar}
-            alt="Apu, your ASIKON tutor"
-            className="relative w-20 h-20 drop-shadow-[0_8px_24px_hsl(var(--primary)/0.45)]"
-            width={512}
-            height={512}
-          />
-        </div>
-        <h1 className="text-2xl font-bold mb-1.5 text-gradient">Hi, I'm Apu</h1>
-        <p className="text-muted-foreground text-sm max-w-md leading-relaxed">
+    <div className="mx-auto w-full max-w-2xl px-4 py-8 animate-fade-in">
+      <div className="flex flex-col items-center text-center mb-8">
+        <img
+          src={tutorAvatar}
+          alt="Apu, your ASIKON tutor"
+          className="w-20 h-20 mb-4"
+          width={512}
+          height={512}
+        />
+        <h1 className="text-2xl font-semibold tracking-tight mb-2 text-foreground">Hi, I'm Apu</h1>
+        <p className="text-muted-foreground text-[15px] max-w-md leading-relaxed">
           Stuck on a chapter? Ask me anything — SSC, HSC, Math, Physics, English.
           I'll explain in English or Bangla, whichever helps.
         </p>
       </div>
 
-      <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground/70 mb-3 px-1">
+      <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground mb-3 px-1">
         Not sure where to start?
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-6">
         {QUICK_PROMPTS.map((q) => {
           const Icon = q.icon;
           return (
             <button
               key={q.label}
               onClick={() => onPick(q.prompt)}
-              className="group flex items-start gap-3 text-left p-3.5 rounded-2xl bg-card border border-border hover:border-primary/40 hover:bg-card/80 transition-all hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+              className="group flex items-start gap-3 text-left p-4 rounded-2xl bg-card border border-border hover:border-foreground/20 hover:bg-secondary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
-              <span className="shrink-0 w-8 h-8 rounded-xl flex items-center justify-center bg-primary/10 text-primary group-hover:bg-primary/15 transition-colors">
+              <span className="shrink-0 w-9 h-9 rounded-xl flex items-center justify-center bg-primary/8 text-primary">
                 <Icon className="w-4 h-4" />
               </span>
-              <span className="text-sm font-medium leading-snug pt-1">{q.label}</span>
+              <span className="text-[14px] font-medium leading-snug pt-1.5">{q.label}</span>
             </button>
           );
         })}
       </div>
 
-      <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground/70 mb-2 px-1">
+      <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground mb-2 px-1">
         What I'm good at
       </p>
       <div className="grid grid-cols-3 gap-2">
@@ -616,7 +587,7 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
           return (
             <div
               key={c.label}
-              className="flex flex-col items-center gap-1.5 p-2.5 rounded-xl bg-card/60 border border-border/60"
+              className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-card border border-border"
             >
               <Icon className="w-4 h-4 text-primary" />
               <span className="text-[11px] font-medium text-center leading-tight text-muted-foreground">
@@ -729,7 +700,7 @@ function MessageRow({
             "text-foreground text-[15px] leading-relaxed",
             "prose prose-sm dark:prose-invert max-w-none break-words",
             "prose-p:my-2 prose-headings:mt-3 prose-headings:mb-1.5 prose-li:my-0.5",
-            "prose-pre:my-2 prose-pre:rounded-lg prose-pre:overflow-x-auto prose-pre:text-xs prose-pre:bg-secondary/60",
+            "prose-pre:my-2 prose-pre:rounded-xl prose-pre:overflow-x-auto prose-pre:text-[13px] prose-pre:font-mono prose-pre:bg-secondary prose-pre:border prose-pre:border-border",
             "prose-code:before:content-none prose-code:after:content-none prose-code:break-words",
             "prose-a:text-primary prose-a:break-all",
             "[&_table]:block [&_table]:overflow-x-auto [&_table]:text-xs [&_img]:rounded-lg",
