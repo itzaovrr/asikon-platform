@@ -186,7 +186,7 @@ function ImageTextRow({
   const Media = (
     <div
       className={cn(
-        "relative aspect-[4/5] sm:aspect-[5/4] lg:aspect-[5/6] rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden border border-white/10 group",
+        "relative mx-auto w-full max-w-[420px] sm:max-w-none aspect-[16/10] sm:aspect-[5/4] lg:aspect-[5/6] rounded-2xl sm:rounded-[2rem] overflow-hidden border border-white/10 group",
         reverse ? "lg:col-span-5" : "lg:col-span-6",
       )}
     >
@@ -199,25 +199,25 @@ function ImageTextRow({
         className="w-full h-full object-cover transition-transform duration-[1400ms] group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-gradient-to-tr from-background/40 via-transparent to-transparent" />
-      <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[1.5rem] sm:rounded-[2rem] pointer-events-none" />
+      <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-2xl sm:rounded-[2rem] pointer-events-none" />
     </div>
   );
 
   const Copy = (
     <div
       className={cn(
-        "lg:py-6",
+        "text-center lg:text-left lg:py-6",
         reverse ? "lg:col-span-7 lg:pr-10" : "lg:col-span-6 lg:pl-6",
       )}
     >
-      <p className="eyebrow-bar mb-3">{eyebrow}</p>
+      <p className="eyebrow-bar mb-3 justify-center lg:justify-start inline-flex lg:flex">{eyebrow}</p>
       <h2
         className="font-display font-semibold tracking-[-0.025em] leading-[1.05] text-foreground"
-        style={{ fontSize: "clamp(1.85rem, 4vw, 3rem)" }}
+        style={{ fontSize: "clamp(1.7rem, 4vw, 3rem)" }}
       >
         {title}
       </h2>
-      <p className="mt-5 max-w-[52ch] text-[15px] sm:text-base leading-[1.65] text-muted-foreground">
+      <p className="mt-4 sm:mt-5 mx-auto lg:mx-0 max-w-[48ch] sm:max-w-[52ch] text-[14.5px] sm:text-base leading-[1.65] text-muted-foreground">
         {body}
       </p>
     </div>
