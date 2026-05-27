@@ -17,7 +17,7 @@ export function BrandStrip() {
 
   return (
     <section className="section-x" aria-label="Featured brands">
-      <div className="relative overflow-hidden py-6 lg:py-8 group/marquee">
+      <div className="relative overflow-hidden py-6 lg:py-8">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-y-0 left-0 w-16 lg:w-24 z-10 bg-gradient-to-r from-background to-transparent"
@@ -48,7 +48,7 @@ export function BrandStrip() {
         .brand-marquee {
           animation: marquee 40s linear infinite;
         }
-        .group\\/marquee:hover .brand-marquee {
+        .brand-marquee:has(.brand-item:hover) {
           animation-play-state: paused;
         }
         .brand-item:hover {
