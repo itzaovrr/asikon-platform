@@ -86,7 +86,7 @@ export function GalleryCarousel() {
 
       <div
         ref={ref}
-        className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-background via-background to-primary/5 px-4 py-10 sm:py-16 ring-1 ring-primary/10"
+        className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-background via-background to-primary/5 px-4 py-6 sm:py-10 ring-1 ring-primary/10"
       >
         {/* Ambient glows */}
         <div aria-hidden className="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 w-[420px] h-[420px] rounded-full bg-primary/15 blur-3xl" />
