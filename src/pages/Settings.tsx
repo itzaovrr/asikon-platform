@@ -290,9 +290,11 @@ function PrefRow({
 
 function Row({ label, value }: { label: string; value?: string | null }) {
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between py-2.5 gap-3">
       <span className="text-muted-foreground">{label}</span>
-      <span>{value || "Not set"}</span>
+      <span className={value ? "text-foreground text-right truncate" : "text-muted-foreground/60 text-right"}>
+        {value || "Not set"}
+      </span>
     </div>
   );
 }
@@ -308,12 +310,12 @@ function ToggleRow({
   disabled?: boolean;
 }) {
   return (
-    <div className="flex items-center justify-between gap-3">
-      <div className="flex items-start gap-2 min-w-0">
-        {icon}
+    <div className="flex items-center justify-between gap-3 px-1 py-3">
+      <div className="flex items-start gap-2.5 min-w-0">
+        {icon && <span className="mt-0.5">{icon}</span>}
         <div className="min-w-0">
-          <p className="font-medium text-sm">{title}</p>
-          <p className="text-xs text-muted-foreground">{desc}</p>
+          <p className="font-medium text-[14px]">{title}</p>
+          <p className="text-[12px] text-muted-foreground">{desc}</p>
         </div>
       </div>
       <Switch checked={checked} onCheckedChange={onChange} disabled={disabled} />
