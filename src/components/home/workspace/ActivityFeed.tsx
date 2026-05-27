@@ -63,7 +63,7 @@ export function ActivityFeed() {
   return (
     <section className="section-x">
       <SectionHeader title="Recent activity" subtitle="Your last few wins" />
-      <ul className="rounded-2xl glass border border-border/60 divide-y divide-border/40 overflow-hidden">
+      <ul className="rounded-2xl bg-card border border-border divide-y divide-border/60 overflow-hidden">
         {items.map((it) => {
           const Icon = it.icon;
           return (
