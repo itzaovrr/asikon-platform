@@ -116,6 +116,8 @@ export default {
       fontFamily: {
         sans: [
           'Inter',
+          'Hind Siliguri',
+          'Noto Sans Bengali',
           'ui-sans-serif',
           'system-ui',
           '-apple-system',
@@ -125,9 +127,17 @@ export default {
           'sans-serif'
         ],
         display: [
-          'Space Grotesk',
+          'Inter',
+          'Hind Siliguri',
           'ui-sans-serif',
           'system-ui',
+          'sans-serif'
+        ],
+        bangla: [
+          'Hind Siliguri',
+          'Noto Sans Bengali',
+          'Inter',
+          'ui-sans-serif',
           'sans-serif'
         ],
         mono: [
@@ -137,6 +147,18 @@ export default {
           'Menlo',
           'monospace'
         ]
+      },
+      fontSize: {
+        'display-xl': ['3.5rem', { lineHeight: '1.05', letterSpacing: '-0.03em', fontWeight: '700' }],
+        'display': ['2.5rem', { lineHeight: '1.08', letterSpacing: '-0.025em', fontWeight: '700' }],
+        'h1': ['2rem', { lineHeight: '1.12', letterSpacing: '-0.022em', fontWeight: '600' }],
+        'h2': ['1.5rem', { lineHeight: '1.2', letterSpacing: '-0.018em', fontWeight: '600' }],
+        'h3': ['1.25rem', { lineHeight: '1.3', letterSpacing: '-0.014em', fontWeight: '600' }],
+        'caption': ['0.8125rem', { lineHeight: '1.4', letterSpacing: '0' }]
+      },
+      maxWidth: {
+        'container-apple': '1200px',
+        'reading': '720px'
       }
     }
   },
