@@ -285,7 +285,7 @@ export function ProfileHeader({
         )}
 
         {(user.location || user.website || user.joinedAt) && (
-          <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-xs text-muted-foreground max-w-md">
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-[12px] text-muted-foreground max-w-md">
             {user.location && (
               <span className="inline-flex items-center gap-1">
                 <MapPin className="h-3.5 w-3.5" aria-hidden />
@@ -297,7 +297,7 @@ export function ProfileHeader({
                 href={user.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-primary hover:underline truncate max-w-[12rem] focus-ring rounded"
+                className="inline-flex items-center gap-1 text-foreground hover:underline truncate max-w-[12rem] focus-ring rounded"
               >
                 <LinkIcon className="h-3.5 w-3.5 shrink-0" aria-hidden />
                 <span className="truncate">{user.website.replace(/^https?:\/\//, "")}</span>
