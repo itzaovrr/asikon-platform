@@ -163,7 +163,7 @@ export function LearnChat({ threadId, onBack }: Props) {
 
   const { messages, sendMessage, status, stop, regenerate } = useChat({
     id: threadId,
-    messages: initial,
+    messages: initial as any,
     transport,
     onError: (e) => {
       const msg = (e as Error).message || "";
