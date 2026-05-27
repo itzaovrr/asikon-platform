@@ -88,10 +88,7 @@ export function TodayMissionCard() {
 
 function CardShell({ children }: { children: React.ReactNode }) {
   return (
-    <div
-      className="relative overflow-hidden rounded-3xl border border-primary/25 p-5 lg:p-6"
-      style={{ background: "var(--gradient-primary-soft)" }}
-    >
+    <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-5 lg:p-6">
       {children}
     </div>
   );
