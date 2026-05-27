@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Search, Copy, Check, Wand2, Sparkles, Code2, GraduationCap, Briefcase, PenTool, Megaphone, Brain } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { SEO } from "@/components/SEO";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/transitions/Reveal";
 import { Input } from "@/components/ui/input";
