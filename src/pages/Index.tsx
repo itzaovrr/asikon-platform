@@ -399,6 +399,7 @@ const Index = () => {
               <BrandStrip />
               <GalleryCarousel />
               <MasterpieceShowcase />
+              <ComingSoonTrio />
               {restSections.map(renderSection)}
             </>
           )}
