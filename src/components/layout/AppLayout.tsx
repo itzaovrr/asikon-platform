@@ -9,6 +9,7 @@ import { Sidebar } from "./Sidebar";
 import { SiteFooter } from "./SiteFooter";
 
 import { MobileSearchOverlay } from "@/components/search/MobileSearchOverlay";
+import { SkipLink } from "@/components/ui/skip-link";
 import { cn } from "@/lib/utils";
 
 
@@ -100,6 +101,7 @@ export function AppLayout({
   return (
     <SidebarContext.Provider value={{ isCollapsed, setIsCollapsed }}>
       <div className="min-h-dvh bg-background">
+        <SkipLink />
         {/* Header */}
         {isMobile ? (
           <MobileHeader
@@ -132,6 +134,7 @@ export function AppLayout({
 
         {/* Main Content */}
         <main
+          id="main-content"
           className={cn(
             fillViewport ? "h-[100dvh] overflow-hidden" : "min-h-dvh",
             "transition-all duration-300",
