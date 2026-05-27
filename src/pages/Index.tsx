@@ -252,10 +252,21 @@ const Index = () => {
 
   return (
     <AppLayout>
-      <Helmet>
-        <title>Asikon — AI-Powered Learning Platform</title>
-        <meta name="description" content="Master AI, Python, and modern skills with expert-led courses, a 24/7 AI tutor, and a community of learners." />
-      </Helmet>
+      <SEO
+        title="Asikon — AI-Powered Learning Platform"
+        description="Master AI, Python, and modern skills with expert-led courses, a 24/7 AI tutor, and a community of learners."
+        url="https://asikonpro.lovable.app/"
+      >
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: [
+            { "@type": "Question", name: "What is Asikon?", acceptedAnswer: { "@type": "Answer", text: "Asikon is an AI-powered learning platform with courses, books, a 24/7 AI tutor, and 1-on-1 mentorship." } },
+            { "@type": "Question", name: "Is cash on delivery available?", acceptedAnswer: { "@type": "Answer", text: "Yes — cash on delivery is available across Bangladesh on all shop orders." } },
+            { "@type": "Question", name: "Do I get a certificate?", acceptedAnswer: { "@type": "Answer", text: "Yes, every Asikon course includes a verified completion certificate you can share on LinkedIn or your CV." } },
+          ],
+        })}</script>
+      </SEO>
       <MobilePage spacing="space-y-3 lg:space-y-14">
         {user ? (
           <>
