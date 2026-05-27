@@ -99,7 +99,7 @@ export function AppLayout({
 
   return (
     <SidebarContext.Provider value={{ isCollapsed, setIsCollapsed }}>
-      <div className="min-h-screen bg-background">
+      <div className="min-h-dvh bg-background">
         {/* Header */}
         {isMobile ? (
           <MobileHeader
@@ -133,7 +133,7 @@ export function AppLayout({
         {/* Main Content */}
         <main
           className={cn(
-            fillViewport ? "h-[100dvh] overflow-hidden" : "min-h-screen",
+            fillViewport ? "h-[100dvh] overflow-hidden" : "min-h-dvh",
             "transition-all duration-300",
             !fillViewport && isMobile && showBottomNav && "pb-28",
             !isMobile && showDesktopSidebar && (isCollapsed ? "lg:pl-16" : "lg:pl-60"),

@@ -36,7 +36,7 @@ export class ErrorBoundary extends Component<Props, State> {
     if (!this.state.error) return this.props.children;
 
     return (
-      <main className="relative min-h-screen w-full bg-background flex items-center justify-center px-6 overflow-hidden">
+      <main className="relative min-h-dvh w-full bg-background flex items-center justify-center px-6 overflow-hidden">
         <div
           aria-hidden
           className="pointer-events-none absolute -top-40 -left-40 w-[480px] h-[480px] rounded-full blur-[140px] bg-primary/20"

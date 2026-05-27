@@ -331,14 +331,14 @@ const Auth = () => {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-dvh bg-background flex items-center justify-center">
         <Loader2 className="h-6 w-6 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <main className="relative min-h-screen w-full bg-background overflow-hidden">
+    <main className="relative min-h-dvh w-full bg-background overflow-hidden">
       <SEO
         title="Sign in"
         description="Sign in or create your Asikon account to access AI tutoring, courses, and the learner community."
@@ -361,7 +361,7 @@ const Auth = () => {
         }}
       />
 
-      <div className="relative z-10 grid lg:grid-cols-2 min-h-screen">
+      <div className="relative z-10 grid lg:grid-cols-2 min-h-dvh">
         {/* ============== Brand pane (desktop only) ============== */}
         <aside className="hidden lg:flex relative flex-col justify-between p-12 xl:p-16 overflow-hidden">
           <div
@@ -460,7 +460,7 @@ const Auth = () => {
 
         {/* ============== Form pane ============== */}
         <section
-          className="relative flex flex-col px-5 sm:px-8 pt-[max(2rem,env(safe-area-inset-top))] lg:py-14 min-h-screen lg:items-center lg:justify-center"
+          className="relative flex flex-col px-5 sm:px-8 pt-[max(2rem,env(safe-area-inset-top))] lg:py-14 min-h-dvh lg:items-center lg:justify-center"
           style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))" }}
         >
           <div className="w-full max-w-[440px] mx-auto animate-fade-in flex-1 flex flex-col lg:block">
