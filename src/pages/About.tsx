@@ -536,11 +536,11 @@ const About = () => {
       <Reveal as="div"><GlassStats /></Reveal>
 
       <Reveal as="section" className="container-editorial pt-4 pb-16 sm:pb-20 lg:pb-24">
-        <div className="max-w-2xl mb-8 lg:mb-10">
-          <p className="eyebrow-bar mb-3">What drives us</p>
+        <div className="max-w-2xl mb-8 lg:mb-10 text-center lg:text-left mx-auto lg:mx-0">
+          <p className="eyebrow-bar mb-3 justify-center lg:justify-start inline-flex lg:flex">What drives us</p>
           <h2
             className="font-display font-semibold tracking-[-0.025em] leading-[1.05]"
-            style={{ fontSize: "clamp(1.85rem, 4.5vw, 3.25rem)" }}
+            style={{ fontSize: "clamp(1.75rem, 4.5vw, 3.25rem)" }}
           >
             Mission and Vision.
           </h2>
