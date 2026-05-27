@@ -25,10 +25,10 @@ const columns = [
 ];
 
 const socials = [
-  { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
-  { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
+  { icon: Users, href: "https://facebook.com", label: "Facebook" },
+  { icon: Camera, href: "https://instagram.com", label: "Instagram" },
   { icon: Send, href: "https://twitter.com", label: "Twitter" },
-  { icon: Github, href: "https://github.com", label: "GitHub" },
+  { icon: Code2, href: "https://github.com", label: "GitHub" },
   { icon: Mail, href: "mailto:hello@asikon.app", label: "Email" },
 ];
 
