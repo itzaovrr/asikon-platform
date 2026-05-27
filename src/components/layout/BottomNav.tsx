@@ -19,10 +19,36 @@ const AsikonIcon: React.FC<React.SVGProps<SVGSVGElement> & { strokeWidth?: numbe
 );
 
 const ExploreOutlineIcon: React.FC<React.SVGProps<SVGSVGElement> & { strokeWidth?: number }> = ({ className }) => (
-  <img src={exploreOutline} alt="" aria-hidden className={className as string} style={{ objectFit: "contain" }} />
+  <span
+    aria-hidden
+    className={cn("inline-block bg-current", className as string)}
+    style={{
+      WebkitMaskImage: `url(${exploreOutline})`,
+      maskImage: `url(${exploreOutline})`,
+      WebkitMaskRepeat: "no-repeat",
+      maskRepeat: "no-repeat",
+      WebkitMaskPosition: "center",
+      maskPosition: "center",
+      WebkitMaskSize: "contain",
+      maskSize: "contain",
+    }}
+  />
 );
 const ExploreFillIcon: React.FC<React.SVGProps<SVGSVGElement> & { strokeWidth?: number }> = ({ className }) => (
-  <img src={exploreSolid} alt="" aria-hidden className={className as string} style={{ objectFit: "contain" }} />
+  <span
+    aria-hidden
+    className={cn("inline-block bg-current", className as string)}
+    style={{
+      WebkitMaskImage: `url(${exploreSolid})`,
+      maskImage: `url(${exploreSolid})`,
+      WebkitMaskRepeat: "no-repeat",
+      maskRepeat: "no-repeat",
+      WebkitMaskPosition: "center",
+      maskPosition: "center",
+      WebkitMaskSize: "contain",
+      maskSize: "contain",
+    }}
+  />
 );
 
 type IconComponent =
