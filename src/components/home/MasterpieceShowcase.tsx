@@ -68,7 +68,7 @@ export function MasterpieceShowcase() {
           {/* Chat bubble left */}
           <div className="absolute left-[8%] sm:left-[16%] top-0 z-30">
             <div className="relative bg-primary text-primary-foreground text-xs sm:text-sm font-medium px-3 py-1.5 rounded-full shadow-xl shadow-primary/30">
-              @coplin
+              @asikon
               <span className="absolute -bottom-1 left-4 w-3 h-3 bg-primary rotate-45" />
             </div>
           </div>
@@ -128,7 +128,7 @@ export function MasterpieceShowcase() {
         </div>
 
         <p className="mt-6 lg:mt-12 text-muted-foreground text-xs sm:text-base max-w-md mx-auto">
-          Discover the most-loved books on Asikon — hover any cover to bring it to the front.
+          Discover the most-loved books on Asikon hover any cover to bring it to the front.
         </p>
 
         <div className="mt-5 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
@@ -142,15 +142,7 @@ export function MasterpieceShowcase() {
 
         {/* Trust micro-chips */}
         <div className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-[10px] sm:text-xs text-muted-foreground">
-          <span className="inline-flex items-center gap-1.5">
-            <span className="w-1 h-1 rounded-full bg-emerald-500" /> Instant access
-          </span>
-          <span className="inline-flex items-center gap-1.5">
-            <span className="w-1 h-1 rounded-full bg-primary" /> Money-back guarantee
-          </span>
-          <span className="inline-flex items-center gap-1.5">
-            <span className="w-1 h-1 rounded-full bg-amber-500" /> 24/7 AI tutor
-          </span>
+          {/* Removed access/guarantee/tutor chips */}
         </div>
       </div>
     </section>

@@ -211,7 +211,7 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
                   </div>
                   <div>
                     <p className="font-display font-bold text-base text-foreground">24/7</p>
-                    <Eyebrow>AI Tutor</Eyebrow>
+                    <Eyebrow>AI tuor</Eyebrow>
                   </div>
                 </div>
               </div>

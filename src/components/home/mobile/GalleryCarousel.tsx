@@ -80,7 +80,7 @@ export function GalleryCarousel() {
           <p className="text-[10px] uppercase tracking-[0.18em] font-semibold text-muted-foreground mb-1">
             Inside Asikon
           </p>
-          <h2 className="font-display font-bold text-xl text-foreground">Gallery</h2>
+          <h2 className="font-display font-bold text-xl text-foreground"></h2>
         </div>
       </div>
 

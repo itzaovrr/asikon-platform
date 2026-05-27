@@ -5,7 +5,7 @@ import { TONES, TONE_CYCLE, panelClass, headlineClass, subheadClass } from "@/co
 const POINTS = [
   { icon: ShieldCheck, title: "Verified content", text: "Reviewed by experts." },
   { icon: Users, title: "10K+ learners", text: "Active across BD." },
-  { icon: Headphones, title: "24/7 AI tutor", text: "Your language." },
+  { icon: Headphones, title: "24/7 AI tuor", text: "Your language." },
   { icon: Rocket, title: "Job-ready", text: "Real-world projects." },
 ];
 
