@@ -29,7 +29,7 @@ export function TodayMissionCard() {
       <CardShell>
         <h2 className="text-lg lg:text-xl font-bold">{copy.mission.needsTrackTitle}</h2>
         <p className="text-sm text-muted-foreground mt-1 mb-4">{copy.mission.needsTrackSubtitle}</p>
-        <Button asChild variant="premium"><Link to="/learn">Browse tracks</Link></Button>
+        <Button asChild><Link to="/learn">Browse tracks</Link></Button>
       </CardShell>
     );
   }
