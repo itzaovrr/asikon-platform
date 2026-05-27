@@ -91,8 +91,8 @@ export default {
           '100%': { opacity: '1', transform: 'translateX(0)' }
         },
         'shimmer': {
-          '0%': { backgroundPosition: '-200% 0' },
-          '100%': { backgroundPosition: '200% 0' }
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' }
         }
       },
       animation: {
@@ -102,7 +102,7 @@ export default {
         'fade-in-up': 'fade-in-up 0.42s cubic-bezier(0.22,1,0.36,1) both',
         'scale-in': 'scale-in 0.22s cubic-bezier(0.22,1,0.36,1) both',
         'slide-in-right': 'slide-in-right 0.32s cubic-bezier(0.22,1,0.36,1) both',
-        'shimmer': 'shimmer 1.6s linear infinite'
+        'shimmer': 'shimmer 2s ease-in-out infinite'
       },
       boxShadow: {
         '2xs': 'var(--shadow-2xs)',

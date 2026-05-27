@@ -1,15 +1,14 @@
 import { SEO } from "@/components/SEO";
 import { Gift, Flame, Sparkles, GraduationCap, BookOpen, ArrowUpRight } from "lucide-react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { lazy, Suspense, useMemo } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { FirstRunTour } from "@/components/onboarding/FirstRunTour";
 
 import { PostCard } from "@/components/community/PostCard";
-import { HeroCarousel, ProductCarousel } from "@/components/carousels";
+import { ProductCarousel } from "@/components/carousels";
 import { mockPosts } from "@/lib/mock-data";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/transitions/Reveal";
@@ -22,20 +21,11 @@ import { ContinueLearningRow } from "@/components/home/workspace/ContinueLearnin
 import { AiAssistantBox } from "@/components/home/workspace/AiAssistantBox";
 import { ActivityFeed } from "@/components/home/workspace/ActivityFeed";
 import { MobileCoursesTop } from "@/components/home/mobile/MobileCoursesTop";
-import { CategoriesScroll } from "@/components/home/mobile/CategoriesScroll";
 import { ImageHeroSlider } from "@/components/home/mobile/ImageHeroSlider";
-import { ImageOfferGrid } from "@/components/home/mobile/ImageOfferGrid";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import { useHomeSections, HomeSection } from "@/hooks/useHomeSections";
 import { useAuth } from "@/hooks/useAuth";
-import { useLearnerProfile } from "@/hooks/useLearnerProfile";
 import { TodayMissionCard } from "@/features/mission/TodayMissionCard";
-import { TrackProgress } from "@/features/tracks/TrackProgress";
-import { StreakBadge } from "@/features/progress/StreakBadge";
-import { XPBar } from "@/features/progress/XPBar";
-import courseAiMl from "@/assets/course-ai-ml.jpg";
-import coursePython from "@/assets/course-python.jpg";
-import promptLibrary from "@/assets/prompt-library.jpg";
 
 // Lazy-load below-the-fold sections so their JS doesn't block first paint.
 const HowItWorks = lazy(() => import("@/components/home/sections/HowItWorks").then(m => ({ default: m.HowItWorks })));
@@ -44,11 +34,6 @@ const MentorshipHomeSection = lazy(() => import("@/components/mentorship/Mentors
 const SectionFallback = () => <div className="section-x"><Skeleton className="w-full h-32 rounded-2xl" /></div>;
 
 
-const heroSlides = [
-  { id: "1", image: courseAiMl, eyebrow: "New course", title: "Learn AI with Asikon", subtitle: "Master ML, Python, and modern AI tools — taught by experts", cta: { label: "Browse Courses", href: "/shop?type=courses" }, secondaryCta: { label: "See syllabus", href: "/shop?type=courses" } },
-  { id: "2", image: promptLibrary, eyebrow: "Prompt library", title: "1000+ AI Prompts", subtitle: "Boost your productivity with our curated prompt library", cta: { label: "Get the Library", href: "/prompts" } },
-  { id: "3", image: coursePython, eyebrow: "Limited deal", title: "Skill-Up Friday — 50% Off", subtitle: "Limited time deals on top-rated courses and books", cta: { label: "View Deals", href: "/shop?filter=deals" } },
-];
 
 const transformProduct = (p: any) => ({
   id: p.id,
@@ -225,7 +210,7 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
 
 const Index = () => {
   const { user } = useAuth();
-  const { data: profile, isLoading: profileLoading } = useLearnerProfile();
+  
   const { data: products, isLoading: productsLoading } = useProducts({ limit: 20 });
   const { data: featuredProducts, isLoading: featuredLoading } = useFeaturedProducts(10);
   const { data: sections } = useHomeSections();
@@ -269,31 +254,35 @@ const Index = () => {
           ],
         })}</script>
       </SEO>
-      <MobilePage spacing="space-y-3 lg:space-y-14">
+      <MobilePage spacing="space-y-4 lg:space-y-14">
         {user ? (
           <>
-            {/* Header greeting */}
+            {/* 1 — Calm greeting */}
             <GreetingStrip />
-            {/* Hero slider (admin-uploaded image banners) */}
-            {heroSection && <ImageHeroSlider />}
-            {/* Quick actions (category-style chips) */}
-            <QuickAccessGrid />
-            {/* Popular Courses (mobile) */}
-            <MobileCoursesTop />
-            {/* Categories (Asikon, scrollable like quick access) */}
-            <CategoriesScroll />
-            {/* Offers (admin-uploaded image cards) */}
-            <ImageOfferGrid />
 
+            {/* 2 — The single most important thing on the screen */}
             <section className="section-x">
               <TodayMissionCard />
             </section>
+
+            {/* 3 — Continue where you left off */}
             <ContinueLearningRow />
-            <ProgressSnapshot />
+
+            {/* 4 — Four calm tiles: Tutor / Shop / Community / Mentors */}
+            <QuickAccessGrid />
+
+            {/* 5 — Editorial hero (admin banners) */}
+            {heroSection && <ImageHeroSlider />}
+
+            {/* 6 — AI assistant entry */}
             <AiAssistantBox />
-            {/* Commerce + discovery */}
+
+            {/* 7 — Discovery: courses + commerce sections (admin-ordered) */}
+            <MobileCoursesTop />
             {restSections.map(renderSection)}
-            {/* Lower-priority personal */}
+
+            {/* 8 — Quiet personal footer: progress + activity */}
+            <ProgressSnapshot />
             <ActivityFeed />
           </>
         ) : (
