@@ -26,8 +26,8 @@ function detectProductType(name: string): ProductType {
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState(searchParams.get("category") ?? "All");
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") ?? "");
   const [sortBy, setSortBy] = useState<SortOption>("newest");
   const [priceRange, setPriceRange] = useState<[number, number]>([0, MAX_PRICE]);
   const [productType, setProductType] = useState<ProductType>("all");
@@ -35,12 +35,15 @@ const Shop = () => {
   const [onSaleOnly, setOnSaleOnly] = useState(false);
   const [featuredOnly, setFeaturedOnly] = useState(false);
 
-  // Sync URL params (?type=courses, ?filter=trending|new|deals) → state
+  // Sync URL → state (q, type, filter, category)
   useEffect(() => {
+    setSearchQuery(searchParams.get("q") ?? "");
     const type = searchParams.get("type") as ProductType | null;
     if (type && ["all", "courses", "books", "kits", "prompts"].includes(type)) {
       setProductType(type);
     }
+    const cat = searchParams.get("category");
+    setActiveCategory(cat ?? "All");
     const filter = searchParams.get("filter");
     if (filter === "trending" || filter === "popular") setSortBy("popular");
     else if (filter === "new") setSortBy("newest");
@@ -51,6 +54,14 @@ const Shop = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
+    const next = new URLSearchParams(searchParams);
+    if (value.trim()) next.set("q", value);
+    else next.delete("q");
+    setSearchParams(next, { replace: true });
+  };
+
   const handleTypeChange = (t: ProductType) => {
     setProductType(t);
     const next = new URLSearchParams(searchParams);
@@ -58,6 +69,15 @@ const Shop = () => {
     else next.set("type", t);
     setSearchParams(next, { replace: true });
   };
+
+  const handleCategoryChange = (name: string) => {
+    setActiveCategory(name);
+    const next = new URLSearchParams(searchParams);
+    if (name === "All") next.delete("category");
+    else next.set("category", name);
+    setSearchParams(next, { replace: true });
+  };
+
 
   const { data: categories, isLoading: categoriesLoading } = useCategories();
 
@@ -90,16 +110,27 @@ const Shop = () => {
     });
   }, [products, productType, minRating, onSaleOnly, featuredOnly]);
 
-  // Transform categories for carousel
+  // Filter category pills by current query so categories matching the search bubble up
+  const q = searchQuery.trim().toLowerCase();
+  const matchedCategories = useMemo(() => {
+    const all = categories ?? [];
+    if (!q) return all;
+    const matches = all.filter(
+      (c) => c.name.toLowerCase().includes(q) || c.slug.toLowerCase().includes(q),
+    );
+    return matches.length > 0 ? matches : all;
+  }, [categories, q]);
+
   const categoryItems = [
     { id: "all", name: "All", slug: "all", icon: "📚" },
-    ...(categories?.map((cat) => ({
+    ...matchedCategories.map((cat) => ({
       id: cat.id,
       name: cat.name,
       slug: cat.slug,
       icon: cat.icon || "📦",
-    })) || []),
+    })),
   ];
+
 
   // Count active filters
   const activeFiltersCount = useMemo(() => {
@@ -121,7 +152,9 @@ const Shop = () => {
     setMinRating(0);
     setOnSaleOnly(false);
     setFeaturedOnly(false);
+    setSearchParams(new URLSearchParams(), { replace: true });
   };
+
 
   return (
     <AppLayout>
@@ -169,7 +202,7 @@ const Shop = () => {
             <div className="lg:[&>div>div>button:last-child]:hidden">
               <ShopFilters
                 searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
+                onSearchChange={handleSearchChange}
                 sortBy={sortBy}
                 onSortChange={setSortBy}
                 priceRange={priceRange}
@@ -199,18 +232,32 @@ const Shop = () => {
               <CategoryCarousel
                 categories={categoryItems}
                 activeCategory={activeCategory}
-                onCategoryChange={setActiveCategory}
+                onCategoryChange={handleCategoryChange}
               />
             )}
 
             {/* Results Count */}
-            <div className="text-sm text-muted-foreground">
+            <div className="flex items-center justify-between gap-3 text-sm text-muted-foreground">
               {productsLoading ? (
                 <Skeleton className="h-4 w-24" />
               ) : (
-                `${filteredProducts?.length || 0} learning resources found`
+                <span>
+                  {filteredProducts?.length || 0} learning resources found
+                  {searchQuery.trim() && (
+                    <> for <span className="text-foreground font-medium">"{searchQuery}"</span></>
+                  )}
+                </span>
+              )}
+              {searchQuery.trim() && (
+                <button
+                  onClick={() => handleSearchChange("")}
+                  className="text-primary hover:underline text-xs font-medium shrink-0"
+                >
+                  Clear search
+                </button>
               )}
             </div>
+
 
             {/* Products Grid */}
             <div>
