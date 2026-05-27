@@ -1,6 +1,7 @@
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SEO } from "@/components/SEO";
-import { Reveal } from "@/components/transitions/Reveal";
+import { MobilePage } from "@/components/layout/MobilePage";
+import { PageHero } from "@/components/ui/page-hero";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Bell, Megaphone, Sparkles } from "lucide-react";
@@ -37,63 +38,60 @@ const Notifications = () => {
         url="https://asikonpro.lovable.app/notifications"
       />
 
-      <Reveal as="section" className="pt-16 pb-8 sm:pt-24 sm:pb-12 lg:pt-32">
-        <div className="container-editorial max-w-3xl">
-          <p className="eyebrow-bar mb-4">Inbox</p>
-          <h1 className="display-1 mb-4">Notifications.</h1>
-          <p className="body-lg text-muted-foreground">
-            Announcements from the team and important updates about your account.
-          </p>
-        </div>
-      </Reveal>
+      <MobilePage maxWidth="reading" spacing="space-y-8">
+        <PageHero
+          eyebrow="Inbox"
+          title="Notifications"
+          subtitle="Announcements from the team and important updates about your account."
+        />
 
-      <Reveal as="section" className="pb-24">
-        <div className="container-editorial max-w-3xl space-y-4">
+        <div className="divide-y divide-border border-y border-border bg-card sm:rounded-2xl sm:border sm:divide-border">
           {isLoading && (
-            <>
+            <div className="p-4 space-y-3">
               {[...Array(4)].map((_, i) => (
-                <Skeleton key={i} className="h-24 rounded-2xl" />
+                <Skeleton key={i} className="h-16 rounded-xl" />
               ))}
-            </>
+            </div>
           )}
 
           {!isLoading && (!data || data.length === 0) && (
-            <div className="glass-strong rounded-3xl p-12 text-center">
-              <div className="size-14 mx-auto rounded-2xl bg-primary/10 grid place-items-center text-primary">
-                <Bell className="size-6" aria-hidden />
+            <div className="p-12 text-center">
+              <div className="size-12 mx-auto rounded-full bg-secondary grid place-items-center text-foreground/60">
+                <Bell className="size-5" aria-hidden />
               </div>
-              <h2 className="font-display text-2xl mt-5 mb-2">You're all caught up</h2>
-              <p className="text-muted-foreground">
+              <h2 className="font-display text-lg font-semibold mt-4 mb-1">You're all caught up</h2>
+              <p className="text-sm text-muted-foreground">
                 New announcements will appear here.
               </p>
             </div>
           )}
 
-          {data?.map((n) => (
-            <article
-              key={n.id}
-              className="glass-strong rounded-2xl p-5 sm:p-6 flex gap-4 transition hover:translate-y-[-2px]"
-            >
-              <div className="size-11 rounded-xl bg-primary/10 grid place-items-center text-primary shrink-0">
-                {n.audience === "all" ? (
-                  <Megaphone className="size-5" aria-hidden />
-                ) : (
-                  <Sparkles className="size-5" aria-hidden />
-                )}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-baseline justify-between gap-3">
-                  <h3 className="font-display text-lg font-semibold truncate">{n.title}</h3>
-                  <time className="text-xs text-muted-foreground shrink-0">
-                    {formatDistanceToNow(new Date(n.sent_at), { addSuffix: true })}
-                  </time>
+          {data?.map((n) => {
+            const Icon = n.audience === "all" ? Megaphone : Sparkles;
+            return (
+              <article
+                key={n.id}
+                className="flex gap-4 p-4 sm:p-5 transition-colors hover:bg-secondary/40"
+              >
+                <div className="size-9 rounded-full bg-secondary grid place-items-center text-foreground/70 shrink-0">
+                  <Icon className="size-4" aria-hidden />
                 </div>
-                <p className="text-muted-foreground mt-1 whitespace-pre-line">{n.body}</p>
-              </div>
-            </article>
-          ))}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <h3 className="font-medium text-[14.5px] truncate">{n.title}</h3>
+                    <time className="text-[11px] text-muted-foreground shrink-0 tabular-nums">
+                      {formatDistanceToNow(new Date(n.sent_at), { addSuffix: true })}
+                    </time>
+                  </div>
+                  <p className="text-[13.5px] text-muted-foreground mt-1 whitespace-pre-line leading-relaxed">
+                    {n.body}
+                  </p>
+                </div>
+              </article>
+            );
+          })}
         </div>
-      </Reveal>
+      </MobilePage>
     </AppLayout>
   );
 };
