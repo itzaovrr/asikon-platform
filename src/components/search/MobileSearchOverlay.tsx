@@ -56,6 +56,7 @@ export function MobileSearchOverlay({ open, onClose }: MobileSearchOverlayProps)
   const submit = (term: string) => {
     if (!term.trim()) return;
     pushRecentSearch(term);
+    void track("search_performed", { q: term, surface: "mobile" });
     onClose();
     setQuery("");
     navigate(`/shop?q=${encodeURIComponent(term)}`);
