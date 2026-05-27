@@ -99,6 +99,13 @@ const AdminRewards = lazy(AdminRewardsMod);
 const AdminAuditLog = lazy(AdminAuditLogMod);
 const TrackDetail = lazy(TrackDetailMod);
 const LessonDetail = lazy(LessonDetailMod);
+const Contact = lazy(() => import("./pages/Contact"));
+const Help = lazy(() => import("./pages/Help"));
+const Terms = lazy(() => import("./pages/Terms"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const Refund = lazy(() => import("./pages/Refund"));
+const Notifications = lazy(() => import("./pages/Notifications"));
+const Leaderboard = lazy(() => import("./pages/Leaderboard"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
