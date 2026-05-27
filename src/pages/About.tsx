@@ -11,26 +11,16 @@ import { WhyTrust } from "@/components/home/sections/WhyTrust";
 import { Testimonials } from "@/components/home/sections/Testimonials";
 import { Faq } from "@/components/home/sections/Faq";
 import { FinalCta } from "@/components/home/sections/FinalCta";
-import { useEffect } from "react";
+import { SEO } from "@/components/SEO";
 
 const About = () => {
-  useEffect(() => {
-    const prev = document.title;
-    document.title = "About ASIKON — AI-powered learning for Bangladesh";
-    const meta = document.querySelector('meta[name="description"]');
-    const prevDesc = meta?.getAttribute("content") ?? "";
-    meta?.setAttribute(
-      "content",
-      "ASIKON is an AI-powered learning platform built to make education simple, smart, and accessible for every Bangladeshi student.",
-    );
-    return () => {
-      document.title = prev;
-      if (meta && prevDesc) meta.setAttribute("content", prevDesc);
-    };
-  }, []);
-
   return (
     <AppLayout>
+      <SEO
+        title="About ASIKON — AI-powered learning for Bangladesh"
+        description="ASIKON is an AI-powered learning platform built to make education simple, smart, and accessible for every Bangladeshi student."
+        url="https://asikonpro.lovable.app/about"
+      />
       <Reveal as="div"><AboutHero /></Reveal>
 
       <Reveal as="section" className="py-16 sm:py-20 lg:py-24">
