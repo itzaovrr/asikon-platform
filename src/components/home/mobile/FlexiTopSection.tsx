@@ -38,14 +38,6 @@ const activityTiles: Tile[] = [
   { icon: Plus, label: "Add goal", href: "/profile", grad: "from-amber-400 to-orange-500" },
 ];
 
-const brands = [
-  { name: "Python", letter: "Py" },
-  { name: "OpenAI", letter: "AI" },
-  { name: "React", letter: "R" },
-  { name: "Figma", letter: "F" },
-  { name: "Notion", letter: "N" },
-  { name: "Linux", letter: "L" },
-];
 
 function PillTile({ icon: Icon, label, href, grad }: Tile) {
   return (
@@ -130,27 +122,6 @@ export function FlexiTopSection() {
         ))}
       </div>
 
-      {/* Top Brands */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="font-display font-bold text-base text-foreground">Top Brands</h2>
-          <Link to="/shop" className="text-xs font-semibold text-primary">See all</Link>
-        </div>
-        <div className="flex gap-3 overflow-x-auto no-scrollbar -mx-1 px-1">
-          {brands.map((b) => (
-            <Link
-              key={b.name}
-              to="/shop"
-              className="flex flex-col items-center gap-1.5 shrink-0 focus-ring"
-            >
-              <div className="w-14 h-14 rounded-2xl bg-card border border-border/60 shadow-[0_4px_14px_-6px_hsl(var(--primary)/0.2)] flex items-center justify-center font-display font-bold text-sm text-foreground">
-                {b.letter}
-              </div>
-              <span className="text-[11px] font-medium text-foreground">{b.name}</span>
-            </Link>
-          ))}
-        </div>
-      </div>
     </section>
   );
 }
