@@ -380,9 +380,6 @@ const Index = () => {
               </div>
               <BrandStrip />
 
-              {/* 2 — Calm greeting */}
-              <GreetingStrip />
-
               {/* 3 — The single most important thing on the screen */}
               <section className="section-x">
                 <TodayMissionCard />
