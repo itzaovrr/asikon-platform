@@ -296,13 +296,20 @@ export function LearnChat({ threadId }: Props) {
 
         {/* Title + persona */}
         <div className="flex-1 min-w-0 flex items-center gap-2.5">
-          <img
-            src={tutorAvatar}
-            alt=""
-            className="w-7 h-7 rounded-full shrink-0"
-          />
+          <div className="relative shrink-0">
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0 -m-1.5 rounded-full blur-md opacity-70"
+              style={{ background: "radial-gradient(circle, hsl(var(--foreground)/0.12), transparent 70%)" }}
+            />
+            <img
+              src={tutorAvatar}
+              alt=""
+              className="relative w-7 h-7 rounded-full ring-1 ring-border"
+            />
+          </div>
           <div className="min-w-0">
-            <div className="text-sm font-semibold truncate leading-tight">{threadTitle}</div>
+            <div className="font-display text-sm font-semibold truncate leading-tight tracking-tight">{threadTitle}</div>
             <div className="text-[11px] text-muted-foreground leading-tight">
               Apu · your ASIKON tutor
             </div>
@@ -418,7 +425,7 @@ export function LearnChat({ threadId }: Props) {
           <div
             className={cn(
               "rounded-2xl border border-border bg-card shadow-sm",
-              "focus-within:border-primary focus-within:shadow-md",
+              "focus-within:border-foreground/40 focus-within:shadow-md",
               "transition-[border-color,box-shadow] duration-200 px-3 pt-2 pb-1.5",
             )}
           >
@@ -511,7 +518,7 @@ function TranscriptSkeleton() {
   return (
     <div className="mx-auto w-full max-w-3xl px-3 sm:px-6 py-6 space-y-6" aria-label="Loading conversation">
       <div className="flex justify-end">
-        <div className="h-9 w-48 rounded-2xl rounded-br-md bg-primary/20 animate-pulse" />
+        <div className="h-9 w-48 rounded-2xl rounded-br-md bg-foreground/20 animate-pulse" />
       </div>
       <div className="space-y-2">
         <div className="h-3.5 w-[70%] rounded-md bg-muted animate-pulse" />
@@ -543,14 +550,21 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
   return (
     <div className="mx-auto w-full max-w-2xl px-4 py-8 animate-fade-in">
       <div className="flex flex-col items-center text-center mb-8">
-        <img
-          src={tutorAvatar}
-          alt="Apu, your ASIKON tutor"
-          className="w-20 h-20 mb-4"
-          width={512}
-          height={512}
-        />
-        <h1 className="text-2xl font-semibold tracking-tight mb-2 text-foreground">Hi, I'm Apu</h1>
+        <div className="relative mb-4">
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 -m-6 rounded-full blur-3xl opacity-70"
+            style={{ background: "radial-gradient(circle, hsl(var(--foreground)/0.10), transparent 70%)" }}
+          />
+          <img
+            src={tutorAvatar}
+            alt="Apu, your ASIKON tutor"
+            className="relative w-20 h-20"
+            width={512}
+            height={512}
+          />
+        </div>
+        <h1 className="font-display text-2xl font-semibold tracking-tight mb-2 text-foreground">Hi, I'm Apu</h1>
         <p className="text-muted-foreground text-[15px] max-w-md leading-relaxed">
           Stuck on a chapter? Ask me anything — SSC, HSC, Math, Physics, English.
           I'll explain in English or Bangla, whichever helps.
@@ -567,9 +581,9 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
             <button
               key={q.label}
               onClick={() => onPick(q.prompt)}
-              className="group flex items-start gap-3 text-left p-4 rounded-2xl bg-card border border-border hover:border-foreground/20 hover:bg-secondary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="group flex items-start gap-3 text-left p-4 rounded-2xl bg-card border border-border hover:border-foreground/30 hover:bg-secondary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30"
             >
-              <span className="shrink-0 w-9 h-9 rounded-xl flex items-center justify-center bg-primary/8 text-primary">
+              <span className="shrink-0 w-9 h-9 rounded-xl flex items-center justify-center bg-secondary text-foreground ring-1 ring-border">
                 <Icon className="w-4 h-4" />
               </span>
               <span className="text-[14px] font-medium leading-snug pt-1.5">{q.label}</span>
@@ -589,7 +603,7 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
               key={c.label}
               className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-card border border-border"
             >
-              <Icon className="w-4 h-4 text-primary" />
+              <Icon className="w-4 h-4 text-foreground" />
               <span className="text-[11px] font-medium text-center leading-tight text-muted-foreground">
                 {c.label}
               </span>
@@ -597,6 +611,10 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
           );
         })}
       </div>
+
+      <p className="text-[10.5px] text-center text-muted-foreground/70 mt-5 tracking-wide">
+        Powered by Lovable AI
+      </p>
     </div>
   );
 }
@@ -629,7 +647,7 @@ function MessageActions({
         aria-label="Copy reply"
         title="Copy"
       >
-        {copied ? <Check className="w-3.5 h-3.5 text-primary" /> : <Copy className="w-3.5 h-3.5" />}
+        {copied ? <Check className="w-3.5 h-3.5 text-foreground" /> : <Copy className="w-3.5 h-3.5" />}
       </button>
       {onRegenerate && (
         <button
@@ -645,7 +663,7 @@ function MessageActions({
         onClick={() => setVote(vote === "up" ? null : "up")}
         className={cn(
           "h-7 w-7 inline-flex items-center justify-center rounded-md hover:bg-muted transition-colors",
-          vote === "up" ? "text-primary" : "text-muted-foreground hover:text-foreground",
+          vote === "up" ? "text-foreground" : "text-muted-foreground hover:text-foreground",
         )}
         aria-label="Helpful"
         title="Helpful"
@@ -684,15 +702,13 @@ function MessageRow({
   if (isUser) {
     return (
       <div className="flex justify-end animate-fade-in">
-        <div className="max-w-[85%] rounded-2xl rounded-br-md px-3.5 py-2 bg-primary text-primary-foreground whitespace-pre-wrap text-[15px] leading-relaxed shadow-[0_4px_16px_-8px_hsl(var(--primary)/0.5)]">
-          {text}
-        </div>
+        <div className="max-w-[85%] rounded-2xl rounded-br-md px-3.5 py-2 bg-foreground text-background whitespace-pre-wrap text-[15px] leading-relaxed">{text}</div>
       </div>
     );
   }
   return (
     <div className="flex gap-2.5 animate-fade-in group/msg">
-      <img src={tutorAvatar} alt="" className="w-7 h-7 rounded-full shrink-0 mt-0.5" />
+      <img src={tutorAvatar} alt="" className="w-7 h-7 rounded-full shrink-0 mt-0.5 ring-1 ring-border" />
       <div className="flex-1 min-w-0">
         <div className="text-xs font-semibold text-muted-foreground mb-0.5">Apu</div>
         <div
@@ -702,7 +718,7 @@ function MessageRow({
             "prose-p:my-2 prose-headings:mt-3 prose-headings:mb-1.5 prose-li:my-0.5",
             "prose-pre:my-2 prose-pre:rounded-xl prose-pre:overflow-x-auto prose-pre:text-[13px] prose-pre:font-mono prose-pre:bg-secondary prose-pre:border prose-pre:border-border",
             "prose-code:before:content-none prose-code:after:content-none prose-code:break-words",
-            "prose-a:text-primary prose-a:break-all",
+            "prose-a:text-foreground prose-a:underline prose-a:underline-offset-4 prose-a:break-all",
             "[&_table]:block [&_table]:overflow-x-auto [&_table]:text-xs [&_img]:rounded-lg",
           )}
         >
@@ -727,7 +743,7 @@ function MessageRow({
             {text || "…"}
           </ReactMarkdown>
           {isStreaming && (
-            <span className="inline-block w-[2px] h-4 align-middle ml-0.5 bg-primary animate-pulse" />
+            <span className="inline-block w-[2px] h-4 align-middle ml-0.5 bg-foreground animate-pulse" />
           )}
         </div>
         {text && !isStreaming && (

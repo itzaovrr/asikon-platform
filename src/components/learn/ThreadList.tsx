@@ -68,7 +68,7 @@ export function ThreadList({ activeId }: Props) {
       <div className="p-3 border-b border-border space-y-2">
         <Button
           onClick={handleNew}
-          className="w-full gradient-primary text-primary-foreground hover:opacity-95"
+          className="w-full"
           disabled={create.isPending}
         >
           <Plus className="w-4 h-4 mr-2" /> New chat
@@ -112,14 +112,14 @@ export function ThreadList({ activeId }: Props) {
                         className={cn(
                           "group flex items-center gap-2 px-2.5 py-2 rounded-lg cursor-pointer transition-colors",
                           t.id === activeId
-                            ? "bg-primary/10 text-foreground"
+                            ? "bg-secondary text-foreground"
                             : "hover:bg-secondary/60 text-foreground/85",
                         )}
                       >
                         <MessageSquare
                           className={cn(
                             "w-3.5 h-3.5 flex-shrink-0",
-                            t.id === activeId ? "text-primary" : "text-muted-foreground",
+                            t.id === activeId ? "text-foreground" : "text-muted-foreground",
                           )}
                         />
                         <span className="text-sm flex-1 truncate">{t.title}</span>
