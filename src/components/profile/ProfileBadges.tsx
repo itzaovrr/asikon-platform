@@ -36,13 +36,13 @@ export function ProfileBadges({ badges, learnerSessions = 0, learnerQuizzes = 0 
           {hasLearner && (
             <div
               className={cn(
-                "flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border",
-                "text-primary bg-primary/10 border-primary/20"
+                "flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11.5px] font-medium border",
+                "text-foreground bg-secondary border-border"
               )}
               title={`${learnerSessions} tutor session${learnerSessions === 1 ? "" : "s"} • ${learnerQuizzes} quiz${learnerQuizzes === 1 ? "" : "zes"}`}
             >
               <GraduationCap className="h-3.5 w-3.5" />
-              <span>AI Learner · {totalLearn}</span>
+              <span className="tabular-nums">AI Learner · {totalLearn}</span>
             </div>
           )}
           {ALL_BADGES.map((badge) => {
