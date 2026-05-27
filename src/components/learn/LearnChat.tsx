@@ -62,21 +62,25 @@ const QUICK_PROMPTS = [
     icon: BookOpen,
     label: "Help me with SSC Math",
     prompt: "I'm struggling with SSC math. Can you walk me through where to start?",
+    tint: "from-blue-500/15 to-blue-500/0 text-blue-600 dark:text-blue-400 ring-blue-500/20",
   },
   {
     icon: ListChecks,
     label: "Quiz me on photosynthesis",
     prompt: "Give me 5 MCQs on photosynthesis with answers and short explanations.",
+    tint: "from-emerald-500/15 to-emerald-500/0 text-emerald-600 dark:text-emerald-400 ring-emerald-500/20",
   },
   {
     icon: Brain,
     label: "Explain Newton's 2nd law",
     prompt: "Explain Newton's second law to me like I'm 12, with one real example.",
+    tint: "from-violet-500/15 to-violet-500/0 text-violet-600 dark:text-violet-400 ring-violet-500/20",
   },
   {
     icon: SparklesIcon,
     label: "Plan my HSC revision",
     prompt: "Build me a realistic 7-day HSC revision routine I can actually follow.",
+    tint: "from-amber-500/15 to-amber-500/0 text-amber-600 dark:text-amber-400 ring-amber-500/20",
   },
 ];
 
@@ -85,6 +89,7 @@ const CAPABILITIES = [
   { icon: ListChecks, label: "Practice with MCQs" },
   { icon: GraduationCap, label: "Plan your revision" },
 ];
+
 
 // Chips append a real instruction to the next message.
 const ACTION_CHIPS = [
