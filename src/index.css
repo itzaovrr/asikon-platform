@@ -247,60 +247,43 @@
     background: linear-gradient(180deg, hsl(225, 15%, 8%) 0%, hsl(225, 18%, 4%) 100%);
   }
 
-  /* === Refined liquid glass v3 ===
-     Layered sheen + saturation lift + crisp top highlight = Apple-like liquid glass. */
+  /* === Calm glass v4 — Apple-like, lower blur, lower opacity. === */
   .glass {
     position: relative;
     background:
-      linear-gradient(180deg, hsl(var(--glass-highlight) / 0.14) 0%, transparent 45%),
-      linear-gradient(135deg, hsl(var(--primary) / 0.06), transparent 50%),
-      hsl(var(--glass-bg) / 0.45);
-    backdrop-filter: blur(32px) saturate(200%);
-    -webkit-backdrop-filter: blur(32px) saturate(200%);
+      linear-gradient(180deg, hsl(var(--glass-highlight) / 0.06) 0%, transparent 60%),
+      hsl(var(--glass-bg) / 0.72);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
     border: 1px solid hsl(var(--glass-border) / 0.6);
-    box-shadow:
-      var(--shadow-md),
-      inset 0 1px 0 hsl(var(--glass-highlight) / 0.14),
-      inset 0 -1px 0 hsl(0 0% 0% / 0.05);
+    box-shadow: var(--shadow-sm);
   }
 
   .glass-strong {
     position: relative;
     background:
-      linear-gradient(180deg, hsl(var(--glass-highlight) / 0.18) 0%, transparent 50%),
-      linear-gradient(135deg, hsl(var(--primary) / 0.10), transparent 55%),
-      hsl(var(--glass-bg) / 0.62);
-    backdrop-filter: blur(48px) saturate(220%);
-    -webkit-backdrop-filter: blur(48px) saturate(220%);
-    border: 1px solid hsl(var(--glass-border) / 0.75);
-    box-shadow:
-      var(--shadow-lg),
-      inset 0 1px 0 hsl(var(--glass-highlight) / 0.20),
-      inset 0 -1px 0 hsl(0 0% 0% / 0.06);
+      linear-gradient(180deg, hsl(var(--glass-highlight) / 0.08) 0%, transparent 60%),
+      hsl(var(--glass-bg) / 0.85);
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    border: 1px solid hsl(var(--glass-border) / 0.7);
+    box-shadow: var(--shadow-md);
   }
 
   .glass-subtle {
-    background:
-      linear-gradient(180deg, hsl(var(--glass-highlight) / 0.08) 0%, transparent 50%),
-      hsl(var(--glass-bg) / 0.32);
-    backdrop-filter: blur(20px) saturate(170%);
-    -webkit-backdrop-filter: blur(20px) saturate(170%);
-    border: 1px solid hsl(var(--glass-border) / 0.45);
+    background: hsl(var(--glass-bg) / 0.6);
+    backdrop-filter: blur(14px) saturate(130%);
+    -webkit-backdrop-filter: blur(14px) saturate(130%);
+    border: 1px solid hsl(var(--glass-border) / 0.4);
   }
 
-  /* Nav-specific liquid glass — top header & bottom tab bar with refraction hairline. */
+  /* Nav-specific glass — header & bottom nav */
   .liquid-nav {
     isolation: isolate;
-    background:
-      linear-gradient(180deg, hsl(var(--glass-highlight) / 0.24) 0%, transparent 50%),
-      linear-gradient(135deg, hsl(var(--primary) / 0.12), transparent 48%),
-      hsl(var(--glass-bg) / 0.58);
-    backdrop-filter: blur(44px) saturate(220%);
-    -webkit-backdrop-filter: blur(44px) saturate(220%);
-    box-shadow:
-      0 20px 48px -22px hsl(0 0% 0% / 0.6),
-      inset 0 1px 0 hsl(var(--glass-highlight) / 0.22),
-      inset 0 -1px 0 hsl(0 0% 100% / 0.05);
+    background: hsl(var(--background) / 0.78);
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    box-shadow: 0 1px 0 hsl(var(--border));
   }
   .liquid-nav::after {
     content: "";
@@ -308,7 +291,6 @@
     inset: 0;
     pointer-events: none;
     border-radius: inherit;
-    box-shadow: inset 0 0 0 1px hsl(var(--glass-border) / 0.55);
   }
 
 
