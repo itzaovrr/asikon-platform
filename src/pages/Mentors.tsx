@@ -27,24 +27,21 @@ const Mentors = () => {
         description="Book personal Bangla & English tutors for your child on Asikon. Hand-picked mentors, waitlist now open."
         url="https://asikonpro.lovable.app/mentors"
       />
-      <div className="container-editorial space-y-8 pb-32 pt-2 lg:pt-4">
+      <div className="container-editorial space-y-10 pb-32 pt-2 lg:pt-4">
         {/* Hero */}
         <section className="section-x">
-          <div
-            className="relative overflow-hidden rounded-3xl border border-primary/25 p-6 lg:p-10 text-center"
-            style={{ background: "var(--gradient-primary-soft)" }}
-          >
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/15 text-primary text-[10px] font-semibold uppercase tracking-[0.18em] px-2.5 py-1 mb-3">
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-6 lg:p-10 text-center">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary border border-border text-foreground/70 text-[10.5px] font-medium uppercase tracking-[0.16em] px-2.5 py-1 mb-3">
               New · Coming soon
             </span>
-            <h1 className="font-display font-bold text-2xl lg:text-4xl leading-tight max-w-2xl mx-auto">
+            <h1 className="font-display font-semibold text-[26px] lg:text-[40px] leading-[1.1] tracking-tight max-w-2xl mx-auto">
               A personal teacher, just for your child
             </h1>
-            <p className="text-sm lg:text-base text-muted-foreground mt-3 max-w-xl mx-auto">
+            <p className="text-[14px] lg:text-[15px] text-muted-foreground mt-3 max-w-xl mx-auto leading-relaxed">
               Book 1-on-1 mentorship with hand-picked tutors in Bangla & English. Reserve your child's slot before public launch.
             </p>
             <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-              <Button variant="premium" size="lg" onClick={() => open()}>
+              <Button size="lg" onClick={() => open()}>
                 Join the waitlist
               </Button>
             </div>
