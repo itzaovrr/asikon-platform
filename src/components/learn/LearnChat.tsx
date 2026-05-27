@@ -273,7 +273,7 @@ export function LearnChat({ threadId, onBack }: Props) {
   }
 
   return (
-    <div className="relative grid grid-rows-[auto_1fr_auto] h-full min-h-0 bg-background">
+    <div className="absolute inset-0 flex flex-col bg-background">
       {/* Header — calm white bar, hairline border */}
       <header className="shrink-0 relative flex items-center gap-2 px-3 lg:px-6 h-14 border-b border-border bg-background/85 backdrop-blur-xl">
         {onBack && (
@@ -370,7 +370,7 @@ export function LearnChat({ threadId, onBack }: Props) {
       {/* Transcript */}
       <div
         ref={scrollRef}
-        className="min-h-0 overflow-y-auto overscroll-contain scroll-smooth"
+        className="flex-1 min-h-0 overflow-y-auto overscroll-contain scroll-smooth"
       >
         {loadingMsgs ? (
           <TranscriptSkeleton />
@@ -414,7 +414,7 @@ export function LearnChat({ threadId, onBack }: Props) {
       )}
 
       {/* Composer — calm white surface, hairline border, no gradient wash */}
-      <div className="px-3 sm:px-6 pt-2 pb-2 border-t border-border bg-background/95 backdrop-blur-xl">
+      <div className="shrink-0 px-3 sm:px-6 pt-2 pb-2 border-t border-border bg-background/95 backdrop-blur-xl">
         <div className="mx-auto w-full max-w-3xl space-y-2">
           {/* Action chips */}
           {!isEmpty && (

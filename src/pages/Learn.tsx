@@ -127,13 +127,13 @@ export default function Learn() {
         <aside className="hidden lg:flex w-64 border-r border-border flex-col">
           <ThreadList activeId={threadId} />
         </aside>
-        <div className="flex-1 flex flex-col min-w-0 min-h-0">
+        <div className="relative flex-1 min-w-0 min-h-0">
           {threadId ? (
             <LearnChat key={threadId} threadId={threadId} onBack={handleBack} />
           ) : isLoading ? (
             <LearnSkeleton />
           ) : (
-            <div className="flex-1 flex items-center justify-center text-muted-foreground text-sm">
+            <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-sm">
               Loading your chat...
             </div>
           )}
