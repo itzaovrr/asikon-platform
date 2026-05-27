@@ -62,21 +62,25 @@ const QUICK_PROMPTS = [
     icon: BookOpen,
     label: "Help me with SSC Math",
     prompt: "I'm struggling with SSC math. Can you walk me through where to start?",
+    tint: "from-blue-500/15 to-blue-500/0 text-blue-600 dark:text-blue-400 ring-blue-500/20",
   },
   {
     icon: ListChecks,
     label: "Quiz me on photosynthesis",
     prompt: "Give me 5 MCQs on photosynthesis with answers and short explanations.",
+    tint: "from-emerald-500/15 to-emerald-500/0 text-emerald-600 dark:text-emerald-400 ring-emerald-500/20",
   },
   {
     icon: Brain,
     label: "Explain Newton's 2nd law",
     prompt: "Explain Newton's second law to me like I'm 12, with one real example.",
+    tint: "from-violet-500/15 to-violet-500/0 text-violet-600 dark:text-violet-400 ring-violet-500/20",
   },
   {
     icon: SparklesIcon,
     label: "Plan my HSC revision",
     prompt: "Build me a realistic 7-day HSC revision routine I can actually follow.",
+    tint: "from-amber-500/15 to-amber-500/0 text-amber-600 dark:text-amber-400 ring-amber-500/20",
   },
 ];
 
@@ -85,6 +89,7 @@ const CAPABILITIES = [
   { icon: ListChecks, label: "Practice with MCQs" },
   { icon: GraduationCap, label: "Plan your revision" },
 ];
+
 
 // Chips append a real instruction to the next message.
 const ACTION_CHIPS = [
@@ -312,22 +317,25 @@ export function LearnChat({ threadId, onBack }: Props) {
           <div className="relative shrink-0">
             <span
               aria-hidden
-              className="pointer-events-none absolute inset-0 -m-1.5 rounded-full blur-md opacity-70"
-              style={{ background: "radial-gradient(circle, hsl(var(--foreground)/0.12), transparent 70%)" }}
+              className="pointer-events-none absolute inset-0 -m-2 rounded-full blur-md opacity-80"
+              style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.35), transparent 70%)" }}
             />
             <img
               src={tutorAvatar}
               alt=""
-              className="relative w-7 h-7 rounded-full ring-1 ring-border"
+              className="relative w-8 h-8 rounded-full ring-2 ring-background shadow-sm"
             />
+            <span aria-hidden className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-background" />
           </div>
           <div className="min-w-0">
             <div className="font-display text-sm font-semibold truncate leading-tight tracking-tight">{threadTitle}</div>
-            <div className="text-[11px] text-muted-foreground leading-tight">
-              Asikon AI · your study buddy
+            <div className="text-[11px] text-muted-foreground leading-tight flex items-center gap-1">
+              <span className="text-emerald-600 dark:text-emerald-400 font-medium">Online</span>
+              <span>· Asikon AI tutor</span>
             </div>
           </div>
         </div>
+
 
         <Button
           onClick={handleNewChat}
@@ -415,7 +423,7 @@ export function LearnChat({ threadId, onBack }: Props) {
 
       {/* Composer — calm white surface, hairline border, no gradient wash */}
       <div className="shrink-0 px-3 sm:px-6 pt-2 pb-2 border-t border-border bg-background/95 backdrop-blur-xl">
-        <div className="mx-auto w-full max-w-3xl space-y-2 my-0 px-0 py-[400px]">
+        <div className="mx-auto w-full max-w-3xl space-y-2">
           {/* Action chips */}
           {!isEmpty && (
             <div className="flex gap-2 overflow-x-auto scrollbar-none -mx-1 px-1">
@@ -438,10 +446,11 @@ export function LearnChat({ threadId, onBack }: Props) {
           <div
             className={cn(
               "rounded-2xl border border-border bg-card shadow-sm",
-              "focus-within:border-foreground/40 focus-within:shadow-md",
-              "transition-[border-color,box-shadow] duration-200 px-3 pt-2 pb-1.5",
+              "focus-within:border-primary/50 focus-within:shadow-lg focus-within:ring-4 focus-within:ring-primary/10",
+              "transition-all duration-200 px-3 pt-2 pb-1.5",
             )}
           >
+
             <textarea
               ref={textareaRef}
               value={input}
@@ -594,14 +603,17 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
             <button
               key={q.label}
               onClick={() => onPick(q.prompt)}
-              className="group flex items-start gap-3 text-left p-4 rounded-2xl bg-card border border-border hover:border-foreground/30 hover:bg-secondary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30"
+              className="group relative overflow-hidden flex items-center gap-3 text-left p-3.5 rounded-2xl bg-card border border-border hover:border-foreground/30 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30"
             >
-              <span className="shrink-0 w-9 h-9 rounded-xl flex items-center justify-center bg-secondary text-foreground ring-1 ring-border">
+              <span aria-hidden className={cn("absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity", q.tint)} />
+              <span className={cn("relative shrink-0 w-9 h-9 rounded-xl flex items-center justify-center bg-gradient-to-br ring-1", q.tint)}>
                 <Icon className="w-4 h-4" />
               </span>
-              <span className="text-[14px] font-medium leading-snug pt-1.5">{q.label}</span>
+              <span className="relative text-[14px] font-medium leading-snug flex-1">{q.label}</span>
+              <ArrowUp className="relative w-3.5 h-3.5 text-muted-foreground rotate-45 opacity-0 group-hover:opacity-100 transition-opacity" />
             </button>
           );
+
         })}
       </div>
 
