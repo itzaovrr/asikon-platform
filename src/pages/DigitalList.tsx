@@ -1,20 +1,36 @@
 import { Link } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { Search, X } from "lucide-react";
 import { useContentItems, type ContentKind } from "@/hooks/useContent";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/transitions/Reveal";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
 
-const META: Record<ContentKind, { title: string; subtitle: string; eyebrow: string }> = {
-  digital: { title: "Digital Products", subtitle: "Downloadable templates, ebooks, source files & more.", eyebrow: "Shop" },
-  course:  { title: "Courses", subtitle: "Structured multi-module learning paths.", eyebrow: "Learn" },
-  service: { title: "Services", subtitle: "Done-for-you packages and 1-on-1 sessions.", eyebrow: "Hire" },
+const META: Record<ContentKind, { title: string; subtitle: string; eyebrow: string; placeholder: string }> = {
+  digital: { title: "Digital Products", subtitle: "Downloadable templates, ebooks, source files & more.", eyebrow: "Shop", placeholder: "Search digital products..." },
+  course:  { title: "Courses", subtitle: "Structured multi-module learning paths.", eyebrow: "Learn", placeholder: "Search courses..." },
+  service: { title: "Services", subtitle: "Done-for-you packages and 1-on-1 sessions.", eyebrow: "Hire", placeholder: "Search services..." },
 };
 
 export function ContentList({ kind }: { kind: ContentKind }) {
   const { data: items = [], isLoading } = useContentItems({ kind, limit: 100 });
   const m = META[kind];
+  const [q, setQ] = useState("");
+
+  const filtered = useMemo(() => {
+    const t = q.trim().toLowerCase();
+    if (!t) return items;
+    return items.filter((i) =>
+      [i.title, i.summary ?? "", (i.tags ?? []).join(" "), i.category ?? ""]
+        .join(" ")
+        .toLowerCase()
+        .includes(t)
+    );
+  }, [items, q]);
 
   return (
     <AppLayout>
@@ -22,15 +38,30 @@ export function ContentList({ kind }: { kind: ContentKind }) {
       <div className="max-w-6xl mx-auto p-4 sm:p-6 space-y-6">
         <SectionHeader eyebrow={m.eyebrow} title={m.title} subtitle={m.subtitle} />
 
+        <div className="relative max-w-md">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder={m.placeholder}
+            className="pl-10 pr-10 h-10 bg-secondary border-border focus:border-primary"
+          />
+          {q && (
+            <Button variant="ghost" size="icon" className="absolute right-1 top-1/2 -translate-y-1/2 w-7 h-7" onClick={() => setQ("")}>
+              <X className="w-4 h-4" />
+            </Button>
+          )}
+        </div>
+
         {isLoading ? (
           <p className="text-center py-10 text-muted-foreground text-sm">Loading…</p>
-        ) : items.length === 0 ? (
+        ) : filtered.length === 0 ? (
           <div className="glass rounded-2xl py-16 text-center text-muted-foreground">
-            Nothing published yet. Check back soon.
+            {q ? `No results for "${q}".` : "Nothing published yet. Check back soon."}
           </div>
         ) : (
           <Reveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {items.map((i) => (
+            {filtered.map((i) => (
               <Link
                 key={i.id}
                 to={`/content/${i.slug}`}
