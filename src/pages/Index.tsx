@@ -1,15 +1,14 @@
 import { SEO } from "@/components/SEO";
 import { Gift, Flame, Sparkles, GraduationCap, BookOpen, ArrowUpRight } from "lucide-react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { lazy, Suspense, useMemo } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { FirstRunTour } from "@/components/onboarding/FirstRunTour";
 
 import { PostCard } from "@/components/community/PostCard";
-import { HeroCarousel, ProductCarousel } from "@/components/carousels";
+import { ProductCarousel } from "@/components/carousels";
 import { mockPosts } from "@/lib/mock-data";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/transitions/Reveal";
@@ -22,20 +21,11 @@ import { ContinueLearningRow } from "@/components/home/workspace/ContinueLearnin
 import { AiAssistantBox } from "@/components/home/workspace/AiAssistantBox";
 import { ActivityFeed } from "@/components/home/workspace/ActivityFeed";
 import { MobileCoursesTop } from "@/components/home/mobile/MobileCoursesTop";
-import { CategoriesScroll } from "@/components/home/mobile/CategoriesScroll";
 import { ImageHeroSlider } from "@/components/home/mobile/ImageHeroSlider";
-import { ImageOfferGrid } from "@/components/home/mobile/ImageOfferGrid";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import { useHomeSections, HomeSection } from "@/hooks/useHomeSections";
 import { useAuth } from "@/hooks/useAuth";
-import { useLearnerProfile } from "@/hooks/useLearnerProfile";
 import { TodayMissionCard } from "@/features/mission/TodayMissionCard";
-import { TrackProgress } from "@/features/tracks/TrackProgress";
-import { StreakBadge } from "@/features/progress/StreakBadge";
-import { XPBar } from "@/features/progress/XPBar";
-import courseAiMl from "@/assets/course-ai-ml.jpg";
-import coursePython from "@/assets/course-python.jpg";
-import promptLibrary from "@/assets/prompt-library.jpg";
 
 // Lazy-load below-the-fold sections so their JS doesn't block first paint.
 const HowItWorks = lazy(() => import("@/components/home/sections/HowItWorks").then(m => ({ default: m.HowItWorks })));
@@ -44,11 +34,6 @@ const MentorshipHomeSection = lazy(() => import("@/components/mentorship/Mentors
 const SectionFallback = () => <div className="section-x"><Skeleton className="w-full h-32 rounded-2xl" /></div>;
 
 
-const heroSlides = [
-  { id: "1", image: courseAiMl, eyebrow: "New course", title: "Learn AI with Asikon", subtitle: "Master ML, Python, and modern AI tools — taught by experts", cta: { label: "Browse Courses", href: "/shop?type=courses" }, secondaryCta: { label: "See syllabus", href: "/shop?type=courses" } },
-  { id: "2", image: promptLibrary, eyebrow: "Prompt library", title: "1000+ AI Prompts", subtitle: "Boost your productivity with our curated prompt library", cta: { label: "Get the Library", href: "/prompts" } },
-  { id: "3", image: coursePython, eyebrow: "Limited deal", title: "Skill-Up Friday — 50% Off", subtitle: "Limited time deals on top-rated courses and books", cta: { label: "View Deals", href: "/shop?filter=deals" } },
-];
 
 const transformProduct = (p: any) => ({
   id: p.id,
