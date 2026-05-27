@@ -13,6 +13,19 @@ export interface SearchResults {
 
 const EMPTY: SearchResults = { products: [], courses: [], digital: [], services: [], mentors: [], posts: [] };
 
+interface RpcRow {
+  source: "product" | "content" | "mentor" | "post";
+  id: string;
+  kind: string | null;
+  title: string | null;
+  slug: string | null;
+  image_url: string | null;
+  price: number | null;
+  is_free: boolean | null;
+  extra: Record<string, unknown> | null;
+  score: number;
+}
+
 function useDebounced<T>(value: T, ms = 250): T {
   const [v, setV] = useState(value);
   useEffect(() => {
@@ -31,37 +44,35 @@ export function useGlobalSearch(rawQuery: string) {
     enabled,
     staleTime: 30_000,
     queryFn: async (): Promise<SearchResults> => {
-      const like = `%${query.replace(/[%_]/g, "\\$&")}%`;
-      const [prod, content, mentors, posts] = await Promise.all([
-        supabase
-          .from("products")
-          .select("id,name,slug,image_url,price")
-          .or(`name.ilike.${like},description.ilike.${like}`)
-          .limit(5),
-        supabase
-          .from("content_items")
-          .select("id,kind,title,slug,cover_url,price,is_free")
-          .eq("status", "published")
-          .or(`title.ilike.${like},summary.ilike.${like}`)
-          .limit(15),
-        supabase
-          .from("mentors")
-          .select("id,name,slug,avatar_url,subjects")
-          .eq("is_active", true)
-          .ilike("name", like)
-          .limit(5),
-        supabase.from("posts").select("id,content,user_id").ilike("content", like).limit(5),
-      ]);
+      const { data, error } = await supabase.rpc("global_search", { q: query, per_source: 5 });
+      if (error) throw error;
+      const rows = (data ?? []) as RpcRow[];
 
-      const items = (content.data ?? []) as any[];
-      return {
-        products: (prod.data ?? []) as any,
-        courses: items.filter((i) => i.kind === "course").slice(0, 5),
-        digital: items.filter((i) => i.kind === "digital").slice(0, 5),
-        services: items.filter((i) => i.kind === "service").slice(0, 5),
-        mentors: (mentors.data ?? []) as any,
-        posts: (posts.data ?? []) as any,
-      };
+      const out: SearchResults = { products: [], courses: [], digital: [], services: [], mentors: [], posts: [] };
+      for (const r of rows) {
+        if (r.source === "product") {
+          if (out.products.length < 5)
+            out.products.push({ id: r.id, name: r.title ?? "", slug: r.slug ?? "", image_url: r.image_url, price: Number(r.price ?? 0) });
+        } else if (r.source === "content") {
+          const item = { id: r.id, title: r.title ?? "", slug: r.slug ?? "", cover_url: r.image_url, price: Number(r.price ?? 0), is_free: !!r.is_free };
+          if (r.kind === "course" && out.courses.length < 5) out.courses.push(item);
+          else if (r.kind === "digital" && out.digital.length < 5) out.digital.push(item);
+          else if (r.kind === "service" && out.services.length < 5) out.services.push(item);
+        } else if (r.source === "mentor") {
+          if (out.mentors.length < 5)
+            out.mentors.push({
+              id: r.id,
+              name: r.title ?? "",
+              slug: r.slug ?? "",
+              avatar_url: r.image_url,
+              subjects: (r.extra?.subjects as string[]) ?? [],
+            });
+        } else if (r.source === "post") {
+          if (out.posts.length < 5)
+            out.posts.push({ id: r.id, content: r.title, user_id: (r.extra?.user_id as string) ?? "" });
+        }
+      }
+      return out;
     },
     placeholderData: (prev) => prev,
     initialData: enabled ? undefined : EMPTY,
