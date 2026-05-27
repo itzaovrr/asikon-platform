@@ -149,6 +149,7 @@ export function AppLayout({
           }
         >
           {children}
+          {!fillViewport && <SiteFooter />}
         </main>
 
 
