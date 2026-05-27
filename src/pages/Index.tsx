@@ -185,6 +185,8 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
     const Eyebrow = ({ children }: { children: React.ReactNode }) => (
       <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground">{children}</p>
     );
+    const tileBase =
+      "group relative block h-full overflow-hidden rounded-2xl border border-border/60 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_18px_40px_-18px_hsl(var(--primary)/0.55)] active:scale-[0.98] focus-ring";
     return (
       <section className="section-x">
         <div className="grid grid-cols-3 grid-rows-2 gap-3">
@@ -192,74 +194,107 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
           <Reveal delay={0} variant="scale" className="col-span-2 row-span-2">
             <Link
               to={courses.href}
-              className="midnight-tile midnight-glow midnight-shine pressable focus-ring relative flex flex-col justify-between p-5 h-full min-h-[12rem] overflow-hidden"
+              className={`${tileBase} flex flex-col justify-between p-5 min-h-[12rem] text-primary-foreground`}
+              style={{ background: "var(--gradient-primary)" }}
             >
-              <div className="flex items-start justify-between relative z-10">
-                <Eyebrow>ASIKON</Eyebrow>
-                <div className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-[0_0_24px_hsl(var(--primary)/0.55)]">
+              {/* Layered glow + shine */}
+              <div aria-hidden className="pointer-events-none absolute -top-20 -right-16 w-56 h-56 rounded-full bg-white/20 blur-3xl" />
+              <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_60%_at_0%_100%,hsl(0_0%_0%/0.35),transparent_60%)]" />
+              <div aria-hidden className="pointer-events-none absolute -inset-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[conic-gradient(from_120deg,transparent,hsl(0_0%_100%/0.18),transparent_40%)]" />
+
+              <div className="relative z-10 flex items-start justify-between">
+                <p className="text-[10px] uppercase tracking-[0.22em] font-semibold text-primary-foreground/80">ASIKON</p>
+                <div className="w-11 h-11 rounded-xl bg-white/15 backdrop-blur ring-1 ring-white/30 flex items-center justify-center text-primary-foreground shadow-[0_0_24px_hsl(var(--primary)/0.7),inset_0_1px_0_hsl(0_0%_100%/0.3)]">
                   <courses.icon className="h-5 w-5" />
                 </div>
               </div>
+
               <div className="relative z-10">
-                <h3 className="font-display font-bold text-2xl leading-tight text-foreground">
+                <h3 className="font-display font-bold text-2xl leading-tight">
                   Courses<br/>library
                 </h3>
-                <div className="flex items-center gap-5 mt-4">
-                  <div>
-                    <p className="font-display font-bold text-base text-foreground">120+</p>
-                    <Eyebrow>Lessons</Eyebrow>
+                <div className="mt-4 flex items-center gap-4 divide-x divide-white/20">
+                  <div className="pr-4">
+                    <p className="font-display font-bold text-base tabular-nums">120+</p>
+                    <p className="text-[10px] uppercase tracking-widest font-semibold text-primary-foreground/75">Lessons</p>
                   </div>
-                  <div>
-                    <p className="font-display font-bold text-base text-foreground">24/7</p>
-                    <Eyebrow>AI tuor</Eyebrow>
+                  <div className="pl-4">
+                    <p className="font-display font-bold text-base tabular-nums">24/7</p>
+                    <p className="text-[10px] uppercase tracking-widest font-semibold text-primary-foreground/75">AI tuor</p>
                   </div>
                 </div>
               </div>
+
+              <span className="relative z-10 absolute bottom-4 right-4 inline-flex items-center gap-1 rounded-full bg-white/15 backdrop-blur ring-1 ring-white/25 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider transition-transform duration-300 group-hover:translate-x-0.5">
+                Start <ArrowUpRight className="h-3 w-3" />
+              </span>
             </Link>
           </Reveal>
 
-          {/* Books */}
+          {/* Books — cool tint */}
           <Reveal delay={60} variant="scale" className="col-span-1">
-            <Link to={books.href} className="midnight-tile pressable focus-ring relative flex flex-col justify-between p-4 h-full min-h-[5.75rem]">
+            <Link
+              to={books.href}
+              className={`${tileBase} flex flex-col justify-between p-4 min-h-[5.75rem] bg-gradient-to-br from-primary/15 via-primary/5 to-transparent`}
+            >
               <div className="flex items-start justify-between">
                 <Eyebrow>Read</Eyebrow>
-                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <books.icon className="h-4 w-4 text-primary" />
+                <div className="w-8 h-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center shadow-[0_6px_18px_-6px_hsl(var(--primary)/0.7)]">
+                  <books.icon className="h-4 w-4" />
                 </div>
               </div>
-              <p className="font-display font-bold text-sm text-foreground">{books.label}</p>
+              <div className="flex items-center justify-between">
+                <p className="font-display font-bold text-sm text-foreground">{books.label}</p>
+                <ArrowUpRight className="h-3.5 w-3.5 text-primary opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+              </div>
             </Link>
           </Reveal>
 
-          {/* Prompts */}
+          {/* Prompts — warm tint */}
           <Reveal delay={120} variant="scale" className="col-span-1">
-            <Link to={prompts.href} className="midnight-tile pressable focus-ring relative flex flex-col justify-between p-4 h-full min-h-[5.75rem]">
+            <Link
+              to={prompts.href}
+              className={`${tileBase} flex flex-col justify-between p-4 min-h-[5.75rem] bg-gradient-to-br from-primary/25 via-primary/10 to-transparent`}
+            >
               <div className="flex items-start justify-between">
                 <span className="inline-flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_hsl(142_71%_45%/0.9)]" />
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75 animate-ping" />
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_hsl(142_71%_45%/0.9)]" />
+                  </span>
                   <Eyebrow>Live</Eyebrow>
                 </span>
-                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <prompts.icon className="h-4 w-4 text-primary" />
+                <div className="w-8 h-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center shadow-[0_6px_18px_-6px_hsl(var(--primary)/0.7)]">
+                  <prompts.icon className="h-4 w-4" />
                 </div>
               </div>
-              <p className="font-display font-bold text-sm text-foreground">{prompts.label}</p>
+              <div className="flex items-center justify-between">
+                <p className="font-display font-bold text-sm text-foreground">{prompts.label}</p>
+                <ArrowUpRight className="h-3.5 w-3.5 text-primary opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+              </div>
             </Link>
           </Reveal>
 
-          {/* Trending wide */}
+          {/* Trending wide CTA */}
           <Reveal delay={180} variant="scale" className="col-span-3">
-            <Link to={trending.href} className="midnight-tile pressable focus-ring flex items-center justify-between p-4 h-16">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <trending.icon className="h-4 w-4 text-primary" />
+            <Link
+              to={trending.href}
+              className={`${tileBase} flex items-center justify-between p-4 h-16 bg-gradient-to-r from-primary/15 via-card to-primary/5`}
+            >
+              <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-primary to-primary/40" />
+              <div className="relative flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center shadow-[0_8px_22px_-6px_hsl(var(--primary)/0.7)]">
+                  <trending.icon className="h-4 w-4" />
                 </div>
                 <div>
                   <p className="font-display font-bold text-sm text-foreground">{trending.label}</p>
                   <Eyebrow>What's hot today</Eyebrow>
                 </div>
               </div>
-              <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+              <span className="relative inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-primary">
+                View
+                <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </span>
             </Link>
           </Reveal>
         </div>
