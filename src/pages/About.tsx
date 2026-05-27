@@ -406,15 +406,15 @@ function StorySection() {
   return (
     <section className="py-16 sm:py-24 lg:py-32 border-y border-border/40 bg-card/20">
       <div className="container-editorial grid lg:grid-cols-12 gap-10 lg:gap-16">
-        <div className="lg:col-span-7">
-          <p className="eyebrow-bar mb-3">Our story</p>
+        <div className="lg:col-span-7 text-center lg:text-left">
+          <p className="eyebrow-bar mb-3 justify-center lg:justify-start inline-flex lg:flex">Our story</p>
           <h2
-            className="font-display font-semibold tracking-[-0.025em] leading-[1.05] mb-7 max-w-[18ch]"
-            style={{ fontSize: "clamp(1.85rem, 4.5vw, 3.5rem)" }}
+            className="font-display font-semibold tracking-[-0.025em] leading-[1.05] mb-6 sm:mb-7 mx-auto lg:mx-0 max-w-[22ch] lg:max-w-[18ch]"
+            style={{ fontSize: "clamp(1.7rem, 4.5vw, 3.5rem)" }}
           >
             From a Dhaka classroom to learners everywhere.
           </h2>
-          <div className="space-y-5 text-[15px] sm:text-base leading-[1.7] text-muted-foreground max-w-[58ch]">
+          <div className="space-y-4 sm:space-y-5 text-[14.5px] sm:text-base leading-[1.7] text-muted-foreground mx-auto lg:mx-0 max-w-[52ch] sm:max-w-[58ch]">
             <p>
               Brilliant students were being asked to learn in systems built for
               someone else, somewhere else. That felt wrong.
