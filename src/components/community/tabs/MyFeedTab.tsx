@@ -60,7 +60,7 @@ export function MyFeedTab() {
   // Stable reference — `useMemo([])` returns the same array on every render.
   const allContent = useMemo<FeedItem[]>(buildMixedFeed, []);
 
-  const { displayedItems, isLoading, loaderRef } = useInfiniteScroll<LoopedFeedItem>({
+  const { displayedItems, isLoading, loaderRef } = useInfiniteScroll<FeedItem>({
     items: allContent,
     itemsPerPage: 4,
   });
