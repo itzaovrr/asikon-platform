@@ -219,7 +219,7 @@ export function BentoGallery() {
         </h2>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-12 auto-rows-auto gap-2.5 sm:gap-4 lg:gap-5">
+      <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-12 auto-rows-auto gap-2 sm:gap-4 lg:gap-5">
         {TILES.map((t) => (
           <TileCard key={t.title} t={t} />
         ))}
