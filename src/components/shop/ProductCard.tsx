@@ -83,28 +83,34 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
               />
             </button>
 
-            {/* Badge stack — capped at 2 */}
+            {/* Badge stack — capped at 2, calm tonal styling */}
             <div className="absolute top-2 left-2 flex flex-col gap-1 max-w-[60%]">
               {discount > 0 && (
-                <Badge variant="destructive" className="text-[10px] font-bold px-1.5 py-0">
-                  -{discount}%
+                <Badge className="text-[10px] font-semibold bg-foreground text-background border-0 px-1.5 py-0">
+                  −{discount}%
                 </Badge>
               )}
               {product.isTrending && discount === 0 && (
-                <Badge className="gap-1 text-[10px] font-semibold gradient-primary border-0 px-1.5 py-0">
-                  <TrendingUp className="h-2.5 w-2.5" />
-                  Hot
+                <Badge
+                  variant="secondary"
+                  className="gap-1 text-[10px] font-medium bg-background/85 backdrop-blur-sm border-0 px-1.5 py-0"
+                >
+                  <TrendingUp className="h-2.5 w-2.5 text-primary" />
+                  Trending
                 </Badge>
               )}
               {product.isNew && discount === 0 && !product.isTrending && (
-                <Badge className="text-[10px] font-semibold bg-accent text-accent-foreground border-0 px-1.5 py-0">
+                <Badge
+                  variant="secondary"
+                  className="text-[10px] font-medium bg-background/85 backdrop-blur-sm border-0 px-1.5 py-0"
+                >
                   New
                 </Badge>
               )}
               {product.isAuthentic && (
                 <Badge
                   variant="secondary"
-                  className="gap-1 text-[10px] font-semibold bg-background/85 backdrop-blur-sm border-0 px-1.5 py-0"
+                  className="gap-1 text-[10px] font-medium bg-background/85 backdrop-blur-sm border-0 px-1.5 py-0"
                 >
                   <Shield className="h-2.5 w-2.5 text-success" />
                   Verified
@@ -122,7 +128,7 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
               <Button
                 size="sm"
                 variant="secondary"
-                className="flex-1 h-8 bg-background/90 backdrop-blur-md hover:bg-background text-xs font-semibold"
+                className="flex-1 h-8 bg-background/95 backdrop-blur-md hover:bg-background text-xs font-medium"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -134,12 +140,13 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
               </Button>
               <Button
                 size="sm"
-                className="h-8 w-8 p-0 gradient-primary border-0"
+                className="h-8 w-8 p-0"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   setShowQuickView(true);
                 }}
+                aria-label="Add to cart"
               >
                 <ShoppingBag className="h-3.5 w-3.5" />
               </Button>
