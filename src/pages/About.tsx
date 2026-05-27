@@ -187,11 +187,11 @@ function ImageTextRow({
   meta?: string[];
 }) {
   return (
-    <section className="container-editorial py-12 sm:py-16 lg:py-24">
-      <article className="group relative mx-auto w-full max-w-[1180px] overflow-hidden rounded-[1.75rem] sm:rounded-[2.25rem] glass-strong border border-white/10 shadow-[0_30px_80px_-40px_hsl(var(--primary)/0.35)]">
+    <section className="container-editorial py-8 sm:py-14 lg:py-20">
+      <article className="group relative mx-auto w-full max-w-[1180px] overflow-hidden rounded-2xl sm:rounded-[2.25rem] glass-strong border border-white/10 shadow-[0_20px_50px_-30px_hsl(var(--primary)/0.35)]">
         {/* hairline top */}
         <div
-          className="absolute top-0 left-10 right-10 h-px z-10 pointer-events-none"
+          className="absolute top-0 left-6 right-6 sm:left-10 sm:right-10 h-px z-10 pointer-events-none"
           style={{ background: "var(--gradient-hairline)" }}
         />
         {/* brand glow — sits behind copy column */}
@@ -203,11 +203,11 @@ function ImageTextRow({
           style={{ background: "var(--gradient-primary)" }}
         />
 
-        <div className="relative grid lg:grid-cols-2 lg:items-stretch lg:min-h-[560px] xl:min-h-[600px]">
+        <div className="relative grid lg:grid-cols-2 lg:items-stretch lg:min-h-[540px] xl:min-h-[580px]">
           {/* Media */}
           <div
             className={cn(
-              "relative overflow-hidden aspect-[4/5] sm:aspect-[16/10] lg:aspect-auto lg:min-h-[560px]",
+              "relative overflow-hidden aspect-[3/4] sm:aspect-[16/10] lg:aspect-auto lg:min-h-[540px]",
               reverse ? "lg:order-2" : "lg:order-1",
             )}
           >
@@ -232,30 +232,30 @@ function ImageTextRow({
           {/* Copy */}
           <div
             className={cn(
-              "relative flex flex-col justify-center text-center lg:text-left p-6 sm:p-10 lg:p-14 xl:p-16",
+              "relative flex flex-col justify-center text-center lg:text-left p-5 sm:p-10 lg:p-14 xl:p-16",
               reverse ? "lg:order-1" : "lg:order-2",
             )}
           >
             {/* decorative brand bar */}
             <div
-              className="mx-auto lg:mx-0 mb-5 h-[3px] w-7 rounded-full"
+              className="mx-auto lg:mx-0 mb-4 h-[3px] w-7 rounded-full"
               style={{ background: "var(--gradient-primary)" }}
             />
-            <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.22em] font-medium text-primary/90 mb-4">
+            <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.22em] font-medium text-primary/90 mb-3">
               {eyebrow}
             </p>
             <h2
               className="font-display font-semibold tracking-[-0.025em] leading-[1.05] text-foreground mx-auto lg:mx-0 max-w-[18ch]"
-              style={{ fontSize: "clamp(1.7rem, 3.4vw, 2.75rem)" }}
+              style={{ fontSize: "clamp(1.45rem, 3.4vw, 2.75rem)" }}
             >
               {title}
             </h2>
-            <p className="mt-4 sm:mt-5 mx-auto lg:mx-0 max-w-[42ch] text-[14.5px] sm:text-base leading-[1.65] text-muted-foreground">
+            <p className="mt-3 sm:mt-5 mx-auto lg:mx-0 max-w-[42ch] text-[13.5px] sm:text-base leading-[1.6] sm:leading-[1.65] text-muted-foreground">
               {body}
             </p>
 
             {meta && meta.length > 0 && (
-              <ul className="mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-x-2.5 gap-y-2 text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground/80">
+              <ul className="mt-4 sm:mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-x-2.5 gap-y-2 text-[11px] sm:text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground/80">
                 {meta.map((m, i) => (
                   <li key={m} className="flex items-center gap-2.5">
                     <span>{m}</span>
@@ -267,7 +267,7 @@ function ImageTextRow({
               </ul>
             )}
 
-            <div className="mt-7 sm:mt-8 flex justify-center lg:justify-start">
+            <div className="mt-5 sm:mt-8 flex justify-center lg:justify-start">
               <span className="inline-flex items-center gap-1.5 rounded-full px-4 h-9 text-[13px] font-medium glass border border-white/15 text-foreground/90 transition-transform group-hover:translate-x-0.5">
                 Learn more
                 <ArrowRight className="h-3.5 w-3.5" />
@@ -308,12 +308,12 @@ function PrinciplesCarousel() {
   }, [emblaApi]);
 
   return (
-    <section className="py-16 sm:py-24 lg:py-32 border-y border-border/40 bg-card/20">
-      <div className="container-editorial mb-10 lg:mb-14">
+    <section className="py-10 sm:py-20 lg:py-32 border-y border-border/40 bg-card/20">
+      <div className="container-editorial mb-8 sm:mb-10 lg:mb-14">
         <p className="eyebrow-bar mb-3">What we believe</p>
         <h2
           className="font-display font-semibold tracking-[-0.025em] leading-[1.05] max-w-[18ch]"
-          style={{ fontSize: "clamp(1.85rem, 4.5vw, 3.5rem)" }}
+          style={{ fontSize: "clamp(1.6rem, 4.5vw, 3.5rem)" }}
         >
           Six principles that{" "}
           <span
@@ -329,31 +329,31 @@ function PrinciplesCarousel() {
         className="overflow-hidden pl-[max(1rem,calc((100vw-72rem)/2))]"
         ref={emblaRef}
       >
-        <div className="flex gap-4 sm:gap-5 pr-4">
+        <div className="flex gap-3 sm:gap-5 pr-4">
           {PRINCIPLES.map((p, i) => {
             const Icon = p.icon;
             return (
               <article
                 key={p.title}
-                className="shrink-0 basis-[86%] sm:basis-[48%] lg:basis-[28%] xl:basis-[24%] glass-strong border border-white/10 rounded-[1.75rem] p-7 sm:p-8 relative overflow-hidden hover-lift"
+                className="shrink-0 basis-[82%] sm:basis-[48%] lg:basis-[28%] xl:basis-[24%] glass-strong border border-white/10 rounded-2xl sm:rounded-[1.75rem] p-5 sm:p-8 relative overflow-hidden hover-lift"
               >
                 <div
-                  className="absolute top-0 left-6 right-6 h-px"
+                  className="absolute top-0 left-4 right-4 sm:left-6 sm:right-6 h-px"
                   style={{ background: "var(--gradient-hairline)" }}
                 />
                 <div
-                  className="w-11 h-11 rounded-2xl flex items-center justify-center mb-6"
+                  className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl flex items-center justify-center mb-5 sm:mb-6"
                   style={{ background: "var(--gradient-primary-soft)" }}
                 >
-                  <Icon className="w-5 h-5 text-primary" />
+                  <Icon className="w-[18px] h-[18px] sm:w-5 sm:h-5 text-primary" />
                 </div>
-                <h3 className="font-display text-lg sm:text-xl font-semibold mb-2.5 leading-[1.2] tracking-[-0.01em]">
+                <h3 className="font-display text-base sm:text-xl font-semibold mb-2 sm:mb-2.5 leading-[1.2] tracking-[-0.01em]">
                   {p.title}
                 </h3>
-                <p className="text-[14px] text-muted-foreground leading-[1.6]">
+                <p className="text-[13px] sm:text-[14px] text-muted-foreground leading-[1.6]">
                   {p.body}
                 </p>
-                <div className="absolute bottom-4 right-5 text-[10px] font-mono text-muted-foreground/40">
+                <div className="absolute bottom-3 right-4 sm:bottom-4 sm:right-5 text-[10px] font-mono text-muted-foreground/40">
                   0{i + 1}
                 </div>
               </article>
@@ -362,7 +362,7 @@ function PrinciplesCarousel() {
         </div>
       </div>
 
-      <div className="container-editorial flex gap-1.5 mt-8">
+      <div className="container-editorial flex gap-1.5 mt-6 sm:mt-8">
         {PRINCIPLES.map((_, i) => (
           <button
             key={i}
@@ -396,12 +396,12 @@ function TestimonialsCarousel() {
   ]);
 
   return (
-    <section className="container-editorial py-16 sm:py-24 lg:py-32">
-      <div className="text-center max-w-2xl mx-auto mb-10 lg:mb-14">
+    <section className="container-editorial py-10 sm:py-20 lg:py-32">
+      <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 lg:mb-14">
         <p className="eyebrow-bar mb-3 justify-center inline-flex">Loved by learners</p>
         <h2
           className="font-display font-semibold tracking-[-0.025em] leading-[1.05]"
-          style={{ fontSize: "clamp(1.85rem, 4.5vw, 3.25rem)" }}
+          style={{ fontSize: "clamp(1.6rem, 4.5vw, 3.25rem)" }}
         >
           Real stories. Real momentum.
         </h2>
@@ -412,16 +412,16 @@ function TestimonialsCarousel() {
           {TESTIMONIALS.map((t) => (
             <div
               key={t.name}
-              className="shrink-0 basis-[90%] sm:basis-[60%] lg:basis-[36%] px-2 sm:px-3"
+              className="shrink-0 basis-[86%] sm:basis-[60%] lg:basis-[36%] px-2 sm:px-3"
             >
-              <article className="relative glass-strong border border-white/10 rounded-[1.75rem] p-7 sm:p-9 min-h-[240px] h-full">
-                <Quote className="absolute top-5 right-5 w-9 h-9 text-primary/15" />
-                <div className="flex gap-0.5 mb-4">
+              <article className="relative glass-strong border border-white/10 rounded-2xl sm:rounded-[1.75rem] p-5 sm:p-9 min-h-[200px] sm:min-h-[240px] h-full">
+                <Quote className="absolute top-4 right-4 sm:top-5 sm:right-5 w-7 h-7 sm:w-9 sm:h-9 text-primary/15" />
+                <div className="flex gap-0.5 mb-3 sm:mb-4">
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-primary text-primary" />
+                    <Star key={i} className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-primary text-primary" />
                   ))}
                 </div>
-                <p className="font-display text-[17px] sm:text-lg leading-[1.4] tracking-[-0.005em] text-foreground/90">
+                <p className="font-display text-[15px] sm:text-lg leading-[1.4] tracking-[-0.005em] text-foreground/90">
                   &ldquo;{t.text}&rdquo;
                 </p>
                 <div className="mt-6 pt-5 border-t border-border/40">
