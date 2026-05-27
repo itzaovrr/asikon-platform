@@ -61,7 +61,7 @@ export function AiAssistantBox() {
                 placeholder="Ask anything…"
                 className="h-9 bg-background/60 border-border/60 text-[13px]"
               />
-              <Button type="submit" variant="premium" size="icon" aria-label="Ask" className="h-9 w-9 shrink-0">
+              <Button type="submit" size="icon" aria-label="Ask" className="h-9 w-9 shrink-0">
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </form>
