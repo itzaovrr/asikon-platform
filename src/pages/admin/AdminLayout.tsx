@@ -307,7 +307,10 @@ export default function AdminLayout() {
           </header>
 
           <main
-            className="flex-1 px-3 md:px-6 py-4 md:py-6 md:pb-8 overflow-x-hidden"
+            id="admin-main"
+            tabIndex={-1}
+            aria-label={meta.title}
+            className="flex-1 px-3 md:px-6 py-4 md:py-6 md:pb-8 overflow-x-hidden focus:outline-none"
             style={{ paddingBottom: "calc(7rem + env(safe-area-inset-bottom, 0px))" }}
           >
             <Suspense fallback={<AdminPageSkeleton />}>
