@@ -69,8 +69,9 @@ function AdminSidebar() {
 
   return (
     <aside
-      className="hidden md:flex flex-col w-60 shrink-0 sticky top-0 h-screen border-r border-border/60"
+      className="hidden md:flex flex-col w-60 shrink-0 sticky top-0 h-dvh border-r border-border/60"
       style={{ background: "var(--gradient-surface)" }}
+      aria-label="Admin sidebar"
     >
       <div className="px-4 pt-5 pb-4 flex items-center gap-2.5">
         <NavLink
@@ -215,7 +216,13 @@ export default function AdminLayout() {
 
   return (
     <AdminGuard>
-      <div className="min-h-screen flex w-full bg-background">
+      <div className="min-h-dvh flex w-full bg-background">
+        <a
+          href="#admin-main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-2 focus:rounded-lg focus:bg-primary focus:text-primary-foreground focus:shadow-lg"
+        >
+          Skip to main content
+        </a>
         <AdminSidebar />
 
         <div className="flex-1 flex flex-col min-w-0">
@@ -301,7 +308,10 @@ export default function AdminLayout() {
           </header>
 
           <main
-            className="flex-1 px-3 md:px-6 py-4 md:py-6 md:pb-8 overflow-x-hidden"
+            id="admin-main"
+            tabIndex={-1}
+            aria-label={meta.title}
+            className="flex-1 px-3 md:px-6 py-4 md:py-6 md:pb-8 overflow-x-hidden focus:outline-none"
             style={{ paddingBottom: "calc(7rem + env(safe-area-inset-bottom, 0px))" }}
           >
             <Suspense fallback={<AdminPageSkeleton />}>
