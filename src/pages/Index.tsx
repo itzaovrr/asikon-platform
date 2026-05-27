@@ -284,45 +284,47 @@ const Index = () => {
           ],
         })}</script>
       </SEO>
-      <MobilePage spacing="space-y-4 lg:space-y-14">
-        {user ? (
-          <>
-            {/* 1 — Calm greeting */}
-            <GreetingStrip />
+      <div className="home-midnight min-h-screen">
+        <MobilePage spacing="space-y-5 lg:space-y-14">
+          {user ? (
+            <>
+              {/* 1 — Calm greeting */}
+              <GreetingStrip />
 
-            {/* 2 — The single most important thing on the screen */}
-            <section className="section-x">
-              <TodayMissionCard />
-            </section>
+              {/* 2 — The single most important thing on the screen */}
+              <section className="section-x">
+                <TodayMissionCard />
+              </section>
 
-            {/* 3 — Continue where you left off */}
-            <ContinueLearningRow />
+              {/* 3 — Continue where you left off */}
+              <ContinueLearningRow />
 
-            {/* 4 — Four calm tiles: Tutor / Shop / Community / Mentors */}
-            <QuickAccessGrid />
+              {/* 4 — Four calm tiles: Tutor / Shop / Community / Mentors */}
+              <QuickAccessGrid />
 
-            {/* 5 — Editorial hero (admin banners) */}
-            {heroSection && <ImageHeroSlider />}
+              {/* 5 — Editorial hero (admin banners) */}
+              {heroSection && <ImageHeroSlider />}
 
-            {/* 6 — AI assistant entry */}
-            <AiAssistantBox />
+              {/* 6 — AI assistant entry */}
+              <AiAssistantBox />
 
-            {/* 7 — Discovery: courses + commerce sections (admin-ordered) */}
-            <MobileCoursesTop />
-            {restSections.map(renderSection)}
+              {/* 7 — Discovery: courses + commerce sections (admin-ordered) */}
+              <MobileCoursesTop />
+              {restSections.map(renderSection)}
 
-            {/* 8 — Quiet personal footer: progress + activity */}
-            <ProgressSnapshot />
-            <ActivityFeed />
-          </>
-        ) : (
-          <>
-            {heroSection && renderSection(heroSection)}
-            <QuickAccessGrid />
-            {restSections.map(renderSection)}
-          </>
-        )}
-      </MobilePage>
+              {/* 8 — Quiet personal footer: progress + activity */}
+              <ProgressSnapshot />
+              <ActivityFeed />
+            </>
+          ) : (
+            <>
+              {heroSection && renderSection(heroSection)}
+              {restSections.map(renderSection)}
+            </>
+          )}
+        </MobilePage>
+      </div>
+
     </AppLayout>
   );
 };
