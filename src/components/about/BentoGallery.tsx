@@ -110,16 +110,16 @@ function TileCard({ t }: { t: Tile }) {
     12: "lg:col-span-12",
   };
   const mobileColMap: Record<number, string> = {
-    1: "col-span-1",
-    2: "col-span-2",
+    1: "sm:col-span-1",
+    2: "sm:col-span-2",
   };
 
   return (
     <Link
       to={t.to}
       className={cn(
-        "group relative block overflow-hidden rounded-2xl sm:rounded-[2rem] border border-white/10",
-        "aspect-[4/3] sm:aspect-[5/4]",
+        "group relative block overflow-hidden rounded-xl sm:rounded-[2rem] border border-white/10",
+        "col-span-1 aspect-square sm:aspect-[5/4]",
         t.rows === 2 && "lg:row-span-2 lg:aspect-auto lg:min-h-[640px]",
         mobileColMap[t.spanMobile ?? 2],
         desktopColMap[t.spanDesktop ?? 6],
@@ -152,14 +152,14 @@ function TileCard({ t }: { t: Tile }) {
       {/* content */}
       <div
         className={cn(
-          "absolute inset-0 flex flex-col justify-end p-4 sm:p-7 lg:p-9 text-center sm:text-left",
+          "absolute inset-0 flex flex-col justify-end p-2.5 sm:p-7 lg:p-9 text-center sm:text-left",
           t.tone === "dark" ? "text-white" : "text-neutral-900",
         )}
       >
         {t.eyebrow && (
           <p
             className={cn(
-              "text-[10px] sm:text-[11px] uppercase tracking-[0.22em] font-medium mb-1.5 sm:mb-3 mx-auto sm:mx-0",
+              "text-[9px] sm:text-[11px] uppercase tracking-[0.18em] sm:tracking-[0.22em] font-medium mb-1 sm:mb-3 mx-auto sm:mx-0",
               t.tone === "dark" ? "text-white/70" : "text-neutral-700",
             )}
           >
@@ -167,32 +167,31 @@ function TileCard({ t }: { t: Tile }) {
           </p>
         )}
         <h3
-          className="font-display font-semibold tracking-[-0.025em] leading-[1.05] whitespace-pre-line"
-          style={{ fontSize: "clamp(1.15rem, 2.4vw, 2.25rem)" }}
+          className="font-display font-semibold tracking-[-0.025em] leading-[1.05] whitespace-pre-line text-[12px] sm:text-[1.75rem] lg:text-[2.25rem]"
         >
           {t.title}
         </h3>
         {t.subtitle && (
           <p
             className={cn(
-              "mt-1.5 sm:mt-3 text-[12.5px] sm:text-[14.5px] leading-[1.45] sm:leading-[1.5] max-w-[36ch] mx-auto sm:mx-0",
+              "hidden sm:block mt-1.5 sm:mt-3 text-[12.5px] sm:text-[14.5px] leading-[1.45] sm:leading-[1.5] max-w-[36ch] mx-auto sm:mx-0",
               t.tone === "dark" ? "text-white/75" : "text-neutral-700",
             )}
           >
             {t.subtitle}
           </p>
         )}
-        <div className="mt-3 sm:mt-5 flex justify-center sm:justify-start">
+        <div className="mt-1.5 sm:mt-5 flex justify-center sm:justify-start">
           <span
             className={cn(
-              "inline-flex items-center gap-1.5 rounded-full px-3.5 sm:px-4 h-8 sm:h-9 text-[12.5px] sm:text-[13px] font-medium backdrop-blur-xl transition-transform group-hover:translate-y-[-1px]",
+              "inline-flex items-center gap-1 sm:gap-1.5 rounded-full px-2 sm:px-4 h-6 sm:h-9 text-[10px] sm:text-[13px] font-medium backdrop-blur-xl transition-transform group-hover:translate-y-[-1px]",
               t.tone === "dark"
                 ? "bg-white text-neutral-900 hover:bg-white/90"
                 : "bg-neutral-900 text-white hover:bg-neutral-800",
             )}
           >
             {t.cta}
-            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+            <ArrowRight className="h-3 w-3 sm:h-3.5 sm:w-3.5 transition-transform group-hover:translate-x-0.5" />
           </span>
         </div>
       </div>
@@ -219,7 +218,7 @@ export function BentoGallery() {
         </h2>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-12 auto-rows-auto gap-2.5 sm:gap-4 lg:gap-5">
+      <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-12 auto-rows-auto gap-2 sm:gap-4 lg:gap-5">
         {TILES.map((t) => (
           <TileCard key={t.title} t={t} />
         ))}
