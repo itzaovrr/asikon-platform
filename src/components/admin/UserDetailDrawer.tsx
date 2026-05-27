@@ -387,6 +387,7 @@ export function UserDetailDrawer({ userId, onClose }: Props) {
     <Sheet open={open} onOpenChange={(o) => !o && onClose()}>
       <SheetContent
         side="right"
+        aria-describedby={undefined}
         className="w-full sm:max-w-[480px] max-w-full overflow-y-auto p-0 glass-strong border-border/60 max-sm:rounded-t-3xl max-sm:!inset-x-0 max-sm:!right-0 max-sm:!left-0 max-sm:!bottom-0 max-sm:!top-auto max-sm:!h-[92vh] max-sm:!w-full"
       >
         <SheetHeader className="p-5 border-b border-border/50 sticky top-0 z-10 glass-strong">
