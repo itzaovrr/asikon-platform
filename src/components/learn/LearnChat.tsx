@@ -99,9 +99,10 @@ const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 
 interface Props {
   threadId: string;
+  onBack?: () => void;
 }
 
-export function LearnChat({ threadId }: Props) {
+export function LearnChat({ threadId, onBack }: Props) {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { data: initialMessages, isLoading: loadingMsgs } = useAiThreadMessages(threadId);
