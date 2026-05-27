@@ -659,33 +659,20 @@ const Auth = () => {
 
             {/* Bottom-aligned switch & trust strip */}
             {activeView !== "forgot-password" && (
-              <div className="mt-auto pt-10 lg:pt-12 space-y-4">
-                <div className="relative">
-                  <div className="absolute inset-x-0 top-1/2 h-px bg-border" />
-                  <div className="relative flex justify-center">
-                    <span className="px-3 bg-background text-[10.5px] uppercase tracking-[0.22em] text-muted-foreground font-semibold">
-                      {activeView === "login" ? "New here?" : "Already a member?"}
-                    </span>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveView(activeView === "login" ? "register" : "login");
-                    clearErrors();
-                  }}
-                  className={cn(
-                    "w-full h-12 rounded-xl border border-border bg-card/60 backdrop-blur-sm",
-                    "text-sm font-semibold text-foreground",
-                    "hover:border-primary/50 hover:bg-card hover:-translate-y-0.5 active:translate-y-0",
-                    "transition-all duration-200 focus-ring",
-                    "flex items-center justify-center gap-2",
-                  )}
-                >
-                  {activeView === "login" ? "Create a free account" : "Sign in to your account"}
-                  <ArrowRight className="h-4 w-4" />
-                </button>
+              <div className="mt-auto pt-10 lg:pt-12 space-y-5">
+                <p className="text-center text-[13px] text-muted-foreground">
+                  {activeView === "login" ? "New to Asikon?" : "Already a member?"}{" "}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActiveView(activeView === "login" ? "register" : "login");
+                      clearErrors();
+                    }}
+                    className="font-medium text-foreground underline-offset-4 hover:underline"
+                  >
+                    {activeView === "login" ? "Create an account" : "Sign in"}
+                  </button>
+                </p>
 
                 <div className="flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
                   <ShieldCheck className="h-3.5 w-3.5" />
@@ -709,16 +696,7 @@ function PrimaryCta({
   children: React.ReactNode;
 }) {
   return (
-    <Button
-      type="submit"
-      disabled={loading}
-      className={cn(
-        "w-full h-12 rounded-xl gradient-primary text-primary-foreground font-semibold text-sm",
-        "shadow-[0_10px_30px_-10px_hsl(var(--primary)/0.6)] hover:shadow-[0_14px_36px_-10px_hsl(var(--primary)/0.7)]",
-        "hover:opacity-95 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200",
-        "disabled:opacity-70 disabled:hover:translate-y-0",
-      )}
-    >
+    <Button type="submit" size="lg" disabled={loading} className="w-full">
       {loading && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
       {children}
     </Button>
@@ -740,10 +718,10 @@ function OAuthButton({
       onClick={onClick}
       disabled={loading}
       className={cn(
-        "h-11 rounded-xl border border-border bg-card hover:bg-secondary",
+        "h-11 rounded-xl border border-border bg-card hover:bg-secondary/60",
         "flex items-center justify-center gap-2 text-sm font-medium text-foreground",
-        "transition-all hover:-translate-y-0.5 hover:border-primary/40 active:translate-y-0",
-        "disabled:opacity-60 focus-ring",
+        "transition-colors duration-150 active:scale-[0.99]",
+        "disabled:opacity-60",
       )}
     >
       {loading ? (
@@ -753,10 +731,7 @@ function OAuthButton({
       ) : (
         <Github className="h-4 w-4" />
       )}
-      <span className="hidden sm:inline">
-        {provider === "google" ? "Google" : "GitHub"}
-      </span>
-      <span className="sm:hidden">{provider === "google" ? "Google" : "GitHub"}</span>
+      <span>{provider === "google" ? "Google" : "GitHub"}</span>
     </button>
   );
 }
