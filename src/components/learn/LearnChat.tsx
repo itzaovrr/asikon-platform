@@ -312,22 +312,25 @@ export function LearnChat({ threadId, onBack }: Props) {
           <div className="relative shrink-0">
             <span
               aria-hidden
-              className="pointer-events-none absolute inset-0 -m-1.5 rounded-full blur-md opacity-70"
-              style={{ background: "radial-gradient(circle, hsl(var(--foreground)/0.12), transparent 70%)" }}
+              className="pointer-events-none absolute inset-0 -m-2 rounded-full blur-md opacity-80"
+              style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.35), transparent 70%)" }}
             />
             <img
               src={tutorAvatar}
               alt=""
-              className="relative w-7 h-7 rounded-full ring-1 ring-border"
+              className="relative w-8 h-8 rounded-full ring-2 ring-background shadow-sm"
             />
+            <span aria-hidden className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-background" />
           </div>
           <div className="min-w-0">
             <div className="font-display text-sm font-semibold truncate leading-tight tracking-tight">{threadTitle}</div>
-            <div className="text-[11px] text-muted-foreground leading-tight">
-              Asikon AI · your study buddy
+            <div className="text-[11px] text-muted-foreground leading-tight flex items-center gap-1">
+              <span className="text-emerald-600 dark:text-emerald-400 font-medium">Online</span>
+              <span>· Asikon AI tutor</span>
             </div>
           </div>
         </div>
+
 
         <Button
           onClick={handleNewChat}
