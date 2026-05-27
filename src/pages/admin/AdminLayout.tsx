@@ -69,8 +69,9 @@ function AdminSidebar() {
 
   return (
     <aside
-      className="hidden md:flex flex-col w-60 shrink-0 sticky top-0 h-screen border-r border-border/60"
+      className="hidden md:flex flex-col w-60 shrink-0 sticky top-0 h-dvh border-r border-border/60"
       style={{ background: "var(--gradient-surface)" }}
+      aria-label="Admin sidebar"
     >
       <div className="px-4 pt-5 pb-4 flex items-center gap-2.5">
         <NavLink
