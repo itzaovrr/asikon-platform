@@ -149,7 +149,7 @@ export default function ComingSoonTrio() {
         </div>
 
         {/* Cards */}
-        <div className="relative mt-6 flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-2 scrollbar-hide sm:mt-10 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
+        <div className="relative mt-6 flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-2 hide-scrollbar sm:mt-10 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
           {ITEMS.map((item, i) => {
             const t = TONES[item.tone];
             return (
