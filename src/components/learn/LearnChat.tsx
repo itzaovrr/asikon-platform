@@ -708,7 +708,7 @@ function MessageRow({
   }
   return (
     <div className="flex gap-2.5 animate-fade-in group/msg">
-      <img src={tutorAvatar} alt="" className="w-7 h-7 rounded-full shrink-0 mt-0.5" />
+      <img src={tutorAvatar} alt="" className="w-7 h-7 rounded-full shrink-0 mt-0.5 ring-1 ring-border" />
       <div className="flex-1 min-w-0">
         <div className="text-xs font-semibold text-muted-foreground mb-0.5">Apu</div>
         <div
