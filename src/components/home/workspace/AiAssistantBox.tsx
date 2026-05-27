@@ -45,7 +45,7 @@ export function AiAssistantBox() {
             <div className="relative w-12 h-12 rounded-full overflow-hidden ring-1 ring-border">
               <SmartImage
                 src={aiTutor}
-                alt="Apu, AI tutor"
+                alt="Asikon AI tutor"
                 width={48}
                 height={48}
                 className="w-full h-full object-cover"
@@ -54,7 +54,7 @@ export function AiAssistantBox() {
             <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-400 ring-2 ring-background" aria-hidden />
           </div>
           <div className="min-w-0 flex-1">
-            <p className="font-display font-semibold text-[15px] leading-tight tracking-tight">Apu · AI Tutor</p>
+            <p className="font-display font-semibold text-[15px] leading-tight tracking-tight">Asikon AI</p>
             <p className="text-[11.5px] text-muted-foreground leading-tight">Online · Bangla & English</p>
           </div>
         </div>
@@ -67,7 +67,7 @@ export function AiAssistantBox() {
           <Input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Ask Apu anything…"
+            placeholder="Ask Asikon AI anything…"
             className="h-9 flex-1 bg-transparent border-0 shadow-none focus-visible:ring-0 text-[14px] px-2"
           />
           <Button

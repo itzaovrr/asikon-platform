@@ -28,7 +28,7 @@ function TopBar({ onNew, onBack, showMenu }: { onNew?: () => void; onBack: () =>
       </Button>
       {showMenu}
       <div className="flex-1 min-w-0">
-        <h1 className="text-sm font-semibold leading-tight truncate">Apu · AI Tutor</h1>
+        <h1 className="text-sm font-semibold leading-tight truncate">Asikon AI</h1>
       </div>
       {onNew && (
         <Button variant="ghost" size="icon" onClick={onNew} aria-label="New chat" className="h-9 w-9">
@@ -77,7 +77,7 @@ export default function Learn() {
   if (loading) {
     return (
       <StandaloneShell>
-        <SEO title="Apu · AI Tutor" description="Chat 24/7 with Apu, your personal AI tutor for SSC, HSC, and beyond." url="https://asikonpro.lovable.app/learn" />
+        <SEO title="Asikon AI" description="Chat 24/7 with Asikon AI, your personal AI tutor for SSC, HSC, and beyond." url="https://asikonpro.lovable.app/learn" />
         <TopBar onBack={handleBack} />
         <LearnSkeleton />
       </StandaloneShell>
@@ -87,7 +87,7 @@ export default function Learn() {
   if (!user) {
     return (
       <StandaloneShell>
-        <SEO title="Apu · AI Tutor" description="Chat 24/7 with Apu, your personal AI tutor for SSC, HSC, and beyond." url="https://asikonpro.lovable.app/learn" />
+        <SEO title="Asikon AI" description="Chat 24/7 with Asikon AI, your personal AI tutor for SSC, HSC, and beyond." url="https://asikonpro.lovable.app/learn" />
         <TopBar onBack={handleBack} />
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
           <div className="relative mb-6">
@@ -100,8 +100,8 @@ export default function Learn() {
               <img src={asikonLogo} alt="Asikon" className="h-16 w-16 object-contain" />
             </div>
           </div>
-          <h1 className="font-display text-3xl font-semibold tracking-tight mb-2">Hi, I'm Apu</h1>
-          <p className="text-muted-foreground mb-5 text-[15px] max-w-sm">Sign in to start chatting with Apu — your Asikon AI tutor.</p>
+          <h1 className="font-display text-3xl font-semibold tracking-tight mb-2">Hi, I'm Asikon AI</h1>
+          <p className="text-muted-foreground mb-5 text-[15px] max-w-sm">Sign in to start chatting with Asikon AI — your Asikon AI tutor.</p>
           <Button size="lg" onClick={() => navigate("/auth?redirect=/learn")}>Sign in</Button>
         </div>
       </StandaloneShell>
@@ -111,14 +111,14 @@ export default function Learn() {
   return (
     <StandaloneShell>
       <SEO
-        title="Apu · AI Tutor"
-        description="Chat with Apu, your 24/7 AI study buddy on Asikon. Get answers, MCQs, and revision plans in seconds."
+        title="Asikon AI"
+        description="Chat with Asikon AI, your 24/7 AI study buddy on Asikon. Get answers, MCQs, and revision plans in seconds."
         url="https://asikonpro.lovable.app/learn"
       >
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Course",
-          name: "Asikon AI Tutor — Apu",
+          name: "Asikon AI",
           description: "24/7 AI study buddy for SSC, HSC, and beyond. Get instant answers, MCQs, and revision plans.",
           provider: { "@type": "Organization", name: "Asikon", sameAs: "https://asikonpro.lovable.app/" },
         })}</script>

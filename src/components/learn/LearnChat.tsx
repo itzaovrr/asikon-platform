@@ -264,9 +264,9 @@ export function LearnChat({ threadId, onBack }: Props) {
   if (!user) {
     return (
       <div className="flex flex-col items-center justify-center h-full p-6 text-center">
-        <img src={tutorAvatar} alt="Apu, your ASIKON tutor" className="w-16 h-16 mb-4" />
-        <h2 className="text-xl font-semibold mb-2">Hi, I'm Apu</h2>
-        <p className="text-muted-foreground mb-4">Sign in to start chatting with Apu.</p>
+        <img src={tutorAvatar} alt="Asikon AI" className="w-16 h-16 mb-4" />
+        <h2 className="text-xl font-semibold mb-2">Hi, I'm Asikon AI</h2>
+        <p className="text-muted-foreground mb-4">Sign in to start chatting with Asikon AI.</p>
         <a href="/auth"><Button>Sign in</Button></a>
       </div>
     );
@@ -324,7 +324,7 @@ export function LearnChat({ threadId, onBack }: Props) {
           <div className="min-w-0">
             <div className="font-display text-sm font-semibold truncate leading-tight tracking-tight">{threadTitle}</div>
             <div className="text-[11px] text-muted-foreground leading-tight">
-              Apu · your ASIKON tutor
+              Asikon AI · your study buddy
             </div>
           </div>
         </div>
@@ -452,11 +452,11 @@ export function LearnChat({ threadId, onBack }: Props) {
                   handleSend(input);
                 }
               }}
-              placeholder="Ask Apu anything…"
+              placeholder="Ask Asikon AI anything…"
               rows={1}
               className="w-full resize-none bg-transparent outline-none text-[15px] leading-6 placeholder:text-muted-foreground max-h-[200px]"
               autoFocus
-              aria-label="Message Apu"
+              aria-label="Message Asikon AI"
             />
             <div className="flex items-center justify-between gap-2 pt-1">
               <div className="flex items-center gap-0.5">
@@ -519,7 +519,7 @@ export function LearnChat({ threadId, onBack }: Props) {
             </div>
           </div>
           <p className="text-[11px] text-center text-muted-foreground pt-1">
-            Apu can make mistakes — double-check important facts.
+            Asikon AI can make mistakes — double-check important facts.
           </p>
         </div>
       </div>
@@ -553,7 +553,7 @@ function TypingIndicator() {
       <span
         className="text-sm font-medium bg-clip-text text-transparent bg-[linear-gradient(90deg,hsl(var(--muted-foreground)),hsl(var(--foreground)),hsl(var(--muted-foreground)))] bg-[length:200%_100%] animate-[shimmer_2s_linear_infinite] motion-reduce:animate-none motion-reduce:text-muted-foreground"
       >
-        Apu is thinking…
+        Asikon AI is thinking…
       </span>
     </div>
   );
@@ -571,13 +571,13 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
           />
           <img
             src={tutorAvatar}
-            alt="Apu, your ASIKON tutor"
+            alt="Asikon AI"
             className="relative w-20 h-20"
             width={512}
             height={512}
           />
         </div>
-        <h1 className="font-display text-2xl font-semibold tracking-tight mb-2 text-foreground">Hi, I'm Apu</h1>
+        <h1 className="font-display text-2xl font-semibold tracking-tight mb-2 text-foreground">Hi, I'm Asikon AI</h1>
         <p className="text-muted-foreground text-[15px] max-w-md leading-relaxed">
           Stuck on a chapter? Ask me anything — SSC, HSC, Math, Physics, English.
           I'll explain in English or Bangla, whichever helps.
@@ -723,7 +723,7 @@ function MessageRow({
     <div className="flex gap-2.5 animate-fade-in group/msg">
       <img src={tutorAvatar} alt="" className="w-7 h-7 rounded-full shrink-0 mt-0.5 ring-1 ring-border" />
       <div className="flex-1 min-w-0">
-        <div className="text-xs font-semibold text-muted-foreground mb-0.5">Apu</div>
+        <div className="text-xs font-semibold text-muted-foreground mb-0.5">Asikon AI</div>
         <div
           className={cn(
             "text-foreground text-[15px] leading-relaxed",
