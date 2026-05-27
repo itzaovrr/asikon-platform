@@ -1,38 +1,42 @@
-# Modernize Quick Categories Bento
+## Scope
 
-Refresh the 4-tile bento section on Home (`src/pages/Index.tsx`, `quick_categories` renderer, lines ~183-267) — Courses hero, Books, Prompts, Trending wide — with a more modern, tactile, clearly-clickable look using the existing dark-red brand gradient.
+Audit `src/components/home/mobile/FlexiTopSection.tsx` — the redesigned mobile top section on `/` containing the welcome line, "Browse courses" link, the split CTA + stats card, and the 4 pill quick-actions. Fix accessibility issues for focus, tap targets, and reduced motion. No visual redesign.
 
-## Visual changes
+## Findings
 
-**Courses hero (large 2x2 tile)**
-- Replace flat `midnight-tile` with a layered gradient surface: brand gradient base + soft inner highlight + animated conic shine on hover.
-- Larger icon badge (44px) with primary-foreground glyph on solid primary, double-ring glow.
-- Add a small "Start learning →" pill chip in the bottom-right corner as an explicit CTA affordance.
-- Stats row (120+ Lessons / 24/7 AI tuor) gets vertical divider + tabular-nums for crisper numerics.
+1. **Tap targets below 44×44** — "Browse courses →" link (~24px tall) and pill labels share a `<Link>` whose hit area is just the icon tile (64×64 ✓) plus text; total interactive height is fine but link width is icon-width only (64px). The "Browse courses" link itself is the main miss.
+2. **Focus ring missing on stat cells** — they're decorative (non-interactive), so OK. But the split CTA's right column (`120+ Lessons`, `24/7 AI tutor`) is non-interactive yet sits inside a card that looks tappable. Acceptable, no fix needed beyond noting.
+3. **Pill `<Link>` has `focus-ring` ✓** but ring is hidden by overflow on the rounded tile because the link itself has no padding — ring sits flush to the icon. Add `p-1 -m-1` or `rounded-2xl` offset so ring is visible.
+4. **Icon-only visual on split CTA** — the gradient CTA has no `aria-label`; screen readers get only "Start learning today Pick a path in one tap". That's fine, but the decorative GraduationCap should be `aria-hidden`. Same for ChevronRight and the right-column icons.
+5. **"AI tuor" typo** appears twice (label + stat). Fix to "AI tutor".
+6. **Reduced motion**: `animate-fade-in` on `<section>` and per-pill staggered `animationDelay` keep running under reduced-motion because inline `style={{ animationDelay }}` doesn't cancel — the global rule on line 633 disables `animate-fade-in` ✓, but the per-tile wrappers still apply `animationFillMode: backwards` leaving them invisible briefly. Need a reduced-motion guard so tiles start visible.
+7. **Hover-only transforms** on `.group-hover:-translate-y-0.5` and `group-hover:scale-110` aren't covered by the global `.pressable` reduced-motion rule (they're group-hover utilities). Wrap in `motion-safe:` prefix.
+8. **`active:scale-[0.98]`** on the gradient CTA also bypasses reduced-motion — switch to `motion-safe:active:scale-[0.98]`.
+9. **Color-only affordance**: "Browse courses →" relies on primary color alone. Add underline on hover/focus (`hover:underline focus-visible:underline`) and a `focus-ring` class.
+10. **Heading order** — `<h1>` here is fine since this is the home top section.
 
-**Books & Prompts (small tiles)**
-- Two-tone gradient cards (one cool-tinted, one warm-tinted) using primary at different opacities so the row reads as a palette, not two identical chips.
-- Icon moves to a filled rounded square (not faint outline), with a tiny arrow indicator that slides on hover.
-- Replace static "Read" / "Live" labels with status dots + label kept in the eyebrow style established last turn.
+## Changes (single file: `FlexiTopSection.tsx`)
 
-**Trending wide tile**
-- Convert into a true CTA row: animated gradient underline, chevron that translates on hover, subtle marquee shimmer behind the icon.
-- Add an active-state press (`active:scale-[0.98]`) so tap feels physical on mobile.
+```text
+- Add aria-hidden to decorative icons (GraduationCap in CTA, ChevronRight, BookOpen, Bot, all PillTile icons).
+- "Browse courses" link: add focus-ring class, min-h-11 px-2 -mx-2 inline-flex items-center, hover:underline focus-visible:underline.
+- PillTile <Link>: add min-h-11 min-w-11 (already 64px tile, OK) and ensure focus-ring is visible by adding p-1 -m-1 OR moving focus-ring to wrap the inner tile with rounded-2xl ring offset.
+- Replace group-hover/active transforms with motion-safe: variants:
+    motion-safe:group-hover:-translate-y-0.5
+    motion-safe:group-hover:shadow-[...]
+    motion-safe:group-hover:scale-110
+    motion-safe:active:scale-[0.98]
+- Per-tile stagger wrapper: wrap animation in motion-safe:animate-fade-in and drop inline animationFillMode under reduced motion by using a Tailwind motion-reduce:opacity-100 fallback — simplest: keep inline style but add motion-reduce:[animation:none] motion-reduce:opacity-100.
+- Fix "AI tuor" → "AI tutor" (label + stat row).
+- Add aria-label="Start learning — browse all courses" to the big gradient CTA so its purpose is clear without relying on visual hierarchy.
+- Add role="group" aria-label="Quick actions" on the 4-pill grid for landmark clarity.
+```
 
-**Shared polish**
-- All tiles get: `transition-all duration-300`, `hover:-translate-y-0.5`, `hover:shadow-[0_18px_40px_-18px_hsl(var(--primary)/0.55)]`, `active:scale-[0.98]`, visible focus ring.
-- Consistent 16px (`rounded-2xl`) radii, 1px border that brightens to `border-primary/40` on hover.
-- Stagger entry with `animate-fade-in` + per-tile delay (60ms).
+No changes to `index.css` are needed — the existing `prefers-reduced-motion` block already covers `.pressable`, `.animate-fade-in`, `.midnight-shine`, and `.midnight-tile`. The fixes above route the remaining hover/active transforms through Tailwind's `motion-safe:` variant so they also respect the OS setting.
 
-## Technical notes
+## Verification
 
-- All edits scoped to the `quick_categories` renderer inside `src/pages/Index.tsx`. No new files, no token changes — uses existing `--primary`, `--gradient-primary`, `midnight-tile`, `midnight-shine`, `midnight-glow` utilities.
-- Keep existing `Link` `to` targets, icons, and the `Eyebrow` helper untouched.
-- No data/business-logic changes; presentation only.
-- Respects the section-header restyle from the previous turn (small uppercase tracked muted labels).
-
-## Out of scope
-
-- Other home sections (hero, trending carousel, community, etc.).
-- New routes or content.
-- Color token edits in `index.css`.
+- Tab through the section: every interactive element shows a visible 2px ring with offset.
+- Each tappable target measures ≥44×44 in DevTools mobile view (438px viewport).
+- Toggle `prefers-reduced-motion: reduce` in DevTools rendering panel → no fade-in, no hover lift, no active scale, all tiles immediately visible.
+- VoiceOver/TalkBack swipe announces: CTA → 4 quick actions with labels only (no "graphic" noise from decorative icons).
