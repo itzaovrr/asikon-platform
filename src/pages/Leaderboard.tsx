@@ -16,14 +16,14 @@ type Row = {
   profile: { username: string | null; full_name: string | null; avatar_url: string | null } | null;
 };
 
-const medal = (i: number) =>
+const medalClass = (i: number) =>
   i === 0
-    ? "from-amber-400 to-yellow-600"
+    ? "bg-amber-500/15 text-amber-500 border-amber-500/30"
     : i === 1
-    ? "from-zinc-300 to-zinc-500"
+    ? "bg-zinc-400/15 text-zinc-300 border-zinc-400/30"
     : i === 2
-    ? "from-orange-400 to-amber-700"
-    : "from-primary/30 to-primary/60";
+    ? "bg-orange-500/15 text-orange-400 border-orange-500/30"
+    : "bg-secondary text-foreground/70 border-border";
 
 const Leaderboard = () => {
   const { data, isLoading } = useQuery({
