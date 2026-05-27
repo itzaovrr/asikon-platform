@@ -52,7 +52,7 @@ export function ProfileBadges({ badges, learnerSessions = 0, learnerQuizzes = 0 
                 <div
                   key={badge.id}
                   className={cn(
-                    "flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border",
+                    "flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11.5px] font-medium border",
                     badge.color
                   )}
                 >
