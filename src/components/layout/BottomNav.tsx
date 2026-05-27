@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import { getActiveTab, TabId } from "@/lib/nav-map";
 import { useCart } from "@/hooks/useCart";
 import asikonMark from "@/assets/icons/asikon-mark.svg";
+import exploreOutline from "@/assets/icons/explore-outline.svg";
+import exploreSolid from "@/assets/icons/explore-solid.svg";
 
 const AsikonIcon: React.FC<React.SVGProps<SVGSVGElement> & { strokeWidth?: number }> = ({ className }) => (
   <img
@@ -14,6 +16,13 @@ const AsikonIcon: React.FC<React.SVGProps<SVGSVGElement> & { strokeWidth?: numbe
     className={className as string}
     style={{ objectFit: "contain" }}
   />
+);
+
+const ExploreOutlineIcon: React.FC<React.SVGProps<SVGSVGElement> & { strokeWidth?: number }> = ({ className }) => (
+  <img src={exploreOutline} alt="" aria-hidden className={className as string} style={{ objectFit: "contain" }} />
+);
+const ExploreFillIcon: React.FC<React.SVGProps<SVGSVGElement> & { strokeWidth?: number }> = ({ className }) => (
+  <img src={exploreSolid} alt="" aria-hidden className={className as string} style={{ objectFit: "contain" }} />
 );
 
 type IconComponent =
