@@ -43,7 +43,23 @@ function PillTile({ icon: Icon, label, href, grad }: Tile) {
 
 export function FlexiTopSection() {
   return (
-    <section className="section-x space-y-4 pt-2 animate-fade-in">
+    <section className="section-x space-y-3 pt-2 animate-fade-in">
+      <div className="flex items-end justify-between">
+        <div>
+          <p className="text-[10px] uppercase tracking-[0.18em] font-semibold text-muted-foreground">
+            Welcome to ASIKON
+          </p>
+          <h1 className="font-display font-bold text-foreground text-[17px] leading-tight mt-0.5">
+            Learn smarter, every day.
+          </h1>
+        </div>
+        <Link
+          to="/shop?type=courses"
+          className="text-[11px] font-semibold text-primary hover:text-primary/80 shrink-0"
+        >
+          Browse courses →
+        </Link>
+      </div>
       {/* Combined CTA + stats split card */}
       <div className="rounded-3xl overflow-hidden border border-border/60 shadow-[0_18px_40px_-18px_hsl(var(--primary)/0.55)] grid grid-cols-5 midnight-shine">
         <Link
