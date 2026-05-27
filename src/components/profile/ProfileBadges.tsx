@@ -66,10 +66,9 @@ export function ProfileBadges({ badges, learnerSessions = 0, learnerQuizzes = 0 
                 <TooltipTrigger asChild>
                   <div
                     className={cn(
-                      "group relative flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border border-dashed border-border opacity-40 cursor-help",
-                      "text-muted-foreground bg-muted/30"
+                      "group relative flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11.5px] font-medium border border-dashed border-border opacity-60 cursor-help",
+                      "text-muted-foreground bg-transparent"
                     )}
-                    style={{ filter: "grayscale(1)" }}
                   >
                     {badge.icon}
                     <span>{badge.name}</span>
