@@ -1,43 +1,42 @@
-# Fix Supabase security warnings
+# ASIKON Unified Search
 
-## What's wrong
-The linter flagged 8 warnings:
-- 7 `SECURITY DEFINER` functions are exposed via PostgREST RPC to signed-in users
-- Leaked password protection is disabled in Supabase Auth
+Make all search surfaces query real ASIKON data instead of mock fashion/shop terms.
 
-## Plan
+## Sources (Supabase)
+- `products` — name, description (shop items)
+- `content_items` — title, summary, tags (filter `status='published'`, split by `kind`: course / digital / service)
+- `mentors` — name, subjects (filter `is_active=true`)
+- `posts` — content (community)
 
-### 1. Migration: revoke RPC access on internal helpers
-These functions are only meant to be called from RLS policies or triggers, never directly by the client. We revoke `EXECUTE` from `anon`, `authenticated`, and `PUBLIC`. RLS policies that reference them still work because policy evaluation runs as the table owner, not the caller.
+## New shared hook
+`src/hooks/useGlobalSearch.ts` — debounced query (250 ms, min 2 chars) that runs the 4 selects in parallel with `.ilike` / `.or` filters and `.limit(5)` each. Returns `{ products, content, mentors, posts, isLoading }`. Cached via react-query.
 
-Functions to lock down:
-- `public.has_role(uuid, app_role)` — used in RLS policies
-- `public.can_view_profile(uuid, uuid)` — used in profile RLS
-- `public.can_message_user(uuid, uuid)` — used in messaging RLS
-- `public.has_content_access(uuid, uuid)` — used in content RLS + edge function (edge uses service role, unaffected)
-- `public.protect_pod_design_fields()` — trigger function, never called directly
-- `public.protect_post_immutable_fields()` — trigger function, never called directly
+## Components to update
 
-SQL pattern per function:
-```sql
-REVOKE EXECUTE ON FUNCTION public.has_role(uuid, app_role) FROM PUBLIC, anon, authenticated;
-GRANT EXECUTE ON FUNCTION public.has_role(uuid, app_role) TO service_role;
-```
+1. **`SmartSearch`** (desktop header dropdown)
+   - Replace mock arrays.
+   - Empty state: trending pills derived from top categories + featured content titles (real data, single small query, cached).
+   - With query: grouped results dropdown (Products, Courses, Digital, Services, Mentors, Posts) each row links to the right route (`/product/:slug`, `/content/:slug`, `/mentors`, `/profile/:userId` for post authors).
+   - Enter key → navigate to `/shop?q=…` (default catch-all).
+   - Persist recent searches in `localStorage` (key `asikon:recent-searches`, max 6).
 
-### 2. `redeem_reward` — keep callable, mark as accepted
-This one is *intentionally* called by the client (`supabase.rpc('redeem_reward', ...)`) to spend coins. The function already validates `auth.uid()` and the reward price server-side. Revoking would break the rewards UI.
+2. **`MobileSearchOverlay`**
+   - Same data + grouping as SmartSearch but full-screen list layout with section headers and "See all" links per group.
+   - Quick Access pills updated to ASIKON nav (Courses, Digital, Services, Mentors, Community).
+   - Real recent + trending from same source.
 
-Action: keep the grant, mark this specific finding as ignored with explanation via `security--manage_security_finding`.
-
-### 3. Leaked password protection
-This is a project-level Auth setting — cannot be toggled from code/migrations. We'll point you to the dashboard:
-- https://supabase.com/dashboard/project/tdbqeecjvitorxamzlok/auth/providers
-- Auth → Policies → enable "Leaked password protection"
-
-## Risk
-Low. All locked-down functions are either internal helpers or trigger functions. RLS/triggers continue to work because they don't go through PostgREST.
+3. **List pages** (`/shop`, `/courses`, `/digital`, `/services`)
+   - `/shop` already has search — leave it.
+   - Add a local search input to `CoursesList`, `DigitalList`, `ServicesList` that filters the `useContentItems` result client-side by title/summary/tags (lists are small, no extra query needed).
 
 ## Files touched
-- new migration: revokes on 6 functions
-- security finding for `redeem_reward` marked ignored with rationale
-- no app code changes
+- new `src/hooks/useGlobalSearch.ts`
+- edit `src/components/search/SmartSearch.tsx`
+- edit `src/components/search/MobileSearchOverlay.tsx`
+- edit `src/pages/CoursesList.tsx`
+- edit `src/pages/DigitalList.tsx`
+- edit `src/pages/ServicesList.tsx`
+
+## Out of scope
+- No new tables, no edge functions, no full-text search index (ilike is fine for current data size).
+- Shop's existing filter sheet stays as-is.
