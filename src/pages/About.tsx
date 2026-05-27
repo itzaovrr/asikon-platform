@@ -593,6 +593,7 @@ const About = () => {
           body="Every lesson takes a few quiet minutes. No endless feed. No pressure. Just the next clear step, every day."
           image={featureNotes}
           alt="A student taking notes beside a phone showing a lesson"
+          meta={["5 min lessons", "No streaks", "Daily mission"]}
         />
       </Reveal>
 
@@ -606,6 +607,7 @@ const About = () => {
           body="The AI explains in your language, at your pace. Real mentors are one tap away when you need them."
           image={featureMentor}
           alt="A mentor guiding a student through a lesson"
+          meta={["AI tutor", "Bangla-aware", "Mentors on tap"]}
         />
       </Reveal>
 
@@ -623,6 +625,7 @@ const About = () => {
           body="Made in Dhaka by educators, designers, and engineers. Built for learners across Bangladesh and beyond."
           image={storyClassroom}
           alt="A Bangladeshi classroom with students learning together"
+          meta={["Dhaka-built", "For everyone", "Open source"]}
         />
       </Reveal>
 
