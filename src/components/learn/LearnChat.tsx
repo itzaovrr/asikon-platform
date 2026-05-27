@@ -276,6 +276,17 @@ export function LearnChat({ threadId, onBack }: Props) {
     <div className="relative flex flex-col h-full min-h-0 bg-background">
       {/* Header — calm white bar, hairline border */}
       <header className="shrink-0 relative flex items-center gap-2 px-3 lg:px-6 h-14 border-b border-border bg-background/85 backdrop-blur-xl">
+        {onBack && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onBack}
+            aria-label="Back"
+            className="h-9 w-9 rounded-full"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </Button>
+        )}
         {/* Mobile thread switcher */}
         <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
           <SheetTrigger asChild>
