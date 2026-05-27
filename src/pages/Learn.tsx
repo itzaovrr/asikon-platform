@@ -89,7 +89,7 @@ export default function Learn() {
       <StandaloneShell>
         <SEO title="Asikon AI" description="Chat 24/7 with Asikon AI, your personal AI tutor for SSC, HSC, and beyond." url="https://asikonpro.lovable.app/learn" />
         <TopBar onBack={handleBack} />
-        <div className="relative flex-1 overflow-hidden">
+        <div className="relative flex-1 min-h-0 overflow-y-auto">
           {/* Ambient brand glow */}
           <div aria-hidden className="pointer-events-none absolute inset-0">
             <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[520px] h-[520px] rounded-full blur-3xl opacity-40"
@@ -98,7 +98,8 @@ export default function Learn() {
               style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.18), transparent 70%)" }} />
           </div>
 
-          <div className="relative h-full flex flex-col items-center justify-center px-6 text-center animate-fade-in">
+          <div className="relative min-h-full flex flex-col items-center justify-center px-6 py-10 text-center animate-fade-in">
+
             <div className="relative mb-6">
               <span aria-hidden className="absolute inset-0 -m-10 rounded-full blur-3xl opacity-70"
                 style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.30), transparent 70%)" }} />
