@@ -352,6 +352,7 @@ const Index = () => {
         <MobilePage spacing="space-y-5 lg:space-y-14">
           {user ? (
             <>
+              <FlexiTopSection />
               {/* 1 — Calm greeting */}
               <GreetingStrip />
 
