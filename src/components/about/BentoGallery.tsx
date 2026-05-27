@@ -3,7 +3,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-import tileAi from "@/assets/about/tile-ai-tutor.webp";
+import tileAi from "@/assets/about/tile-ai-tutor.jpg";
 import tileCommunity from "@/assets/about/tile-community.jpg";
 import tileDaily from "@/assets/about/tile-daily.jpg";
 import tileBangla from "@/assets/about/tile-bangla.jpg";
