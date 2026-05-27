@@ -3,6 +3,7 @@ import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
 import {
   ArrowUp,
+  ArrowLeft,
   Square,
   ArrowDown,
   BookOpen,
