@@ -718,7 +718,7 @@ function MessageRow({
             "prose-p:my-2 prose-headings:mt-3 prose-headings:mb-1.5 prose-li:my-0.5",
             "prose-pre:my-2 prose-pre:rounded-xl prose-pre:overflow-x-auto prose-pre:text-[13px] prose-pre:font-mono prose-pre:bg-secondary prose-pre:border prose-pre:border-border",
             "prose-code:before:content-none prose-code:after:content-none prose-code:break-words",
-            "prose-a:text-primary prose-a:break-all",
+            "prose-a:text-foreground prose-a:underline prose-a:underline-offset-4 prose-a:break-all",
             "[&_table]:block [&_table]:overflow-x-auto [&_table]:text-xs [&_img]:rounded-lg",
           )}
         >
