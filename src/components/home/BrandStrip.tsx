@@ -57,7 +57,7 @@ export function BrandStrip() {
           to { transform: translateX(-50%); }
         }
         .brand-marquee {
-          animation: marquee 40s linear infinite;
+          animation: marquee 55s linear infinite;
         }
         .brand-marquee:has(.brand-item:hover) {
           animation-play-state: paused;
