@@ -1,4 +1,3 @@
-import { Sparkles } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { SEO } from "@/components/SEO";
@@ -10,7 +9,6 @@ import { ProductCard } from "@/components/shop/ProductCard";
 import { Reveal } from "@/components/transitions/Reveal";
 import { useProducts, SortOption } from "@/hooks/useProducts";
 import { useCategories } from "@/hooks/useCategories";
-import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const MAX_PRICE = 500;
