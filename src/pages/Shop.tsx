@@ -110,16 +110,27 @@ const Shop = () => {
     });
   }, [products, productType, minRating, onSaleOnly, featuredOnly]);
 
-  // Transform categories for carousel
+  // Filter category pills by current query so categories matching the search bubble up
+  const q = searchQuery.trim().toLowerCase();
+  const matchedCategories = useMemo(() => {
+    const all = categories ?? [];
+    if (!q) return all;
+    const matches = all.filter(
+      (c) => c.name.toLowerCase().includes(q) || c.slug.toLowerCase().includes(q),
+    );
+    return matches.length > 0 ? matches : all;
+  }, [categories, q]);
+
   const categoryItems = [
     { id: "all", name: "All", slug: "all", icon: "📚" },
-    ...(categories?.map((cat) => ({
+    ...matchedCategories.map((cat) => ({
       id: cat.id,
       name: cat.name,
       slug: cat.slug,
       icon: cat.icon || "📦",
-    })) || []),
+    })),
   ];
+
 
   // Count active filters
   const activeFiltersCount = useMemo(() => {
