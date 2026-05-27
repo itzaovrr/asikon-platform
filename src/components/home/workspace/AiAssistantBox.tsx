@@ -31,22 +31,11 @@ export function AiAssistantBox() {
   };
   return (
     <section className="section-x">
-      <div
-        className="relative overflow-hidden rounded-2xl border border-primary/25 p-3 shadow-[0_10px_30px_-18px_hsl(var(--primary)/0.6),inset_0_1px_0_hsl(var(--glass-highlight)/0.15)]"
-        style={{ background: "var(--gradient-primary-soft)" }}
-      >
-        {/* ambient glow */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full blur-3xl opacity-60"
-          style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.45), transparent 70%)" }}
-        />
-
+      <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-3">
         <div className="relative flex items-center gap-3">
           {/* Teacher avatar */}
           <div className="relative shrink-0">
-            <div className="absolute inset-0 rounded-full bg-primary/40 blur-md" aria-hidden />
-            <div className="relative w-14 h-14 rounded-full overflow-hidden ring-2 ring-primary/40 shadow-[0_6px_18px_-6px_hsl(var(--primary)/0.7)]">
+            <div className="relative w-14 h-14 rounded-full overflow-hidden ring-1 ring-border">
               <SmartImage
                 src={aiTutor}
                 alt="AI tutor"
