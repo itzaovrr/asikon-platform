@@ -95,7 +95,7 @@ export function ThreadList({ activeId }: Props) {
             <div className="px-2 py-6 text-center text-sm text-muted-foreground">
               {q
                 ? "No chats match your search."
-                : "No chats yet — start your first conversation with Apu."}
+                : "No chats yet — start your first conversation with Asikon AI."}
             </div>
           ) : (
             Object.entries(grouped).map(([label, list]) =>
