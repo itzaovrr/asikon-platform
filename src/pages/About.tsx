@@ -309,10 +309,10 @@ function PrinciplesCarousel() {
 
   return (
     <section className="py-10 sm:py-20 lg:py-32 border-y border-border/40 bg-card/20">
-      <div className="container-editorial mb-8 sm:mb-10 lg:mb-14">
-        <p className="eyebrow-bar mb-3">What we believe</p>
+      <div className="container-editorial mb-8 sm:mb-10 lg:mb-14 text-center">
+        <p className="eyebrow-bar mb-3 mx-auto">What we believe</p>
         <h2
-          className="font-display font-semibold tracking-[-0.025em] leading-[1.05] max-w-[18ch]"
+          className="font-display font-semibold tracking-[-0.025em] leading-[1.05] max-w-[24ch] mx-auto"
           style={{ fontSize: "clamp(1.6rem, 4.5vw, 3.5rem)" }}
         >
           Six principles that{" "}
