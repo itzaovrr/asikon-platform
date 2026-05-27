@@ -7,6 +7,7 @@ import { MobilePage } from "@/components/layout/MobilePage";
 import { FirstRunTour } from "@/components/onboarding/FirstRunTour";
 
 import { PostCard } from "@/components/community/PostCard";
+import { CommunityCarousel } from "@/components/community/CommunityCarousel";
 import { ProductCarousel } from "@/components/carousels";
 import { mockPosts } from "@/lib/mock-data";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -263,13 +264,12 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
     </Reveal>
   ),
   community: ({ sec }) => (
-    <Reveal as="section" className="section-x">
-      <SectionHeader
+    <Reveal as="section">
+      <CommunityCarousel
+        posts={mockPosts}
         title={sec.title_override ?? "From the community"}
         viewAllHref="/community"
-        viewAllLabel="View all"
       />
-      <PostCard post={mockPosts[0]} />
     </Reveal>
   ),
   how_it_works: ({ sec }) => <HowItWorks title={sec.title_override ?? undefined} />,

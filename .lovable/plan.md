@@ -1,39 +1,23 @@
 ## Goal
-Add a Clickity-style desktop hero/bento section to the home page (visible on `lg:` and up only). Mobile UI stays untouched. Existing desktop sections below the new bento are preserved.
+Replace the single PostCard in the "From the community" section with a 2-column desktop carousel that scrolls through community posts.
 
-## Layout (desktop, lg+ only)
+## Plan
 
-```text
-            Eyebrow: "AI-powered learning, made simple"
-                    Master AI, Python &
-                    modern skills today.
+### 1. Create `src/components/community/CommunityCarousel.tsx`
+- Uses `embla-carousel-react` with `slidesToScroll: 1` and responsive sizing.
+- Each carousel "page" shows **2 PostCards side-by-side** on desktop (`lg:`), 1 card on smaller screens.
+- Navigation: prev/next arrow buttons (same style as `ProductCarousel`).
+- Edge gradient fades on desktop.
+- Reuses the existing `PostCard` component directly — no style changes to PostCard.
+- Header: uses `SectionHeader` for the "From the community" title + "View all" link.
 
-         [  Drop a topic, course, or skill...   [ Start learning ▸ ] ]
+### 2. Update `src/pages/Index.tsx`
+- Replace the `community` section renderer to use `<CommunityCarousel posts={mockPosts} ... />` instead of a single `<PostCard post={mockPosts[0]} />`.
+- Import the new component.
 
-  ┌──────────────┐ ┌──────────────────────┐ ┌──────────────────┐
-  │  Drop a Link │ │   Create Your Path   │ │   AI Tutor       │
-  │   (yellow)   │ │   (mint, tall)       │ │   (lavender)     │
-  ├──────────────┤ │   hero image/avatar  ├──────────────────┤
-  │ Use Template │ │                      │ Connect Account  │
-  │   (sky)      │ │                      │   (yellow)       │
-  └──────────────┘ └──────────────────────┘ └──────────────────┘
-```
+### 3. Responsive behavior
+- Mobile: 1 card per view, horizontal scroll with snap.
+- Tablet: 1 or 2 cards depending on width.
+- Desktop (`lg+`): 2 cards per view with arrow navigation.
 
-3 columns. Left + right columns each split into 2 stacked tiles. Center column is a single tall tile spanning both rows. Tiles use soft pastel backgrounds (amber-100, emerald-100, violet-100, sky-100, amber-100) with brand primary accents for icons and CTA pills. Each tile has an icon chip in the top-left, a heading, and an inline mini-CTA matching its theme (search input pill, hero portrait, mock preset card, mock template card, "Connect" pill).
-
-## Scope
-
-- New file: `src/components/home/desktop/DesktopHeroBento.tsx` — self-contained, only renders content; visibility controlled by parent wrapper.
-- Edit: `src/pages/Index.tsx` — render `<div className="hidden lg:block"><DesktopHeroBento /></div>` as the FIRST child inside `<MobilePage>` (both signed-in and signed-out branches). Wrap `<FlexiTopSection />` in `<div className="lg:hidden">` so the mobile-only top section is hidden on desktop.
-
-## Visual treatment
-
-- Section container: `container-editorial` width, generous vertical padding.
-- Eyebrow: small muted-foreground caps text.
-- Headline: `font-display font-bold text-5xl xl:text-6xl tracking-tight` centered.
-- Search bar: large white pill, `rounded-full border border-border shadow-lg`, leading link icon, right-side primary CTA button using `--gradient-primary`.
-- Bento grid: `grid grid-cols-3 grid-rows-2 gap-5 min-h-[480px]`. Tiles `rounded-3xl p-6` with pastel bg + matching dark text. Icon chip = white circle, `w-9 h-9 rounded-full`, with brand-tinted icon.
-- All routes hook into existing pages (`/shop`, `/shop?type=courses`, `/ai-tutor`, `/learn`, `/profile`).
-
-## Out of scope
-No data, hook, auth, or mobile changes. No new dependencies. Existing carousels and sections below render exactly as before on desktop.
+No new dependencies needed — `embla-carousel-react` is already in use.
