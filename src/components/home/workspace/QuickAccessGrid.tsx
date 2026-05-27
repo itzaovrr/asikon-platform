@@ -69,8 +69,8 @@ export function QuickAccessGrid() {
               <SheetTitle className="text-left">All Quick Actions</SheetTitle>
             </SheetHeader>
             <div className="grid grid-cols-4 gap-4 pb-6">
-              {ALL_TILES.map((t) => (
-                <TileLink key={t.label} {...t} onClick={() => setOpen(false)} />
+              {ALL_TILES.map((t, i) => (
+                <TileLink key={t.label} {...t} index={i} onClick={() => setOpen(false)} />
               ))}
             </div>
           </SheetContent>
@@ -79,8 +79,8 @@ export function QuickAccessGrid() {
 
       {/* Mobile: 4-column scrollable grid */}
       <div className="md:hidden grid grid-cols-4 gap-3 overflow-y-auto no-scrollbar -mx-4 px-4 pb-1">
-        {TILES.map((t) => (
-          <TileLink key={t.label} {...t} />
+        {TILES.map((t, i) => (
+          <TileLink key={t.label} {...t} index={i} />
         ))}
       </div>
 
