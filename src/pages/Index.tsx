@@ -210,7 +210,7 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
 
 const Index = () => {
   const { user } = useAuth();
-  const { data: profile, isLoading: profileLoading } = useLearnerProfile();
+  
   const { data: products, isLoading: productsLoading } = useProducts({ limit: 20 });
   const { data: featuredProducts, isLoading: featuredLoading } = useFeaturedProducts(10);
   const { data: sections } = useHomeSections();
