@@ -96,7 +96,7 @@ export function GalleryCarousel() {
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={titleControls}
-          className="relative z-10 text-center mb-6 sm:mb-10"
+          className="relative z-10 text-center mb-4 sm:mb-8"
         >
           <p className="font-display text-xl sm:text-2xl text-foreground/80 italic">The Ultimate</p>
           <h3 className="font-display font-black text-3xl sm:text-5xl tracking-tight bg-gradient-to-r from-primary via-primary to-[hsl(var(--primary)/0.6)] bg-clip-text text-transparent">
