@@ -296,7 +296,7 @@ function ImageTextRow({
             )}
 
             <div className="mt-5 sm:mt-8 flex justify-center lg:justify-start">
-              <span className="inline-flex items-center gap-1.5 rounded-full px-4 h-9 text-[13px] font-medium glass border border-white/15 text-foreground/90 transition-transform group-hover:translate-x-0.5">
+              <span className="inline-flex items-center gap-1.5 rounded-full px-4 h-9 text-[13px] font-medium liquid-glass-pill text-foreground/90 transition-transform group-hover:translate-x-0.5">
                 Learn more
                 <ArrowRight className="h-3.5 w-3.5" />
               </span>
