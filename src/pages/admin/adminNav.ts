@@ -15,6 +15,8 @@ import {
   Settings as SettingsIcon,
   Image as ImageIcon,
   ScrollText,
+  Download,
+  Briefcase,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
