@@ -453,14 +453,11 @@ const Auth = () => {
             ) : (
               <>
                 {/* Heading */}
-                <div className="mb-7 text-center lg:text-left">
-                  <h2
-                    className="text-[1.75rem] lg:text-3xl font-bold tracking-tight leading-tight"
-                    style={{ fontFamily: "var(--font-display)" }}
-                  >
-                    {activeView === "login" ? "Welcome back" : "Create your account"}
+                <div className="mb-7">
+                  <h2 className="font-display text-[26px] lg:text-[32px] font-semibold tracking-tight leading-[1.1]">
+                    {activeView === "login" ? "Welcome back." : "Create your account."}
                   </h2>
-                  <p className="text-muted-foreground text-sm mt-1.5">
+                  <p className="text-muted-foreground text-[14px] mt-2">
                     {activeView === "login"
                       ? "Continue your learning journey with Asikon."
                       : "Build skills with real projects, in minutes."}
