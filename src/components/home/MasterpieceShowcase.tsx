@@ -57,14 +57,14 @@ export function MasterpieceShowcase() {
       <div aria-hidden className="absolute -bottom-40 right-0 w-[500px] h-[500px] rounded-full bg-primary/15 blur-3xl pointer-events-none" />
 
       <div className="container mx-auto px-4 text-center relative">
-        <h2 className="font-display font-bold text-foreground text-3xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight max-w-3xl mx-auto">
+        <h2 className="font-display font-bold text-foreground text-2xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight max-w-3xl mx-auto">
           A place to display your{" "}
           <span className="bg-gradient-to-r from-primary to-[hsl(var(--primary)/0.6)] bg-clip-text text-transparent">
             masterpiece.
           </span>
         </h2>
 
-        <div className="relative mt-14 lg:mt-20 h-[320px] sm:h-[420px] lg:h-[520px]">
+        <div className="relative mt-8 lg:mt-16 h-[280px] sm:h-[420px] lg:h-[520px]">
           {/* Chat bubble left */}
           <div className="absolute left-[8%] sm:left-[16%] top-0 z-30">
             <div className="relative bg-primary text-primary-foreground text-xs sm:text-sm font-medium px-3 py-1.5 rounded-full shadow-xl shadow-primary/30">
