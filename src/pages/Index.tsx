@@ -357,23 +357,24 @@ const Index = () => {
             <>
               <div className="hidden lg:block"><DesktopHeroBento /></div>
               <div className="lg:hidden"><FlexiTopSection /></div>
-              {/* 1 — Calm greeting */}
+
+              {/* 1 — Hero slider (top priority) */}
+              {heroSection && <ImageHeroSlider />}
+              <BrandStrip />
+
+              {/* 2 — Calm greeting */}
               <GreetingStrip />
 
-              {/* 2 — The single most important thing on the screen */}
+              {/* 3 — The single most important thing on the screen */}
               <section className="section-x">
                 <TodayMissionCard />
               </section>
 
-              {/* 3 — Continue where you left off */}
+              {/* 4 — Continue where you left off */}
               <ContinueLearningRow />
 
-              {/* 4 — Four calm tiles: Tutor / Shop / Community / Mentors */}
+              {/* 5 — Four calm tiles: Tutor / Shop / Community / Mentors */}
               <QuickAccessGrid />
-
-              {/* 5 — Editorial hero (admin banners) */}
-              {heroSection && <ImageHeroSlider />}
-              <BrandStrip />
 
               {/* 6 — AI assistant entry */}
               <AiAssistantBox />
