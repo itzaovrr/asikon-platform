@@ -10,6 +10,7 @@ import {
   clearRecentSearches,
   TRENDING_TERMS,
 } from "@/hooks/useGlobalSearch";
+import { track } from "@/lib/analytics";
 
 interface MobileSearchOverlayProps {
   open: boolean;
