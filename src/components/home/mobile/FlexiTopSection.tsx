@@ -30,9 +30,9 @@ function PillTile({ icon: Icon, label, href, grad }: Tile) {
       className="flex flex-col items-center gap-2 focus-ring rounded-2xl pressable group"
     >
       <div
-        className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${grad} flex items-center justify-center shadow-[0_8px_20px_-8px_hsl(var(--primary)/0.5)] transition-transform group-active:scale-95`}
+        className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${grad} flex items-center justify-center shadow-[0_10px_24px_-10px_hsl(var(--primary)/0.55)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_14px_30px_-10px_hsl(var(--primary)/0.7)] group-active:scale-95`}
       >
-        <div className="w-9 h-9 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center text-white">
+        <div className="w-9 h-9 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-transform duration-300 group-hover:rotate-[-4deg]">
           <Icon className="h-4 w-4" strokeWidth={2.4} />
         </div>
       </div>
@@ -43,16 +43,16 @@ function PillTile({ icon: Icon, label, href, grad }: Tile) {
 
 export function FlexiTopSection() {
   return (
-    <section className="section-x space-y-4 pt-2">
+    <section className="section-x space-y-4 pt-2 animate-fade-in">
       {/* Combined CTA + stats split card */}
-      <div className="rounded-3xl overflow-hidden border border-border/60 shadow-[0_10px_30px_-12px_hsl(var(--primary)/0.45)] grid grid-cols-5">
+      <div className="rounded-3xl overflow-hidden border border-border/60 shadow-[0_18px_40px_-18px_hsl(var(--primary)/0.55)] grid grid-cols-5 midnight-shine">
         <Link
           to="/shop"
-          className="col-span-3 relative p-4 text-primary-foreground focus-ring pressable flex flex-col justify-between"
+          className="col-span-3 relative p-4 text-primary-foreground focus-ring pressable flex flex-col justify-between transition-transform duration-300 active:scale-[0.98]"
           style={{ background: "var(--gradient-primary)" }}
         >
-          <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/15 blur-2xl" />
-          <div className="relative w-10 h-10 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center">
+          <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/15 blur-2xl float-y" />
+          <div className="relative w-10 h-10 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]">
             <GraduationCap className="h-5 w-5" />
           </div>
           <div className="relative mt-4">
@@ -86,8 +86,14 @@ export function FlexiTopSection() {
 
       {/* Essential quick actions */}
       <div className="grid grid-cols-4 gap-2">
-        {pillActions.map((t) => (
-          <PillTile key={t.label} {...t} />
+        {pillActions.map((t, i) => (
+          <div
+            key={t.label}
+            className="animate-fade-in"
+            style={{ animationDelay: `${i * 60}ms`, animationFillMode: "backwards" }}
+          >
+            <PillTile {...t} />
+          </div>
         ))}
       </div>
     </section>

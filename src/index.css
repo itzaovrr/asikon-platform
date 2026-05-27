@@ -831,17 +831,27 @@
 
 .midnight-tile {
   position: relative;
-  background: hsl(var(--card));
+  background:
+    linear-gradient(180deg, hsl(var(--card)) 0%, hsl(var(--card) / 0.85) 100%);
   border: 1px solid hsl(var(--border));
   border-radius: 1.5rem;
   color: hsl(var(--card-foreground));
-  transition: transform 220ms cubic-bezier(0.22,1,0.36,1),
-              box-shadow 220ms cubic-bezier(0.22,1,0.36,1),
+  overflow: hidden;
+  transition: transform 320ms cubic-bezier(0.22,1,0.36,1),
+              box-shadow 320ms cubic-bezier(0.22,1,0.36,1),
               border-color 220ms;
 }
+.midnight-tile::after {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, hsl(var(--glass-highlight, 0 0% 100%) / 0.06), transparent 40%);
+  pointer-events: none;
+}
 .midnight-tile:hover {
-  border-color: hsl(var(--primary) / 0.4);
-  box-shadow: 0 0 30px hsl(var(--primary) / 0.18);
+  transform: translateY(-2px);
+  border-color: hsl(var(--primary) / 0.45);
+  box-shadow: 0 18px 40px -22px hsl(var(--primary) / 0.55), 0 0 30px hsl(var(--primary) / 0.18);
 }
 
 .midnight-glow::before {
@@ -849,11 +859,51 @@
   position: absolute;
   top: -3rem; right: -3rem;
   width: 16rem; height: 16rem;
-  background: hsl(var(--primary) / 0.18);
+  background: hsl(var(--primary) / 0.22);
   filter: blur(80px);
   border-radius: 9999px;
   pointer-events: none;
   z-index: 0;
+  animation: midnight-glow-pulse 6s ease-in-out infinite;
+}
+
+@keyframes midnight-glow-pulse {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  50%      { opacity: 1;    transform: scale(1.08); }
+}
+
+/* Subtle diagonal sheen sweep for hero/feature tiles */
+.midnight-shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.midnight-shine::before {
+  content: "";
+  position: absolute;
+  inset: -150% -50%;
+  background: linear-gradient(115deg, transparent 40%, hsl(0 0% 100% / 0.08) 50%, transparent 60%);
+  transform: translateX(-100%);
+  animation: midnight-sheen 5.5s ease-in-out 1.2s infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+@keyframes midnight-sheen {
+  0%   { transform: translateX(-100%); }
+  55%  { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+
+.float-y { animation: float-y 6s ease-in-out infinite; }
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .midnight-shine::before,
+  .midnight-glow::before,
+  .float-y { animation: none !important; }
 }
 
 

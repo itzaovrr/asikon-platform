@@ -35,15 +35,16 @@ const ALL_TILES: Tile[] = [
   { icon: Settings,       label: "Settings",  href: "/settings" },
 ];
 
-function TileLink({ icon: Icon, label, href, onClick }: Tile & { onClick?: () => void }) {
+function TileLink({ icon: Icon, label, href, onClick, index = 0 }: Tile & { onClick?: () => void; index?: number }) {
   return (
     <Link
       to={href}
       onClick={onClick}
-      className="flex flex-col items-center gap-1.5 pressable focus-ring"
+      className="flex flex-col items-center gap-1.5 pressable focus-ring group animate-fade-in"
+      style={{ animationDelay: `${index * 45}ms`, animationFillMode: "backwards" }}
     >
-      <div className="w-14 h-14 rounded-2xl bg-card border border-border flex items-center justify-center">
-        <Icon className="h-5 w-5 text-foreground" strokeWidth={2} />
+      <div className="w-14 h-14 rounded-2xl bg-card border border-border flex items-center justify-center transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-primary/40 group-hover:shadow-[0_10px_24px_-12px_hsl(var(--primary)/0.55)] group-hover:bg-primary/5">
+        <Icon className="h-5 w-5 text-foreground transition-transform duration-300 group-hover:scale-110 group-hover:text-primary" strokeWidth={2} />
       </div>
       <span className="text-[11px] font-medium text-foreground/80 text-center leading-tight">{label}</span>
     </Link>
@@ -68,8 +69,8 @@ export function QuickAccessGrid() {
               <SheetTitle className="text-left">All Quick Actions</SheetTitle>
             </SheetHeader>
             <div className="grid grid-cols-4 gap-4 pb-6">
-              {ALL_TILES.map((t) => (
-                <TileLink key={t.label} {...t} onClick={() => setOpen(false)} />
+              {ALL_TILES.map((t, i) => (
+                <TileLink key={t.label} {...t} index={i} onClick={() => setOpen(false)} />
               ))}
             </div>
           </SheetContent>
@@ -78,8 +79,8 @@ export function QuickAccessGrid() {
 
       {/* Mobile: 4-column scrollable grid */}
       <div className="md:hidden grid grid-cols-4 gap-3 overflow-y-auto no-scrollbar -mx-4 px-4 pb-1">
-        {TILES.map((t) => (
-          <TileLink key={t.label} {...t} />
+        {TILES.map((t, i) => (
+          <TileLink key={t.label} {...t} index={i} />
         ))}
       </div>
 
