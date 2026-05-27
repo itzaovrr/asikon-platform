@@ -126,13 +126,13 @@ function GlassStats() {
         Numbers from across Bangladesh
       </div>
 
-      {/* Mobile: 2-up + last full-width glass cards */}
+      {/* Mobile: 2-up + last full-width liquid glass cards */}
       <div className="grid grid-cols-2 gap-2.5 lg:hidden">
         {STATS.map((s, i) => (
           <div
             key={s.v}
             className={cn(
-              "relative overflow-hidden rounded-2xl p-4 glass-strong border border-white/10",
+              "relative overflow-hidden rounded-2xl p-4 liquid-glass",
               i === STATS.length - 1 && STATS.length % 2 === 1 && "col-span-2",
             )}
           >
