@@ -17,12 +17,12 @@ interface ProfileBadgesProps {
 }
 
 const ALL_BADGES: Badge[] = [
-  { id: "buyer", name: "Learner", icon: <ShoppingBag className="h-3.5 w-3.5" />, color: "text-blue-400 bg-blue-400/10 border-blue-400/20", hint: "Complete your first lesson" },
-  { id: "creator", name: "Creator", icon: <Sparkles className="h-3.5 w-3.5" />, color: "text-purple-400 bg-purple-400/10 border-purple-400/20", hint: "Publish 5 community posts" },
-  { id: "designer", name: "Note Maker", icon: <Palette className="h-3.5 w-3.5" />, color: "text-pink-400 bg-pink-400/10 border-pink-400/20", hint: "Create 3 notes" },
-  { id: "reviewer", name: "Top Reviewer", icon: <Star className="h-3.5 w-3.5" />, color: "text-amber-400 bg-amber-400/10 border-amber-400/20", hint: "Write 3 product reviews" },
-  { id: "trusted", name: "Verified Student", icon: <Shield className="h-3.5 w-3.5" />, color: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20", hint: "Get verified by Asikon" },
-  { id: "elite", name: "Scholar", icon: <Award className="h-3.5 w-3.5" />, color: "text-primary bg-primary/10 border-primary/20", hint: "Reach Level 10" },
+  { id: "buyer", name: "Learner", icon: <ShoppingBag className="h-3.5 w-3.5" />, color: "text-foreground bg-secondary border-border", hint: "Complete your first lesson" },
+  { id: "creator", name: "Creator", icon: <Sparkles className="h-3.5 w-3.5" />, color: "text-foreground bg-secondary border-border", hint: "Publish 5 community posts" },
+  { id: "designer", name: "Note Maker", icon: <Palette className="h-3.5 w-3.5" />, color: "text-foreground bg-secondary border-border", hint: "Create 3 notes" },
+  { id: "reviewer", name: "Top Reviewer", icon: <Star className="h-3.5 w-3.5" />, color: "text-foreground bg-secondary border-border", hint: "Write 3 product reviews" },
+  { id: "trusted", name: "Verified Student", icon: <Shield className="h-3.5 w-3.5" />, color: "text-foreground bg-secondary border-border", hint: "Get verified by Asikon" },
+  { id: "elite", name: "Scholar", icon: <Award className="h-3.5 w-3.5" />, color: "text-foreground bg-secondary border-border", hint: "Reach Level 10" },
 ];
 
 export function ProfileBadges({ badges, learnerSessions = 0, learnerQuizzes = 0 }: ProfileBadgesProps) {
