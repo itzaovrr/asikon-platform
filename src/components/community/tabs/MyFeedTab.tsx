@@ -59,11 +59,16 @@ export function MyFeedTab() {
         return <div key={key} className="px-4"><VideoCard video={item.data} /></div>;
       case "short":
         return (
-          <div key={key} className="px-4">
-            <h3 className="text-sm font-semibold mb-3">Trending Shorts</h3>
-            <div className="flex gap-3 overflow-x-auto hide-scrollbar">
+          <div key={key} className="py-2">
+            <div className="flex items-center justify-between px-4 mb-3">
+              <h3 className="font-semibold text-[14px]">Trending Shorts</h3>
+              <button className="text-[11px] uppercase tracking-[0.12em] text-muted-foreground hover:text-foreground transition-colors">
+                See all
+              </button>
+            </div>
+            <div className="flex gap-3 overflow-x-auto hide-scrollbar px-4">
               {mockShorts.slice(0, 4).map((short) => (
-                <div key={short.id} className="w-32 flex-shrink-0">
+                <div key={short.id} className="w-36 flex-shrink-0">
                   <ShortCard short={short} />
                 </div>
               ))}
@@ -71,7 +76,7 @@ export function MyFeedTab() {
           </div>
         );
       case "review":
-        return <ReviewCard key={key} review={item.data} />;
+        return <div key={key} className="px-4"><ReviewCard review={item.data} /></div>;
       case "live":
         return <div key={key} className="px-4"><LiveCard session={item.data} /></div>;
       case "offer":
@@ -82,16 +87,16 @@ export function MyFeedTab() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       {/* Stories */}
-      <div className="px-4 pt-2">
-        <div className="flex gap-3 overflow-x-auto hide-scrollbar pt-1 pb-2">
+      <div className="px-4 pt-3">
+        <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-1">
           {/* Add Story */}
           <button className="flex flex-col items-center gap-1.5 flex-shrink-0">
-            <div className="relative w-16 h-16 rounded-full bg-secondary ring-1 ring-border flex items-center justify-center">
-              <Plus className="h-6 w-6 text-foreground" />
+            <div className="relative w-16 h-16 rounded-full border border-dashed border-border bg-background flex items-center justify-center">
+              <Plus className="h-5 w-5 text-muted-foreground" />
             </div>
-            <span className="text-xs text-muted-foreground">Add Story</span>
+            <span className="text-[10.5px] tracking-[0.04em] text-muted-foreground truncate max-w-[64px]">Add Story</span>
           </button>
           {mockStories.slice(1).map((story, index) => (
             <StoryCircle key={story.id} story={story} isFirst={index === 0} />
@@ -100,9 +105,9 @@ export function MyFeedTab() {
       </div>
 
       {/* Mixed Feed with Infinite Scroll */}
-      <div className="space-y-4">
+      <div className="space-y-5">
         {displayedItems.map((item, index) => renderFeedItem(item, index))}
-        
+
         {/* Loader */}
         <div ref={loaderRef} className="flex justify-center py-4">
           {isLoading && (

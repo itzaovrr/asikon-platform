@@ -1,4 +1,4 @@
-import { Heart, MessageCircle, Share2, MoreHorizontal, ShoppingBag, Bookmark } from "lucide-react";
+import { Heart, MessageCircle, Share2, MoreHorizontal, ShoppingBag, Bookmark, BadgeCheck } from "lucide-react";
 import { memo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Post } from "@/types";
@@ -41,12 +41,7 @@ function PostCardImpl({ post }: PostCardProps) {
                 {post.user.username}
               </span>
               {post.user.isVerified && (
-                <span
-                  aria-label="Verified"
-                  className="inline-grid place-items-center h-3.5 w-3.5 rounded-full bg-primary text-primary-foreground text-[8px] font-bold"
-                >
-                  ✓
-                </span>
+                <BadgeCheck aria-label="Verified" className="h-3.5 w-3.5 text-foreground/60" />
               )}
             </div>
             <p className="text-[11.5px] text-muted-foreground flex items-center gap-1.5">
@@ -74,8 +69,8 @@ function PostCardImpl({ post }: PostCardProps) {
               className="w-full aspect-[4/5] sm:aspect-[16/11] object-cover"
             />
             {post.product && (
-              <button className="absolute bottom-3 left-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/90 backdrop-blur-md border border-border text-[12px] font-medium hover:bg-background transition-colors">
-                <ShoppingBag className="h-3.5 w-3.5 text-foreground/70" />
+              <button className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background/90 backdrop-blur-md border border-border text-[11.5px] font-medium hover:bg-background transition-colors">
+                <ShoppingBag className="h-3.5 w-3.5" />
                 Shop the look
               </button>
             )}
@@ -120,8 +115,8 @@ function PostCardImpl({ post }: PostCardProps) {
       </div>
 
       {/* Caption */}
-      <div className="px-4 pt-2 pb-4">
-        <p className="text-[14px] leading-relaxed">
+      <div className="px-4 pt-1.5 pb-4">
+        <p className="text-[14px] leading-[1.55]">
           <span className="font-medium mr-1.5">{post.user.username}</span>
           <span className="text-foreground/85">{post.content}</span>
         </p>
@@ -149,7 +144,7 @@ function ActionButton({
       className={cn(
         "inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full transition-all duration-200",
         "hover:bg-secondary/60 active:scale-[0.96]",
-        active && "bg-primary/10"
+        active && "bg-secondary"
       )}
     >
       {children}
