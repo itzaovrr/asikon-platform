@@ -252,12 +252,22 @@ export default function AdminLayout() {
                 </kbd>
               </button>
 
-              <Button variant="ghost" size="icon" className="h-9 w-9 relative" aria-label="Notifications">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden h-9 w-9"
+                aria-label="Jump to admin page"
+                onClick={() => setPaletteOpen(true)}
+              >
+                <Search className="h-4 w-4" />
+              </Button>
+
+              <Button variant="ghost" size="icon" className="h-9 w-9 relative hidden md:inline-flex" aria-label="Notifications">
                 <Bell className="h-4 w-4" />
                 <span className="absolute top-1.5 right-1.5 h-1.5 w-1.5 rounded-full bg-primary" />
               </Button>
 
-              <ThemeToggle />
+              <div className="hidden md:block"><ThemeToggle /></div>
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
