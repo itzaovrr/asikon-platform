@@ -67,9 +67,9 @@ const Game = () => {
             <title>Game · Earn Coins & Track Streaks — Asikon</title>
           </Helmet>
           <div className="text-center py-16 space-y-4">
-            <h1 className="text-2xl font-bold text-gradient">Sign in to play</h1>
+            <h1 className="font-display text-2xl font-semibold tracking-tight">Sign in to play</h1>
             <p className="text-muted-foreground text-sm">Earn coins, build streaks, unlock rewards.</p>
-            <Button onClick={() => navigate("/auth?redirect=/game")} className="gradient-primary">Sign in</Button>
+            <Button onClick={() => navigate("/auth?redirect=/game")}>Sign in</Button>
           </div>
         </MobilePage>
       </AppLayout>
