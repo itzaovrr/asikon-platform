@@ -393,14 +393,9 @@ export function LearnChat({ threadId }: Props) {
         </button>
       )}
 
-      {/* Composer — last flex child, never under the bottom nav */}
-      <div className="shrink-0 relative px-3 sm:px-6 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] border-t border-border/60 backdrop-blur-xl bg-background/90">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.08]"
-          style={{ background: "var(--gradient-primary)" }}
-          aria-hidden
-        />
-        <div className="relative mx-auto w-full max-w-3xl space-y-2">
+      {/* Composer — calm white surface, hairline border, no gradient wash */}
+      <div className="shrink-0 px-3 sm:px-6 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] border-t border-border bg-background/95 backdrop-blur-xl">
+        <div className="mx-auto w-full max-w-3xl space-y-2">
           {/* Action chips */}
           {!isEmpty && (
             <div className="flex gap-2 overflow-x-auto scrollbar-none -mx-1 px-1">
@@ -411,7 +406,7 @@ export function LearnChat({ threadId }: Props) {
                     setInput((v) => (v ? `${v} ${chip}` : chip));
                     textareaRef.current?.focus();
                   }}
-                  className="shrink-0 px-3 py-1 rounded-full border border-border bg-card/80 hover:bg-card hover:border-primary/40 text-[11px] font-medium whitespace-nowrap transition-colors"
+                  className="shrink-0 px-3 py-1 rounded-full border border-border bg-card hover:bg-secondary text-[12px] font-medium whitespace-nowrap transition-colors"
                 >
                   {chip}
                 </button>
@@ -422,10 +417,9 @@ export function LearnChat({ threadId }: Props) {
           {/* Composer card */}
           <div
             className={cn(
-              "rounded-3xl border border-border bg-card",
-              "shadow-[0_8px_28px_-14px_hsl(var(--primary)/0.45)]",
-              "focus-within:border-primary/60 focus-within:shadow-[0_10px_36px_-12px_hsl(var(--primary)/0.6)]",
-              "transition-all px-3 pt-2 pb-1.5",
+              "rounded-2xl border border-border bg-card shadow-sm",
+              "focus-within:border-primary focus-within:shadow-md",
+              "transition-[border-color,box-shadow] duration-200 px-3 pt-2 pb-1.5",
             )}
           >
             <textarea
@@ -440,7 +434,7 @@ export function LearnChat({ threadId }: Props) {
               }}
               placeholder="Ask Apu anything…"
               rows={1}
-              className="w-full resize-none bg-transparent outline-none text-[15px] leading-6 placeholder:text-muted-foreground/70 max-h-[200px]"
+              className="w-full resize-none bg-transparent outline-none text-[15px] leading-6 placeholder:text-muted-foreground max-h-[200px]"
               autoFocus
               aria-label="Message Apu"
             />
@@ -450,7 +444,7 @@ export function LearnChat({ threadId }: Props) {
                   onClick={filesComingSoon}
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8 rounded-full text-muted-foreground/70 hover:text-foreground"
+                  className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
                   aria-label="Attach a file — coming soon"
                   title="Attach a file — coming soon"
                 >
@@ -460,7 +454,7 @@ export function LearnChat({ threadId }: Props) {
                   onClick={voiceComingSoon}
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8 rounded-full text-muted-foreground/70 hover:text-foreground"
+                  className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
                   aria-label="Voice input — coming soon"
                   title="Voice input — coming soon"
                 >
@@ -472,9 +466,7 @@ export function LearnChat({ threadId }: Props) {
                   <span
                     className={cn(
                       "text-[11px] tabular-nums",
-                      input.length > 2000
-                        ? "text-destructive"
-                        : "text-muted-foreground/70",
+                      input.length > 2000 ? "text-destructive" : "text-muted-foreground",
                     )}
                   >
                     {input.length}
@@ -485,19 +477,18 @@ export function LearnChat({ threadId }: Props) {
                     onClick={stop}
                     size="icon"
                     variant="secondary"
-                    className="h-9 w-9 rounded-full relative"
+                    className="h-9 w-9 rounded-full"
                     aria-label="Stop reply"
                     title="Stop reply"
                   >
-                    <span className="absolute inset-0 rounded-full animate-ping bg-primary/30" />
-                    <Square className="w-3.5 h-3.5 fill-current relative" />
+                    <Square className="w-3.5 h-3.5 fill-current" />
                   </Button>
                 ) : (
                   <Button
                     onClick={() => handleSend(input)}
                     disabled={!input.trim()}
                     size="icon"
-                    className="h-9 w-9 rounded-full gradient-primary text-primary-foreground disabled:opacity-40 transition-transform active:scale-95 hover:shadow-[0_0_20px_-2px_hsl(var(--primary)/0.7)]"
+                    className="h-9 w-9 rounded-full"
                     aria-label="Send message"
                     title="Send"
                   >
@@ -507,7 +498,7 @@ export function LearnChat({ threadId }: Props) {
               </div>
             </div>
           </div>
-          <p className="text-[10.5px] text-center text-muted-foreground/70 pt-0.5">
+          <p className="text-[11px] text-center text-muted-foreground pt-1">
             Apu can make mistakes — double-check important facts.
           </p>
         </div>
