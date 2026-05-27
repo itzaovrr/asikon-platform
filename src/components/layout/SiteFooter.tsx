@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Mail, Github, Send, Instagram, Facebook, ChevronRight, Sparkles } from "lucide-react";
+import { Mail, Code2, Send, Camera, Users, ChevronRight, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 
