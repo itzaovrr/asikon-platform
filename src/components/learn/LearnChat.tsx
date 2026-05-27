@@ -2,16 +2,12 @@ import { useMemo, useRef, useEffect, useState, useCallback } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
 import {
-  ArrowUp,
   ArrowLeft,
-  Square,
-  ArrowDown,
+  ArrowUpRight,
   BookOpen,
   Brain,
   ListChecks,
   Sparkles as SparklesIcon,
-  Mic,
-  Paperclip,
   PanelLeft,
   PenSquare,
   MoreHorizontal,
@@ -24,8 +20,6 @@ import {
   Trash2,
   GraduationCap,
 } from "lucide-react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import {
@@ -56,7 +50,28 @@ import {
 import { ThreadList } from "@/components/learn/ThreadList";
 import tutorAvatar from "@/assets/asikon-tutor-avatar.png";
 
-// Each quick prompt gets a brand-tinted accent so the icon means something.
+// AI Elements
+import {
+  Conversation,
+  ConversationContent,
+  ConversationScrollButton,
+} from "@/components/ai-elements/conversation";
+import {
+  Message,
+  MessageContent,
+  MessageResponse,
+} from "@/components/ai-elements/message";
+import {
+  PromptInput,
+  PromptInputTextarea,
+  PromptInputFooter,
+  PromptInputSubmit,
+  PromptInputTools,
+  PromptInputButton,
+  type PromptInputMessage,
+} from "@/components/ai-elements/prompt-input";
+import { Shimmer } from "@/components/ai-elements/shimmer";
+
 const QUICK_PROMPTS = [
   {
     icon: BookOpen,
@@ -90,8 +105,6 @@ const CAPABILITIES = [
   { icon: GraduationCap, label: "Plan your revision" },
 ];
 
-
-// Chips append a real instruction to the next message.
 const ACTION_CHIPS = [
   "Explain like I'm 12",
   "In Bangla please",
@@ -118,9 +131,6 @@ export function LearnChat({ threadId, onBack }: Props) {
   const awardedRef = useRef(false);
   const [input, setInput] = useState("");
   const [sheetOpen, setSheetOpen] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [showJump, setShowJump] = useState(false);
 
   const activeThread = threads.find((t) => t.id === threadId);
   const threadTitle = activeThread?.title ?? "New chat";
@@ -153,7 +163,7 @@ export function LearnChat({ threadId, onBack }: Props) {
 
   const { messages, sendMessage, status, stop, regenerate } = useChat({
     id: threadId,
-    messages: initial,
+    messages: initial as any,
     transport,
     onError: (e) => {
       const msg = (e as Error).message || "";
@@ -163,36 +173,6 @@ export function LearnChat({ threadId, onBack }: Props) {
       else toast.error("Something went off — let's try that again.");
     },
   });
-
-  // Keep transcript pinned to bottom on new content
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
-  }, [messages, status]);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const onScroll = () => {
-      const distance = el.scrollHeight - el.scrollTop - el.clientHeight;
-      setShowJump(distance > 240);
-    };
-    el.addEventListener("scroll", onScroll, { passive: true });
-    return () => el.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    if (status !== "streaming") textareaRef.current?.focus();
-  }, [status, threadId]);
-
-  // Auto-grow textarea
-  useEffect(() => {
-    const ta = textareaRef.current;
-    if (!ta) return;
-    ta.style.height = "auto";
-    ta.style.height = Math.min(ta.scrollHeight, 200) + "px";
-  }, [input]);
 
   // Visual viewport handling so the composer rides above the on-screen keyboard
   useEffect(() => {
@@ -226,15 +206,27 @@ export function LearnChat({ threadId, onBack }: Props) {
   }, [status, messages, awardSession, awardQuiz]);
 
   const isBusy = status === "submitted" || status === "streaming";
-  const isEmpty = messages.length === 0;
+  const isEmpty = messages.length === 0 && !loadingMsgs;
 
-  const handleSend = (text: string) => {
-    const value = text.trim();
-    if (!value || isBusy) return;
-    setInput("");
-    void import("@/lib/analytics").then(({ track }) => track("ai_tutor_message", { thread_id: threadId, length: value.length }));
-    sendMessage({ text: value });
-  };
+  const handleSend = useCallback(
+    (text: string) => {
+      const value = text.trim();
+      if (!value || isBusy) return;
+      setInput("");
+      void import("@/lib/analytics").then(({ track }) =>
+        track("ai_tutor_message", { thread_id: threadId, length: value.length }),
+      );
+      sendMessage({ text: value });
+    },
+    [isBusy, sendMessage, threadId],
+  );
+
+  const handlePromptSubmit = useCallback(
+    (msg: PromptInputMessage) => {
+      handleSend(msg.text ?? "");
+    },
+    [handleSend],
+  );
 
   const handleNewChat = async () => {
     const t = await createThread.mutateAsync();
@@ -257,15 +249,6 @@ export function LearnChat({ threadId, onBack }: Props) {
     navigate("/learn");
   };
 
-  const jumpToBottom = () => {
-    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
-  };
-
-  const voiceComingSoon = () =>
-    toast("Voice questions are on the way — text works great for now.");
-  const filesComingSoon = () =>
-    toast("File attachments coming soon — paste text for now.");
-
   if (!user) {
     return (
       <div className="flex flex-col items-center justify-center h-full p-6 text-center">
@@ -278,8 +261,8 @@ export function LearnChat({ threadId, onBack }: Props) {
   }
 
   return (
-    <div className="absolute inset-0 flex flex-col bg-background">
-      {/* Header — calm white bar, hairline border */}
+    <div className="flex flex-col h-full bg-background">
+      {/* Header */}
       <header className="shrink-0 relative flex items-center gap-2 px-3 lg:px-6 h-14 border-b border-border bg-background/85 backdrop-blur-xl">
         {onBack && (
           <Button
@@ -287,7 +270,7 @@ export function LearnChat({ threadId, onBack }: Props) {
             size="icon"
             onClick={onBack}
             aria-label="Back"
-            className="h-9 w-9 rounded-full"
+            className="h-9 w-9 rounded-full lg:hidden"
           >
             <ArrowLeft className="w-4 h-4" />
           </Button>
@@ -325,10 +308,15 @@ export function LearnChat({ threadId, onBack }: Props) {
               alt=""
               className="relative w-8 h-8 rounded-full ring-2 ring-background shadow-sm"
             />
-            <span aria-hidden className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-background" />
+            <span
+              aria-hidden
+              className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-background"
+            />
           </div>
           <div className="min-w-0">
-            <div className="font-display text-sm font-semibold truncate leading-tight tracking-tight">{threadTitle}</div>
+            <div className="font-display text-sm font-semibold truncate leading-tight tracking-tight">
+              {threadTitle}
+            </div>
             <div className="text-[11px] text-muted-foreground leading-tight flex items-center gap-1">
               <span className="text-emerald-600 dark:text-emerald-400 font-medium">Online</span>
               <span>· Asikon AI tutor</span>
@@ -336,12 +324,11 @@ export function LearnChat({ threadId, onBack }: Props) {
           </div>
         </div>
 
-
         <Button
           onClick={handleNewChat}
           variant="ghost"
           size="icon"
-          className="relative h-9 w-9 rounded-full"
+          className="h-9 w-9 rounded-full"
           disabled={createThread.isPending}
           aria-label="Start a new chat"
           title="New chat"
@@ -354,7 +341,7 @@ export function LearnChat({ threadId, onBack }: Props) {
             <Button
               variant="ghost"
               size="icon"
-              className="relative h-9 w-9 rounded-full"
+              className="h-9 w-9 rounded-full"
               aria-label="Chat options"
             >
               <MoreHorizontal className="w-4 h-4" />
@@ -376,64 +363,95 @@ export function LearnChat({ threadId, onBack }: Props) {
       </header>
 
       {/* Transcript */}
-      <div
-        ref={scrollRef}
-        className="flex-1 min-h-0 overflow-y-auto overscroll-contain scroll-smooth"
-      >
-        {loadingMsgs ? (
-          <TranscriptSkeleton />
-        ) : isEmpty ? (
-          <div className="h-full flex items-center justify-center">
-            <EmptyState onPick={handleSend} />
-          </div>
-        ) : (
-          <div className="mx-auto w-full max-w-3xl px-3 sm:px-6 py-4 sm:py-6 space-y-6">
-            {messages.map((m, idx) => (
-              <MessageRow
-                key={m.id}
-                message={m}
-                isStreaming={
-                  status === "streaming" &&
-                  idx === messages.length - 1 &&
-                  m.role === "assistant"
-                }
-                onRegenerate={
-                  m.role === "assistant" && idx === messages.length - 1 && !isBusy
-                    ? () => regenerate()
-                    : undefined
-                }
-              />
-            ))}
-            {status === "submitted" && <TypingIndicator />}
-            <div className="h-2" />
-          </div>
-        )}
-      </div>
+      {isEmpty ? (
+        <div className="flex-1 min-h-0 overflow-y-auto">
+          <EmptyState onPick={handleSend} />
+        </div>
+      ) : (
+        <Conversation className="flex-1 min-h-0">
+          <ConversationContent className="mx-auto w-full max-w-3xl px-3 sm:px-6 py-4 sm:py-6 gap-6">
+            {loadingMsgs ? (
+              <TranscriptSkeleton />
+            ) : (
+              <>
+                {messages.map((m, idx) => {
+                  const text = (m.parts ?? [])
+                    .map((p: any) => (p.type === "text" ? p.text : ""))
+                    .join("");
+                  const isLast = idx === messages.length - 1;
+                  const isStreaming =
+                    status === "streaming" && isLast && m.role === "assistant";
 
-      {/* Jump to latest */}
-      {showJump && messages.length > 0 && (
-        <button
-          onClick={jumpToBottom}
-          aria-label="Jump to latest reply"
-          className="absolute left-1/2 -translate-x-1/2 bottom-[120px] z-10 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-card/95 backdrop-blur border border-border shadow-md hover:bg-card transition-colors animate-fade-in"
-        >
-          <ArrowDown className="w-3.5 h-3.5" /> Latest
-        </button>
+                  if (m.role === "user") {
+                    return (
+                      <Message key={m.id} from="user">
+                        <MessageContent className="group-[.is-user]:bg-primary group-[.is-user]:text-primary-foreground group-[.is-user]:rounded-2xl group-[.is-user]:rounded-br-md whitespace-pre-wrap text-[15px] leading-relaxed">
+                          {text}
+                        </MessageContent>
+                      </Message>
+                    );
+                  }
+
+                  return (
+                    <Message key={m.id} from="assistant" className="max-w-full">
+                      <div className="flex gap-2.5">
+                        <img
+                          src={tutorAvatar}
+                          alt=""
+                          className="w-7 h-7 rounded-full shrink-0 mt-0.5 ring-1 ring-border"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="text-xs font-semibold text-muted-foreground mb-0.5">
+                            Asikon AI
+                          </div>
+                          <MessageContent className="text-[15px] leading-relaxed">
+                            <MessageResponse>{text || "…"}</MessageResponse>
+                            {isStreaming && (
+                              <span className="inline-block w-[2px] h-4 align-middle ml-0.5 bg-foreground animate-pulse" />
+                            )}
+                          </MessageContent>
+                          {text && !isStreaming && (
+                            <AssistantActions
+                              text={text}
+                              onRegenerate={
+                                isLast && !isBusy ? () => regenerate() : undefined
+                              }
+                            />
+                          )}
+                        </div>
+                      </div>
+                    </Message>
+                  );
+                })}
+
+                {status === "submitted" && (
+                  <div className="flex items-center gap-2.5">
+                    <img
+                      src={tutorAvatar}
+                      alt=""
+                      className="w-7 h-7 rounded-full shrink-0 ring-1 ring-border"
+                    />
+                    <Shimmer className="text-sm font-medium">Asikon AI is thinking…</Shimmer>
+                  </div>
+                )}
+              </>
+            )}
+          </ConversationContent>
+          <ConversationScrollButton className="bottom-2" />
+        </Conversation>
       )}
 
-      {/* Composer — calm white surface, hairline border, no gradient wash */}
-      <div className="shrink-0 px-3 sm:px-6 pt-2 pb-2 border-t border-border bg-background/95 backdrop-blur-xl">
+      {/* Composer */}
+      <div
+        className="shrink-0 border-t border-border bg-background/95 backdrop-blur-xl px-3 sm:px-6 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]"
+      >
         <div className="mx-auto w-full max-w-3xl space-y-2">
-          {/* Action chips */}
           {!isEmpty && (
             <div className="flex gap-2 overflow-x-auto scrollbar-none -mx-1 px-1">
               {ACTION_CHIPS.map((chip) => (
                 <button
                   key={chip}
-                  onClick={() => {
-                    setInput((v) => (v ? `${v} ${chip}` : chip));
-                    textareaRef.current?.focus();
-                  }}
+                  onClick={() => setInput((v) => (v ? `${v} ${chip}` : chip))}
                   className="shrink-0 px-3 py-1 rounded-full border border-border bg-card hover:bg-secondary text-[12px] font-medium whitespace-nowrap transition-colors"
                 >
                   {chip}
@@ -442,54 +460,39 @@ export function LearnChat({ threadId, onBack }: Props) {
             </div>
           )}
 
-          {/* Composer card */}
-          <div
-            className={cn(
-              "rounded-2xl border border-border bg-card shadow-sm",
-              "focus-within:border-primary/50 focus-within:shadow-lg focus-within:ring-4 focus-within:ring-primary/10",
-              "transition-all duration-200 px-3 pt-2 pb-1.5",
-            )}
+          <PromptInput
+            onSubmit={handlePromptSubmit}
+            className="rounded-2xl border border-border bg-card shadow-sm focus-within:border-primary/50 focus-within:shadow-lg focus-within:ring-4 focus-within:ring-primary/10 transition-all"
           >
-
-            <textarea
-              ref={textareaRef}
+            <PromptInputTextarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend(input);
-                }
-              }}
               placeholder="Ask Asikon AI anything…"
-              rows={1}
-              className="w-full resize-none bg-transparent outline-none text-[15px] leading-6 placeholder:text-muted-foreground max-h-[200px]"
-              autoFocus
-              aria-label="Message Asikon AI"
+              className="text-[15px] leading-6"
             />
-            <div className="flex items-center justify-between gap-2 pt-1">
-              <div className="flex items-center gap-0.5">
-                <Button
-                  onClick={filesComingSoon}
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
-                  aria-label="Attach a file — coming soon"
-                  title="Attach a file — coming soon"
+            <PromptInputFooter>
+              <PromptInputTools>
+                <PromptInputButton
+                  type="button"
+                  onClick={() =>
+                    toast("File attachments coming soon — paste text for now.")
+                  }
+                  aria-label="Attach (coming soon)"
+                  title="Attach (coming soon)"
                 >
-                  <Paperclip className="w-4 h-4" />
-                </Button>
-                <Button
-                  onClick={voiceComingSoon}
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 rounded-full text-muted-foreground hover:text-foreground"
-                  aria-label="Voice input — coming soon"
-                  title="Voice input — coming soon"
+                  <span className="text-base leading-none">📎</span>
+                </PromptInputButton>
+                <PromptInputButton
+                  type="button"
+                  onClick={() =>
+                    toast("Voice questions are on the way — text works great for now.")
+                  }
+                  aria-label="Voice (coming soon)"
+                  title="Voice (coming soon)"
                 >
-                  <Mic className="w-4 h-4" />
-                </Button>
-              </div>
+                  <span className="text-base leading-none">🎤</span>
+                </PromptInputButton>
+              </PromptInputTools>
               <div className="flex items-center gap-2">
                 {input.length > 500 && (
                   <span
@@ -501,33 +504,16 @@ export function LearnChat({ threadId, onBack }: Props) {
                     {input.length}
                   </span>
                 )}
-                {isBusy ? (
-                  <Button
-                    onClick={stop}
-                    size="icon"
-                    variant="secondary"
-                    className="h-9 w-9 rounded-full"
-                    aria-label="Stop reply"
-                    title="Stop reply"
-                  >
-                    <Square className="w-3.5 h-3.5 fill-current" />
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={() => handleSend(input)}
-                    disabled={!input.trim()}
-                    size="icon"
-                    className="h-9 w-9 rounded-full"
-                    aria-label="Send message"
-                    title="Send"
-                  >
-                    <ArrowUp className="w-4 h-4" />
-                  </Button>
-                )}
+                <PromptInputSubmit
+                  status={status}
+                  onStop={stop}
+                  disabled={!input.trim() && !isBusy}
+                />
               </div>
-            </div>
-          </div>
-          <p className="text-[11px] text-center text-muted-foreground pt-1">
+            </PromptInputFooter>
+          </PromptInput>
+
+          <p className="text-[11px] text-center text-muted-foreground">
             Asikon AI can make mistakes — double-check important facts.
           </p>
         </div>
@@ -538,7 +524,7 @@ export function LearnChat({ threadId, onBack }: Props) {
 
 function TranscriptSkeleton() {
   return (
-    <div className="mx-auto w-full max-w-3xl px-3 sm:px-6 py-6 space-y-6" aria-label="Loading conversation">
+    <div className="space-y-6" aria-label="Loading conversation">
       <div className="flex justify-end">
         <div className="h-9 w-48 rounded-2xl rounded-br-md bg-foreground/20 animate-pulse" />
       </div>
@@ -547,23 +533,6 @@ function TranscriptSkeleton() {
         <div className="h-3.5 w-[85%] rounded-md bg-muted animate-pulse" />
         <div className="h-3.5 w-[55%] rounded-md bg-muted animate-pulse" />
       </div>
-      <div className="space-y-2">
-        <div className="h-3.5 w-[60%] rounded-md bg-muted animate-pulse" />
-        <div className="h-3.5 w-[78%] rounded-md bg-muted animate-pulse" />
-      </div>
-    </div>
-  );
-}
-
-function TypingIndicator() {
-  return (
-    <div className="flex items-center gap-2.5 animate-fade-in" aria-live="polite">
-      <img src={tutorAvatar} alt="" className="w-6 h-6 rounded-full shrink-0" />
-      <span
-        className="text-sm font-medium bg-clip-text text-transparent bg-[linear-gradient(90deg,hsl(var(--muted-foreground)),hsl(var(--foreground)),hsl(var(--muted-foreground)))] bg-[length:200%_100%] animate-[shimmer_2s_linear_infinite] motion-reduce:animate-none motion-reduce:text-muted-foreground"
-      >
-        Asikon AI is thinking…
-      </span>
     </div>
   );
 }
@@ -575,8 +544,11 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
         <div className="relative mb-4">
           <span
             aria-hidden
-            className="pointer-events-none absolute inset-0 -m-6 rounded-full blur-3xl opacity-70"
-            style={{ background: "radial-gradient(circle, hsl(var(--foreground)/0.10), transparent 70%)" }}
+            className="pointer-events-none absolute inset-0 -m-8 rounded-full blur-3xl opacity-70"
+            style={{
+              background:
+                "radial-gradient(circle, hsl(var(--primary)/0.30), transparent 70%)",
+            }}
           />
           <img
             src={tutorAvatar}
@@ -586,7 +558,13 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
             height={512}
           />
         </div>
-        <h1 className="font-display text-2xl font-semibold tracking-tight mb-2 text-foreground">Hi, I'm Asikon AI</h1>
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium tracking-wide uppercase bg-primary/10 text-primary border border-primary/20 mb-3">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+          Online
+        </span>
+        <h1 className="font-display text-2xl sm:text-3xl font-semibold tracking-tight mb-2 text-foreground">
+          Hi, I'm Asikon AI
+        </h1>
         <p className="text-muted-foreground text-[15px] max-w-md leading-relaxed">
           Stuck on a chapter? Ask me anything — SSC, HSC, Math, Physics, English.
           I'll explain in English or Bangla, whichever helps.
@@ -605,15 +583,27 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
               onClick={() => onPick(q.prompt)}
               className="group relative overflow-hidden flex items-center gap-3 text-left p-3.5 rounded-2xl bg-card border border-border hover:border-foreground/30 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30"
             >
-              <span aria-hidden className={cn("absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity", q.tint)} />
-              <span className={cn("relative shrink-0 w-9 h-9 rounded-xl flex items-center justify-center bg-gradient-to-br ring-1", q.tint)}>
+              <span
+                aria-hidden
+                className={cn(
+                  "absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity",
+                  q.tint,
+                )}
+              />
+              <span
+                className={cn(
+                  "relative shrink-0 w-9 h-9 rounded-xl flex items-center justify-center bg-gradient-to-br ring-1",
+                  q.tint,
+                )}
+              >
                 <Icon className="w-4 h-4" />
               </span>
-              <span className="relative text-[14px] font-medium leading-snug flex-1">{q.label}</span>
-              <ArrowUp className="relative w-3.5 h-3.5 text-muted-foreground rotate-45 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <span className="relative text-[14px] font-medium leading-snug flex-1">
+                {q.label}
+              </span>
+              <ArrowUpRight className="relative w-3.5 h-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
             </button>
           );
-
         })}
       </div>
 
@@ -644,7 +634,7 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
   );
 }
 
-function MessageActions({
+function AssistantActions({
   text,
   onRegenerate,
 }: {
@@ -706,75 +696,6 @@ function MessageActions({
       >
         <ThumbsDown className="w-3.5 h-3.5" />
       </button>
-    </div>
-  );
-}
-
-function MessageRow({
-  message,
-  isStreaming,
-  onRegenerate,
-}: {
-  message: UIMessage;
-  isStreaming?: boolean;
-  onRegenerate?: () => void;
-}) {
-  const isUser = message.role === "user";
-  const text = (message.parts ?? [])
-    .map((p: any) => (p.type === "text" ? p.text : ""))
-    .join("");
-
-  if (isUser) {
-    return (
-      <div className="flex justify-end animate-fade-in">
-        <div className="max-w-[85%] rounded-2xl rounded-br-md px-3.5 py-2 bg-foreground text-background whitespace-pre-wrap text-[15px] leading-relaxed">{text}</div>
-      </div>
-    );
-  }
-  return (
-    <div className="flex gap-2.5 animate-fade-in group/msg">
-      <img src={tutorAvatar} alt="" className="w-7 h-7 rounded-full shrink-0 mt-0.5 ring-1 ring-border" />
-      <div className="flex-1 min-w-0">
-        <div className="text-xs font-semibold text-muted-foreground mb-0.5">Asikon AI</div>
-        <div
-          className={cn(
-            "text-foreground text-[15px] leading-relaxed",
-            "prose prose-sm dark:prose-invert max-w-none break-words",
-            "prose-p:my-2 prose-headings:mt-3 prose-headings:mb-1.5 prose-li:my-0.5",
-            "prose-pre:my-2 prose-pre:rounded-xl prose-pre:overflow-x-auto prose-pre:text-[13px] prose-pre:font-mono prose-pre:bg-secondary prose-pre:border prose-pre:border-border",
-            "prose-code:before:content-none prose-code:after:content-none prose-code:break-words",
-            "prose-a:text-foreground prose-a:underline prose-a:underline-offset-4 prose-a:break-all",
-            "[&_table]:block [&_table]:overflow-x-auto [&_table]:text-xs [&_img]:rounded-lg",
-          )}
-        >
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            components={{
-              a: (props) => <a {...props} target="_blank" rel="noopener noreferrer" />,
-              code: ({ className, children, ...props }: any) => {
-                const inline = !className;
-                return inline ? (
-                  <code className="px-1 py-0.5 rounded bg-muted text-foreground text-[0.85em]" {...props}>
-                    {children}
-                  </code>
-                ) : (
-                  <code className={className} {...props}>
-                    {children}
-                  </code>
-                );
-              },
-            }}
-          >
-            {text || "…"}
-          </ReactMarkdown>
-          {isStreaming && (
-            <span className="inline-block w-[2px] h-4 align-middle ml-0.5 bg-foreground animate-pulse" />
-          )}
-        </div>
-        {text && !isStreaming && (
-          <MessageActions text={text} onRegenerate={onRegenerate} />
-        )}
-      </div>
     </div>
   );
 }
