@@ -72,7 +72,7 @@ export function TodayMissionCard() {
         </p>
       )}
       <div className="flex items-center gap-3 mt-4">
-        <Button asChild variant="premium" size="lg" className="group">
+        <Button asChild size="lg" className="group">
           <Link to={`/lesson/${lesson.id}`}>
             {copy.mission.cta}
             <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-0.5 transition-transform" />
