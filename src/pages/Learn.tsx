@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import { SEO } from "@/components/SEO";
 import { ArrowLeft, Plus, Menu } from "lucide-react";
 import { LearnChat } from "@/components/learn/LearnChat";
 import { ThreadList } from "@/components/learn/ThreadList";
@@ -77,7 +77,7 @@ export default function Learn() {
   if (loading) {
     return (
       <StandaloneShell>
-        <Helmet><title>Apu · AI Tutor — Asikon</title></Helmet>
+        <SEO title="Apu · AI Tutor" description="Chat 24/7 with Apu, your personal AI tutor for SSC, HSC, and beyond." url="https://asikonpro.lovable.app/learn" />
         <TopBar onBack={handleBack} />
         <LearnSkeleton />
       </StandaloneShell>
@@ -87,10 +87,7 @@ export default function Learn() {
   if (!user) {
     return (
       <StandaloneShell>
-        <Helmet>
-          <title>Apu · AI Tutor — Asikon</title>
-          <meta name="description" content="Chat 24/7 with Apu, your personal AI tutor for SSC, HSC, and beyond." />
-        </Helmet>
+        <SEO title="Apu · AI Tutor" description="Chat 24/7 with Apu, your personal AI tutor for SSC, HSC, and beyond." url="https://asikonpro.lovable.app/learn" />
         <TopBar onBack={handleBack} />
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
           <div className="relative mb-6">
@@ -122,10 +119,19 @@ export default function Learn() {
 
   return (
     <StandaloneShell>
-      <Helmet>
-        <title>Apu · AI Tutor — Asikon</title>
-        <meta name="description" content="Chat with Apu, your 24/7 AI study buddy on Asikon. Get answers, MCQs, and revision plans in seconds." />
-      </Helmet>
+      <SEO
+        title="Apu · AI Tutor"
+        description="Chat with Apu, your 24/7 AI study buddy on Asikon. Get answers, MCQs, and revision plans in seconds."
+        url="https://asikonpro.lovable.app/learn"
+      >
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Course",
+          name: "Asikon AI Tutor — Apu",
+          description: "24/7 AI study buddy for SSC, HSC, and beyond. Get instant answers, MCQs, and revision plans.",
+          provider: { "@type": "Organization", name: "Asikon", sameAs: "https://asikonpro.lovable.app/" },
+        })}</script>
+      </SEO>
       <TopBar onBack={handleBack} onNew={handleNew} showMenu={mobileMenu} />
       <div className="flex flex-1 min-h-0">
         <aside className="hidden lg:flex w-64 border-r border-border flex-col">

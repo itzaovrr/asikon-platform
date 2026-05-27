@@ -1,7 +1,7 @@
 import { Sparkles } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import { SEO } from "@/components/SEO";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { CategoryCarousel } from "@/components/carousels";
 import { ShopFilters } from "@/components/shop/ShopFilters";
@@ -127,10 +127,11 @@ const Shop = () => {
 
   return (
     <AppLayout>
-      <Helmet>
-        <title>Shop — Courses, Books & Kits | Asikon</title>
-        <meta name="description" content="Browse curated courses, books, study kits, and prompt libraries — every item vetted by ASIKON mentors." />
-      </Helmet>
+      <SEO
+        title="Explore — Courses, Books & Kits"
+        description="Browse curated courses, books, study kits, and prompt libraries — every item vetted by ASIKON mentors."
+        url="https://asikonpro.lovable.app/shop"
+      />
       <div className="container-editorial pb-8 lg:pb-16">
         {/* Editorial header band — minimal on mobile, full on desktop */}
         <div className="hidden lg:block pt-10 pb-8">
