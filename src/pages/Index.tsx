@@ -106,12 +106,11 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
       <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
         <Link
           to="/learn"
-          className="group relative overflow-hidden rounded-2xl border border-primary/20 p-3 sm:p-4 pressable focus-ring"
-          style={{ background: "var(--gradient-primary-soft)" }}
+          className="group relative overflow-hidden rounded-2xl border border-border bg-card p-3 sm:p-4 pressable focus-ring"
         >
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl gradient-primary flex items-center justify-center shadow-[var(--shadow-glow)] shrink-0">
-              <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-primary-foreground" />
+            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-secondary flex items-center justify-center shrink-0">
+              <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-foreground" />
             </div>
             <div className="min-w-0 flex-1">
               <p className="font-semibold text-[13px] sm:text-sm flex items-center gap-1 truncate">
@@ -122,10 +121,10 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
             </div>
           </div>
         </Link>
-        <div className="flex items-center justify-between p-3 sm:p-4 rounded-2xl glass">
+        <div className="flex items-center justify-between p-3 sm:p-4 rounded-2xl border border-border bg-card">
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-primary/30 to-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-              <Gift className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-secondary flex items-center justify-center shrink-0">
+              <Gift className="h-4 w-4 sm:h-5 sm:w-5 text-foreground" />
             </div>
             <div className="min-w-0">
               <p className="font-semibold text-[13px] sm:text-sm truncate">Daily streak</p>
@@ -145,10 +144,10 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
             <Reveal key={cat.label} delay={i * 60} variant="scale">
               <Link
                 to={cat.href}
-                className="pressable focus-ring flex flex-col items-center justify-center gap-1.5 aspect-[1.1] rounded-2xl glass border border-border/50 hover:border-primary/30 transition-colors"
+                className="pressable focus-ring flex flex-col items-center justify-center gap-1.5 aspect-[1.1] rounded-2xl bg-card border border-border hover:border-foreground/30 transition-colors"
               >
-                <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
-                  <Icon className="h-[16px] w-[16px] text-primary" />
+                <div className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center">
+                  <Icon className="h-[16px] w-[16px] text-foreground" />
                 </div>
                 <span className="text-[11px] font-medium">{cat.label}</span>
               </Link>

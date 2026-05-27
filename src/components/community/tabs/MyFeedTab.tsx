@@ -88,8 +88,8 @@ export function MyFeedTab() {
         <div className="flex gap-3 overflow-x-auto hide-scrollbar pt-1 pb-2">
           {/* Add Story */}
           <button className="flex flex-col items-center gap-1.5 flex-shrink-0">
-            <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-primary/10 to-primary/5 ring-1 ring-border flex items-center justify-center">
-              <Plus className="h-6 w-6 text-primary" />
+            <div className="relative w-16 h-16 rounded-full bg-secondary ring-1 ring-border flex items-center justify-center">
+              <Plus className="h-6 w-6 text-foreground" />
             </div>
             <span className="text-xs text-muted-foreground">Add Story</span>
           </button>
