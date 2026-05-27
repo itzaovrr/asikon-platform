@@ -52,19 +52,19 @@ export function MasterpieceShowcase() {
   const frontBook = visible[frontIdx].book;
 
   return (
-    <section className="relative overflow-hidden py-16 lg:py-24 rounded-3xl mx-2 lg:mx-6 my-8 bg-gradient-to-br from-[hsl(var(--primary)/0.08)] via-background to-[hsl(var(--primary)/0.15)]">
+    <section className="relative overflow-hidden py-10 lg:py-20 rounded-3xl mx-2 lg:mx-6 my-4 lg:my-8 bg-gradient-to-br from-[hsl(var(--primary)/0.08)] via-background to-[hsl(var(--primary)/0.15)]">
       <div aria-hidden className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full bg-primary/20 blur-3xl pointer-events-none" />
       <div aria-hidden className="absolute -bottom-40 right-0 w-[500px] h-[500px] rounded-full bg-primary/15 blur-3xl pointer-events-none" />
 
       <div className="container mx-auto px-4 text-center relative">
-        <h2 className="font-display font-bold text-foreground text-3xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight max-w-3xl mx-auto">
+        <h2 className="font-display font-bold text-foreground text-2xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight max-w-3xl mx-auto">
           A place to display your{" "}
           <span className="bg-gradient-to-r from-primary to-[hsl(var(--primary)/0.6)] bg-clip-text text-transparent">
             masterpiece.
           </span>
         </h2>
 
-        <div className="relative mt-14 lg:mt-20 h-[320px] sm:h-[420px] lg:h-[520px]">
+        <div className="relative mt-8 lg:mt-16 h-[280px] sm:h-[420px] lg:h-[520px]">
           {/* Chat bubble left */}
           <div className="absolute left-[8%] sm:left-[16%] top-0 z-30">
             <div className="relative bg-primary text-primary-foreground text-xs sm:text-sm font-medium px-3 py-1.5 rounded-full shadow-xl shadow-primary/30">
@@ -127,17 +127,30 @@ export function MasterpieceShowcase() {
           </div>
         </div>
 
-        <p className="mt-10 lg:mt-14 text-muted-foreground text-sm sm:text-base max-w-md mx-auto">
+        <p className="mt-6 lg:mt-12 text-muted-foreground text-xs sm:text-base max-w-md mx-auto">
           Discover the most-loved books on Asikon — hover any cover to bring it to the front.
         </p>
 
-        <div className="mt-6 flex items-center justify-center gap-3">
-          <button className="bg-gradient-to-r from-primary to-[hsl(var(--primary)/0.8)] text-primary-foreground rounded-full px-6 py-2.5 text-sm font-semibold shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-105 transition-all">
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+          <button className="bg-gradient-to-r from-primary to-[hsl(var(--primary)/0.8)] text-primary-foreground rounded-full px-5 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-105 transition-all">
             Explore library
           </button>
-          <button className="bg-background/80 backdrop-blur text-foreground rounded-full px-6 py-2.5 text-sm font-medium border border-primary/20 hover:border-primary/40 hover:bg-background transition-all">
+          <button className="bg-background/80 backdrop-blur text-foreground rounded-full px-5 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-medium border border-primary/20 hover:border-primary/40 hover:bg-background transition-all">
             Read more
           </button>
+        </div>
+
+        {/* Trust micro-chips */}
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-[10px] sm:text-xs text-muted-foreground">
+          <span className="inline-flex items-center gap-1.5">
+            <span className="w-1 h-1 rounded-full bg-emerald-500" /> Instant access
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <span className="w-1 h-1 rounded-full bg-primary" /> Money-back guarantee
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <span className="w-1 h-1 rounded-full bg-amber-500" /> 24/7 AI tutor
+          </span>
         </div>
       </div>
     </section>

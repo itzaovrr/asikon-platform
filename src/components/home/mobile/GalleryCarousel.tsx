@@ -86,7 +86,7 @@ export function GalleryCarousel() {
 
       <div
         ref={ref}
-        className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-background via-background to-primary/5 px-4 py-10 sm:py-16 ring-1 ring-primary/10"
+        className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-background via-background to-primary/5 px-4 py-6 sm:py-10 ring-1 ring-primary/10"
       >
         {/* Ambient glows */}
         <div aria-hidden className="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 w-[420px] h-[420px] rounded-full bg-primary/15 blur-3xl" />
@@ -96,7 +96,7 @@ export function GalleryCarousel() {
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={titleControls}
-          className="relative z-10 text-center mb-6 sm:mb-10"
+          className="relative z-10 text-center mb-4 sm:mb-8"
         >
           <p className="font-display text-xl sm:text-2xl text-foreground/80 italic">The Ultimate</p>
           <h3 className="font-display font-black text-3xl sm:text-5xl tracking-tight bg-gradient-to-r from-primary via-primary to-[hsl(var(--primary)/0.6)] bg-clip-text text-transparent">
@@ -105,7 +105,7 @@ export function GalleryCarousel() {
         </motion.div>
 
         {/* Cards stage */}
-        <div className="relative h-[280px] sm:h-[360px] flex items-center justify-center">
+        <div className="relative h-[240px] sm:h-[320px] flex items-center justify-center">
           {SLIDES.map((s, i) => {
             const isHover = hovered === i;
             return (

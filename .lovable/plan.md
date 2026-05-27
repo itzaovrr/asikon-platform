@@ -1,51 +1,46 @@
-# Product Detail — Desktop UI Refresh
+## Home Polish Plan (logged-out `/`)
 
-Restyle the desktop layout of `src/pages/ProductDetail.tsx` to match the structure and feel of the attached BloxElite reference (warm soft-amber backdrop, framed gallery, compact info column, grouped detail cards). Mobile stays as-is. Digital-only constraints (no shipping, no size for non-apparel) are preserved.
+The current page works but feels uneven: an empty Gallery panel, weak section headers, no hero anchor above the brand strip, and the masterpiece + CTA card sit with too much whitespace.
 
-## Reference takeaways
+### 1. Fix the broken Gallery section
+`GalleryCarousel` is rendering a huge blank panel.
+- Add a non-empty fallback (skeletons → empty state with icon + copy + CTA).
+- Cap height to ~280px on mobile so it can't blow up the page.
+- Tighten section header to match `SectionHeader` pattern used elsewhere.
 
-- Two-column hero: large framed image on the left with vertical thumbnail strip below; tight info column on the right.
-- Soft amber/cream gradient backdrop only behind the hero block — gives the "studio" feel.
-- Stacked info: title → rating row → price row (with strike) → variant selector pills → stock line → quantity + primary CTA + heart icon.
-- Below the CTA: two grouped cards — "Description" and "Product Details" (2×2 icon grid: Delivery / Size Table / Champion / Maintenance).
-- Section below: "Boxing Also Bought" → maps to our existing related products carousel, restyled with a sectional header.
+### 2. Strengthen the top of the page
+`FlexiTopSection` is the first thing visible.
+- Add a small eyebrow ("Welcome to ASIKON") above "Start learning today".
+- Bump CTA card height + add a secondary "Browse courses" ghost link.
+- Polish the right-side stat tiles: align icons, add subtle hover, show a trend dot.
+- Reduce gap between CTA card and pill tiles (currently `space-y-4` → `space-y-3`).
 
-## Desktop changes (lg+ only)
+### 3. Brand strip
+- Add `INSIDE ASIKON` eyebrow + "Trusted tools we teach" subtitle.
+- Mask edges with a fade gradient so logos don't hard-cut.
+- Slow the marquee slightly; pause on hover.
 
-1. **Hero band**
-   - Wrap the gallery + info grid in a section with a subtle warm gradient (`bg-gradient-to-br from-amber-50/40 via-background to-background dark:from-amber-950/10`), rounded-3xl, generous padding.
-   - Gallery: keep aspect-square but frame with `rounded-3xl` + soft inner ring, add a thin highlight bar at the very top of the image (decorative, matches reference).
-   - Thumbnail strip stays beneath the gallery, larger (20×20) with active ring in primary color.
+### 4. Masterpiece showcase
+- Tighten heading + reduce vertical padding.
+- Move "Explore library / Read more" closer to the fanned covers.
+- Add subtle floating animation to the center book only (currently static).
 
-2. **Info column** (tighter, more grouped like reference)
-   - Title uses display font, slightly larger, uppercase tracking optional.
-   - Rating row: filled stars + `4.9/5 (3,470 Reviews)` style.
-   - Price row: current price big + strike price inline.
-   - For apparel: keep size pills (rounded full, outlined). For courses/books: hide size, keep quantity.
-   - Stock line: "Instant access · delivered to your library" with check icon (replaces reference's "In stock — can be backordered" with digital equivalent).
-   - CTA row: quantity stepper + full-width primary `Add to cart` / `Enroll now` + circular heart button (matches reference layout).
+### 5. Final CTA card ("Learn smarter")
+- Add a faint grid/dot pattern + glow blob behind the headline.
+- Make the "Start learning" pill full-width on mobile, icon on the right.
+- Add 3 micro trust chips below ("Instant access · Money-back · 24/7 AI tutor") to reuse the trust signal pattern.
 
-3. **Two grouped cards below CTA**
-   - **Description card**: rounded-2xl, border, label "Description" + chevron, body = `product.description`.
-   - **Product Details card**: rounded-2xl, header "Product Details" + chevron, body = 2×2 grid of mini icon tiles. Digital-adapted tiles:
-     - `Zap` — Instant Access · Unlock now
-     - `ShieldCheck` — Secure Checkout · SSL + bKash
-     - `RotateCcw` — 7-Day Refund · No questions
-     - `Award` — Verified · Trusted creator
-   - Each tile: rounded-xl muted background, small icon in circle, bold label + muted sublabel.
+### 6. Section rhythm + reveals
+- Wrap each top-level section in `<Reveal>` with staggered delay (0/60/120ms) for a calmer entrance.
+- Standardize vertical spacing: `space-y-6 lg:space-y-12` on `MobilePage`.
+- Add `scroll-mt-20` to each section for anchor navigation.
 
-4. **Below the hero band** (unchanged structure, restyled headers)
-   - Course-only sections (What you will learn, Curriculum, Instructor) remain.
-   - Reviews + FAQ remain.
-   - Related products → section title styled like "Boxing Also Bought" (bold display, with "See all" link to `/shop`).
+### Technical notes
+- Files touched: `src/pages/Index.tsx`, `src/components/home/mobile/FlexiTopSection.tsx`, `src/components/home/BrandStrip.tsx`, `src/components/home/mobile/GalleryCarousel.tsx`, `src/components/home/MasterpieceShowcase.tsx`, plus a new CTA component or inline edit.
+- No new dependencies. All motion respects `prefers-reduced-motion` via existing `Reveal` + CSS guards.
+- Colors stay on the Midnight Indigo tokens already defined in `index.css` — no hex values in components.
 
-## Out of scope
-
-- Mobile layout (sticky CTA, single column) stays exactly as today.
-- No data/business logic changes — cart, auth, pricing, variants all unchanged.
-- No new components extracted; edits live in `src/pages/ProductDetail.tsx` using existing tokens, shadcn primitives, and lucide icons.
-- No new color tokens; reuse `--primary`, `--muted`, `--success`, amber from tailwind palette for the hero backdrop only.
-
-## Files
-
-- `src/pages/ProductDetail.tsx` — desktop JSX restructure inside the existing `lg:` grid; mobile branches untouched.
+### Out of scope
+- No new data sources or API changes.
+- Logged-in home (greeting + mission + quick actions) — already polished last pass.
+- No layout restructure of the AppLayout shell.
