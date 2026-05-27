@@ -442,17 +442,17 @@ function TestimonialsCarousel() {
 /* -------------------------------------------------------------------------- */
 function StorySection() {
   return (
-    <section className="py-16 sm:py-24 lg:py-32 border-y border-border/40 bg-card/20">
-      <div className="container-editorial grid lg:grid-cols-12 gap-10 lg:gap-16">
+    <section className="py-10 sm:py-20 lg:py-32 border-y border-border/40 bg-card/20">
+      <div className="container-editorial grid lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-16">
         <div className="lg:col-span-7 text-center lg:text-left">
           <p className="eyebrow-bar mb-3 justify-center lg:justify-start inline-flex lg:flex">Our story</p>
           <h2
-            className="font-display font-semibold tracking-[-0.025em] leading-[1.05] mb-6 sm:mb-7 mx-auto lg:mx-0 max-w-[22ch] lg:max-w-[18ch]"
-            style={{ fontSize: "clamp(1.7rem, 4.5vw, 3.5rem)" }}
+            className="font-display font-semibold tracking-[-0.025em] leading-[1.05] mb-5 sm:mb-7 mx-auto lg:mx-0 max-w-[22ch] lg:max-w-[18ch]"
+            style={{ fontSize: "clamp(1.55rem, 4.5vw, 3.5rem)" }}
           >
             From a Dhaka classroom to learners everywhere.
           </h2>
-          <div className="space-y-4 sm:space-y-5 text-[14.5px] sm:text-base leading-[1.7] text-muted-foreground mx-auto lg:mx-0 max-w-[52ch] sm:max-w-[58ch]">
+          <div className="space-y-3 sm:space-y-5 text-[13.5px] sm:text-base leading-[1.65] sm:leading-[1.7] text-muted-foreground mx-auto lg:mx-0 max-w-[52ch] sm:max-w-[58ch]">
             <p>
               Brilliant students were being asked to learn in systems built for
               someone else, somewhere else. That felt wrong.
@@ -469,19 +469,19 @@ function StorySection() {
         </div>
 
         <aside className="lg:col-span-5">
-          <div className="glass-strong border border-white/10 rounded-[1.75rem] sm:rounded-[2rem] p-7 lg:p-8 lg:sticky lg:top-28 relative overflow-hidden">
+          <div className="glass-strong border border-white/10 rounded-2xl sm:rounded-[2rem] p-5 sm:p-7 lg:p-8 lg:sticky lg:top-28 relative overflow-hidden">
             <div
               className="absolute -top-20 -right-20 w-60 h-60 rounded-full blur-3xl opacity-30"
               style={{ background: "var(--gradient-primary)" }}
             />
-            <div className="relative grid grid-cols-3 gap-5 lg:block lg:space-y-0">
+            <div className="relative grid grid-cols-3 gap-4 sm:gap-5 lg:block lg:space-y-0">
               <MetaRow label="Founded" value="2024" />
               <div className="hidden lg:block my-5 h-px" style={{ background: "var(--gradient-hairline)" }} />
               <MetaRow label="Based in" value="Dhaka, BD" />
               <div className="hidden lg:block my-5 h-px" style={{ background: "var(--gradient-hairline)" }} />
               <MetaRow label="Built for" value="Every learner." />
             </div>
-            <p className="relative text-[14px] sm:text-[15px] text-muted-foreground mt-7 italic leading-[1.6] max-w-[40ch]">
+            <p className="relative text-[13px] sm:text-[15px] text-muted-foreground mt-5 sm:mt-7 italic leading-[1.6] max-w-[40ch]">
               &ldquo;Education should feel like a guide walking beside you, not
               a wall in front of you.&rdquo;
             </p>
@@ -498,7 +498,7 @@ function MetaRow({ label, value }: { label: string; value: string }) {
       <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
         {label}
       </p>
-      <p className="font-display text-xl sm:text-2xl lg:text-3xl font-semibold mt-1 leading-tight">
+      <p className="font-display text-lg sm:text-2xl lg:text-3xl font-semibold mt-1 leading-tight">
         {value}
       </p>
     </div>
@@ -510,7 +510,7 @@ function MetaRow({ label, value }: { label: string; value: string }) {
 /* -------------------------------------------------------------------------- */
 function FinalCTA() {
   return (
-    <section className="relative isolate overflow-hidden py-24 sm:py-32 lg:py-40">
+    <section className="relative isolate overflow-hidden py-16 sm:py-28 lg:py-40">
       <div className="absolute inset-0 -z-10 aurora-bg" />
       <div
         className="absolute inset-x-0 top-1/2 -translate-y-1/2 mx-auto w-[80%] aspect-square rounded-full blur-[140px] opacity-25 -z-10"
@@ -520,7 +520,7 @@ function FinalCTA() {
         <p className="eyebrow-bar mb-4 justify-center inline-flex">Start today</p>
         <h2
           className="font-display font-semibold tracking-[-0.03em] leading-[1.02]"
-          style={{ fontSize: "clamp(2.25rem, 6vw, 4.75rem)" }}
+          style={{ fontSize: "clamp(1.85rem, 6vw, 4.75rem)" }}
         >
           Your future self{" "}
           <span
@@ -530,17 +530,17 @@ function FinalCTA() {
             starts today.
           </span>
         </h2>
-        <p className="mt-6 text-[15px] sm:text-base lg:text-lg leading-[1.65] text-muted-foreground max-w-[44ch] mx-auto">
+        <p className="mt-5 sm:mt-6 text-[14px] sm:text-base lg:text-lg leading-[1.65] text-muted-foreground max-w-[44ch] mx-auto">
           One small lesson. One calm streak. Everything changes from there.
         </p>
-        <div className="mt-9 flex flex-col items-center gap-4">
+        <div className="mt-7 sm:mt-9 flex flex-col items-center gap-3 sm:gap-4">
           <Button
             asChild
             size="lg"
-            className="group rounded-full px-10 h-14 text-base w-full sm:w-auto shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.65)] hover:shadow-[0_14px_50px_-10px_hsl(var(--primary)/0.8)] transition-shadow"
+            className="group rounded-full px-8 sm:px-10 h-12 sm:h-14 text-sm sm:text-base w-full sm:w-auto shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.65)] hover:shadow-[0_14px_50px_-10px_hsl(var(--primary)/0.8)] transition-shadow"
           >
             <Link to="/learn">
-              <GraduationCap className="mr-1.5 h-5 w-5" />
+              <GraduationCap className="mr-1.5 h-[18px] w-[18px] sm:h-5 sm:w-5" />
               Begin your journey
               <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
