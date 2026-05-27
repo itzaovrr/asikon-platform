@@ -7,7 +7,7 @@ import tileAi from "@/assets/about/tile-ai-tutor.jpg";
 import tileCommunity from "@/assets/about/tile-community.jpg";
 import tileDaily from "@/assets/about/tile-daily.jpg";
 import tileBangla from "@/assets/about/tile-bangla.jpg";
-import featureMentor from "@/assets/about/feature-mentor.jpg";
+import featureMentor from "@/assets/about/feature-mentor.webp";
 import featureNotes from "@/assets/about/feature-notes.jpg";
 import storyClassroom from "@/assets/about/story-classroom.jpg";
 

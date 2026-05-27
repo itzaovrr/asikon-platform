@@ -17,15 +17,7 @@ import { ProductCard } from "@/components/shop/ProductCard";
 import { MobileScroller } from "@/components/ui/mobile-scroller";
 import { GreetingStrip } from "@/components/home/workspace/GreetingStrip";
 import { QuickAccessGrid } from "@/components/home/workspace/QuickAccessGrid";
-import { ProgressSnapshot } from "@/components/home/workspace/ProgressSnapshot";
-import { ContinueLearningRow } from "@/components/home/workspace/ContinueLearningRow";
-import { AiAssistantBox } from "@/components/home/workspace/AiAssistantBox";
-import { ActivityFeed } from "@/components/home/workspace/ActivityFeed";
-import { MobileCoursesTop } from "@/components/home/mobile/MobileCoursesTop";
 import { ImageHeroSlider } from "@/components/home/mobile/ImageHeroSlider";
-import { GalleryCarousel } from "@/components/home/mobile/GalleryCarousel";
-import { MasterpieceShowcase } from "@/components/home/MasterpieceShowcase";
-import ComingSoonTrio from "@/components/home/ComingSoonTrio";
 import { FlexiTopSection } from "@/components/home/mobile/FlexiTopSection";
 import { DesktopHeroBento } from "@/components/home/desktop/DesktopHeroBento";
 import { BrandStrip } from "@/components/home/BrandStrip";
@@ -38,6 +30,14 @@ import { TodayMissionCard } from "@/features/mission/TodayMissionCard";
 const HowItWorks = lazy(() => import("@/components/home/sections/HowItWorks").then(m => ({ default: m.HowItWorks })));
 const WhyTrust = lazy(() => import("@/components/home/sections/WhyTrust").then(m => ({ default: m.WhyTrust })));
 const MentorshipHomeSection = lazy(() => import("@/components/mentorship/MentorshipHomeSection").then(m => ({ default: m.MentorshipHomeSection })));
+const ProgressSnapshot = lazy(() => import("@/components/home/workspace/ProgressSnapshot").then(m => ({ default: m.ProgressSnapshot })));
+const ContinueLearningRow = lazy(() => import("@/components/home/workspace/ContinueLearningRow").then(m => ({ default: m.ContinueLearningRow })));
+const AiAssistantBox = lazy(() => import("@/components/home/workspace/AiAssistantBox").then(m => ({ default: m.AiAssistantBox })));
+const ActivityFeed = lazy(() => import("@/components/home/workspace/ActivityFeed").then(m => ({ default: m.ActivityFeed })));
+const MobileCoursesTop = lazy(() => import("@/components/home/mobile/MobileCoursesTop").then(m => ({ default: m.MobileCoursesTop })));
+const GalleryCarousel = lazy(() => import("@/components/home/mobile/GalleryCarousel").then(m => ({ default: m.GalleryCarousel })));
+const MasterpieceShowcase = lazy(() => import("@/components/home/MasterpieceShowcase").then(m => ({ default: m.MasterpieceShowcase })));
+const ComingSoonTrio = lazy(() => import("@/components/home/ComingSoonTrio"));
 const SectionFallback = () => <div className="section-x"><Skeleton className="w-full h-32 rounded-2xl" /></div>;
 
 
@@ -389,24 +389,24 @@ const Index = () => {
               </section>
 
               {/* 4 — Continue where you left off */}
-              <ContinueLearningRow />
+              <Suspense fallback={<SectionFallback />}><ContinueLearningRow /></Suspense>
 
               {/* 5 — Four calm tiles: Tutor / Shop / Community / Mentors */}
               <QuickAccessGrid />
 
               {/* 6 — AI assistant entry */}
-              <AiAssistantBox />
+              <Suspense fallback={<SectionFallback />}><AiAssistantBox /></Suspense>
 
               {/* 7 — Discovery: courses + commerce sections (admin-ordered) */}
-              <MobileCoursesTop />
-              <GalleryCarousel />
-              <MasterpieceShowcase />
-              <ComingSoonTrio />
+              <Suspense fallback={<SectionFallback />}><MobileCoursesTop /></Suspense>
+              <Suspense fallback={<SectionFallback />}><GalleryCarousel /></Suspense>
+              <Suspense fallback={<SectionFallback />}><MasterpieceShowcase /></Suspense>
+              <Suspense fallback={<SectionFallback />}><ComingSoonTrio /></Suspense>
               {restSections.map(renderSection)}
 
               {/* 8 — Quiet personal footer: progress + activity */}
-              <ProgressSnapshot />
-              <ActivityFeed />
+              <Suspense fallback={<SectionFallback />}><ProgressSnapshot /></Suspense>
+              <Suspense fallback={<SectionFallback />}><ActivityFeed /></Suspense>
             </>
           ) : (
             <>
@@ -414,9 +414,9 @@ const Index = () => {
               <div className="lg:hidden"><FlexiTopSection /></div>
               {heroSection && renderSection(heroSection)}
               <BrandStrip />
-              <GalleryCarousel />
-              <MasterpieceShowcase />
-              <ComingSoonTrio />
+              <Suspense fallback={<SectionFallback />}><GalleryCarousel /></Suspense>
+              <Suspense fallback={<SectionFallback />}><MasterpieceShowcase /></Suspense>
+              <Suspense fallback={<SectionFallback />}><ComingSoonTrio /></Suspense>
               {restSections.map(renderSection)}
             </>
           )}
