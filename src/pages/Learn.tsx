@@ -108,19 +108,6 @@ export default function Learn() {
     );
   }
 
-  const mobileMenu = (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label="Chats" className="h-9 w-9 lg:hidden">
-          <Menu className="h-5 w-5" />
-        </Button>
-      </SheetTrigger>
-      <SheetContent side="left" className="p-0 w-72">
-        <ThreadList activeId={threadId} />
-      </SheetContent>
-    </Sheet>
-  );
-
   return (
     <StandaloneShell>
       <SEO
@@ -136,14 +123,13 @@ export default function Learn() {
           provider: { "@type": "Organization", name: "Asikon", sameAs: "https://asikonpro.lovable.app/" },
         })}</script>
       </SEO>
-      <TopBar onBack={handleBack} onNew={handleNew} showMenu={mobileMenu} />
       <div className="flex flex-1 min-h-0">
         <aside className="hidden lg:flex w-64 border-r border-border flex-col">
           <ThreadList activeId={threadId} />
         </aside>
         <div className="flex-1 flex flex-col min-w-0 min-h-0">
           {threadId ? (
-            <LearnChat key={threadId} threadId={threadId} />
+            <LearnChat key={threadId} threadId={threadId} onBack={handleBack} />
           ) : isLoading ? (
             <LearnSkeleton />
           ) : (
@@ -156,4 +142,5 @@ export default function Learn() {
     </StandaloneShell>
   );
 }
+
 
