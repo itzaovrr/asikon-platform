@@ -663,7 +663,7 @@ function MessageActions({
         onClick={() => setVote(vote === "up" ? null : "up")}
         className={cn(
           "h-7 w-7 inline-flex items-center justify-center rounded-md hover:bg-muted transition-colors",
-          vote === "up" ? "text-primary" : "text-muted-foreground hover:text-foreground",
+          vote === "up" ? "text-foreground" : "text-muted-foreground hover:text-foreground",
         )}
         aria-label="Helpful"
         title="Helpful"
