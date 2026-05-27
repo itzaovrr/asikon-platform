@@ -32,7 +32,7 @@ export function CommunityTabs({ activeTab, onTabChange }: CommunityTabsProps) {
   return (
     <div
       ref={containerRef}
-      className="relative flex items-center gap-6 px-4 overflow-x-auto hide-scrollbar border-b border-border bg-background/85 backdrop-blur-md"
+      className="relative flex items-center gap-5 px-4 overflow-x-auto hide-scrollbar border-b border-border bg-background/85 backdrop-blur-md"
       role="tablist"
       aria-label="Community sections"
     >
@@ -46,7 +46,7 @@ export function CommunityTabs({ activeTab, onTabChange }: CommunityTabsProps) {
             aria-selected={isActive}
             onClick={() => onTabChange(tab.id)}
             className={cn(
-              "relative shrink-0 py-3 text-[13.5px] font-medium whitespace-nowrap",
+              "relative shrink-0 py-2.5 text-[13px] font-medium whitespace-nowrap",
               "transition-colors duration-200 ease-out",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 rounded-sm",
               isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
@@ -56,8 +56,8 @@ export function CommunityTabs({ activeTab, onTabChange }: CommunityTabsProps) {
             <span
               aria-hidden
               className={cn(
-                "absolute left-0 right-0 -bottom-px h-[2px] rounded-full transition-opacity",
-                isActive ? "bg-foreground opacity-100" : "opacity-0"
+                "absolute left-1/2 -translate-x-1/2 -bottom-px h-[2px] w-6 rounded-full bg-foreground transition-opacity",
+                isActive ? "opacity-100" : "opacity-0"
               )}
             />
           </button>
