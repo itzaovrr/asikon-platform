@@ -77,10 +77,10 @@ const Leaderboard = () => {
               [...Array(8)].map((_, i) => <Skeleton key={i} className="h-20 rounded-2xl" />)}
 
             {!isLoading && (!data || data.length === 0) && (
-              <div className="glass-strong rounded-3xl p-12 text-center">
-                <Trophy className="size-8 mx-auto text-primary" aria-hidden />
-                <h2 className="font-display text-2xl mt-4">No rankings yet</h2>
-                <p className="text-muted-foreground mt-1">Be the first to complete a lesson.</p>
+              <div className="rounded-2xl border border-border bg-card p-12 text-center">
+                <Trophy className="size-7 mx-auto text-foreground/60" aria-hidden />
+                <h2 className="font-display text-xl font-semibold mt-4">No rankings yet</h2>
+                <p className="text-sm text-muted-foreground mt-1">Be the first to complete a lesson.</p>
               </div>
             )}
 
@@ -94,27 +94,27 @@ const Leaderboard = () => {
                 <li key={row.user_id}>
                   <Link
                     to={`/profile/${row.user_id}`}
-                    className="glass-strong rounded-2xl p-4 sm:p-5 flex items-center gap-4 transition hover:translate-y-[-2px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    className="rounded-2xl border border-border bg-card p-4 sm:p-5 flex items-center gap-4 transition-colors hover:bg-secondary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
                   >
                     <div
-                      className={`size-12 rounded-xl bg-gradient-to-br ${medal(i)} grid place-items-center text-background font-display font-semibold shrink-0`}
+                      className={`size-11 rounded-xl border grid place-items-center font-display font-semibold tabular-nums shrink-0 ${medalClass(i)}`}
                       aria-label={`Rank ${i + 1}`}
                     >
-                      {i < 3 ? <Crown className="size-5" aria-hidden /> : i + 1}
+                      {i < 3 ? <Crown className="size-4" aria-hidden /> : i + 1}
                     </div>
                     <Avatar className="size-10">
                       <AvatarImage src={row.profile?.avatar_url ?? undefined} alt="" />
                       <AvatarFallback>{initials}</AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
-                      <p className="font-display font-semibold truncate">{name}</p>
-                      <p className="text-xs text-muted-foreground flex items-center gap-2">
-                        <Flame className="size-3.5 text-primary" aria-hidden />
+                      <p className="font-medium text-[14px] truncate">{name}</p>
+                      <p className="text-[11.5px] text-muted-foreground flex items-center gap-2">
+                        <Flame className="size-3.5 text-foreground/60" aria-hidden />
                         {row.streak_days}-day streak · best {row.longest_streak}
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="font-display text-xl font-semibold">{row.xp.toLocaleString()}</p>
+                      <p className="font-display text-lg font-semibold tabular-nums">{row.xp.toLocaleString()}</p>
                       <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">XP</p>
                     </div>
                   </Link>
