@@ -310,7 +310,7 @@ export function EndlessShowcase() {
             <Link
               to={s.to}
               key={s.title}
-              className="group relative shrink-0 basis-[62%] sm:basis-[42%] lg:basis-[22%] aspect-[3/4] rounded-2xl sm:rounded-[1.75rem] overflow-hidden border border-white/10"
+              className="group relative shrink-0 basis-[62%] sm:basis-[42%] lg:basis-[22%] aspect-[4/5] sm:aspect-[3/4] rounded-2xl sm:rounded-[1.75rem] overflow-hidden border border-white/10"
             >
               <img
                 src={s.image}
