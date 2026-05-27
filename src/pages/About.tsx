@@ -443,7 +443,7 @@ function TestimonialsCarousel() {
               key={t.name}
               className="shrink-0 basis-[86%] sm:basis-[60%] lg:basis-[36%] px-2 sm:px-3"
             >
-              <article className="relative glass-strong border border-white/10 rounded-2xl sm:rounded-[1.75rem] p-5 sm:p-9 min-h-[200px] sm:min-h-[240px] h-full">
+              <article className="relative liquid-glass rounded-2xl sm:rounded-[1.75rem] p-5 sm:p-9 min-h-[200px] sm:min-h-[240px] h-full">
                 <Quote className="absolute top-4 right-4 sm:top-5 sm:right-5 w-7 h-7 sm:w-9 sm:h-9 text-primary/15" />
                 <div className="flex gap-0.5 mb-3 sm:mb-4">
                   {Array.from({ length: 5 }).map((_, i) => (
