@@ -350,7 +350,7 @@ export function EndlessShowcase() {
                     <span
                       className={cn(
                         "inline-flex items-center gap-1 rounded-full px-2.5 h-6 sm:px-3.5 sm:h-8 text-[11px] sm:text-[12.5px] font-medium liquid-glass-pill",
-                        s.tone === "dark" ? "text-white" : "text-neutral-900",
+                        s.tone === "dark" ? "on-dark text-white" : "text-neutral-900",
                       )}
                     >
                       {s.cta}
