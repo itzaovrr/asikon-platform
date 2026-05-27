@@ -169,8 +169,8 @@ const ProductDetail = () => {
         </Link>
 
         {/* Main */}
-        <div className="lg:rounded-[2rem] lg:p-8 xl:p-10 lg:bg-gradient-to-br lg:from-amber-50/50 lg:via-background lg:to-background dark:lg:from-amber-950/10 lg:border lg:border-border/40">
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-8 lg:gap-12">
+        <div className="rounded-3xl lg:rounded-[2rem] p-4 lg:p-8 xl:p-10 bg-gradient-to-br from-amber-50/60 via-background to-background dark:from-amber-950/15 border border-border/40">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-6 lg:gap-12">
           {/* Gallery */}
           <div className="space-y-3 lg:sticky lg:top-[calc(var(--app-header-h)+1.5rem)] lg:self-start">
             <div className="relative aspect-square rounded-2xl lg:rounded-[1.75rem] overflow-hidden bg-muted ring-1 ring-border/40 lg:shadow-xl lg:shadow-amber-900/5">
