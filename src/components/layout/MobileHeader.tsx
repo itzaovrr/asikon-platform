@@ -41,7 +41,7 @@ export function MobileHeader({ onMenuClick }: MobileHeaderProps) {
       style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
       className={cn(
         "fixed top-0 inset-x-0 z-40 transition-[box-shadow,border-color] duration-300 ease-out",
-        "bg-gradient-to-b from-sky-200 via-sky-100 to-background dark:from-sky-900/40 dark:via-sky-950/30 dark:to-background",
+        "bg-[linear-gradient(to_bottom,hsl(var(--primary)/0.18),hsl(var(--primary)/0.06)_60%,hsl(var(--background)))] dark:bg-[linear-gradient(to_bottom,hsl(var(--primary)/0.28),hsl(var(--primary)/0.08)_60%,hsl(var(--background)))]",
         scrolled
           ? "border-b border-border/30 shadow-[0_1px_16px_-6px_hsl(0_0%_0%/0.10)]"
           : "border-b border-transparent",
