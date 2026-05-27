@@ -117,12 +117,12 @@ const Mentors = () => {
             ].map((s) => {
               const Icon = s.icon;
               return (
-                <div key={s.title} className="rounded-2xl glass border border-border/60 p-4">
-                  <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center mb-3 shadow-[var(--shadow-glow)]">
-                    <Icon className="h-5 w-5 text-primary-foreground" />
+                <div key={s.title} className="rounded-2xl bg-card border border-border p-4">
+                  <div className="w-9 h-9 rounded-lg bg-secondary border border-border flex items-center justify-center mb-3">
+                    <Icon className="h-4 w-4 text-foreground/70" />
                   </div>
-                  <p className="font-semibold text-sm">{s.title}</p>
-                  <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{s.text}</p>
+                  <p className="font-medium text-[14px]">{s.title}</p>
+                  <p className="text-[12.5px] text-muted-foreground mt-1 leading-relaxed">{s.text}</p>
                 </div>
               );
             })}
@@ -132,9 +132,9 @@ const Mentors = () => {
 
       {/* Sticky CTA on mobile */}
       <div className="md:hidden fixed inset-x-0 bottom-[84px] z-30 px-4 pointer-events-none">
-        <div className="pointer-events-auto rounded-2xl glass border border-primary/30 p-3 flex items-center gap-2 shadow-[var(--shadow-glow)]">
-          <p className="text-sm font-semibold flex-1">Reserve before public launch</p>
-          <Button size="sm" variant="premium" onClick={() => open()}>Join waitlist</Button>
+        <div className="pointer-events-auto rounded-2xl bg-background/90 backdrop-blur-md border border-border p-3 flex items-center gap-2">
+          <p className="text-[13.5px] font-medium flex-1">Reserve before public launch</p>
+          <Button size="sm" onClick={() => open()}>Join waitlist</Button>
         </div>
       </div>
 
