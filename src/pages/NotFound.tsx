@@ -13,7 +13,7 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <main className="relative min-h-screen w-full bg-background flex items-center justify-center px-6 overflow-hidden">
+    <main className="relative min-h-dvh w-full bg-background flex items-center justify-center px-6 overflow-hidden">
       <Helmet>
         <title>Page not found — Asikon</title>
         <meta name="robots" content="noindex" />

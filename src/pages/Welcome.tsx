@@ -119,7 +119,7 @@ const stories = [
 
 export default function Welcome() {
   return (
-    <div className="min-h-screen bg-background text-foreground antialiased">
+    <div className="min-h-dvh bg-background text-foreground antialiased">
       <SEO
         title="Asikon — Learn AI, the Bangladeshi Way"
         description="Asikon is an AI-powered learning platform for Bangladesh. Expert courses, a 24/7 Bangla AI tutor, curated books, and 1-on-1 mentorship."

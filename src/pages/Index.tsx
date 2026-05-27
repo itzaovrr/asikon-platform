@@ -4,6 +4,7 @@ import { Link, Navigate } from "react-router-dom";
 import { lazy, Suspense, useMemo } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { MobilePage } from "@/components/layout/MobilePage";
+import { FirstRunTour } from "@/components/onboarding/FirstRunTour";
 
 import { PostCard } from "@/components/community/PostCard";
 import { HeroCarousel, ProductCarousel } from "@/components/carousels";
@@ -252,6 +253,7 @@ const Index = () => {
 
   return (
     <AppLayout>
+      <FirstRunTour />
       <SEO
         title="Asikon — AI-Powered Learning Platform"
         description="Master AI, Python, and modern skills with expert-led courses, a 24/7 AI tutor, and a community of learners."
