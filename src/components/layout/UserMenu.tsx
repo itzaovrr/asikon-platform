@@ -1,13 +1,15 @@
-import { 
-  User, 
-  Package, 
-  FileText, 
-  Heart, 
+import {
+  User,
+  Package,
+  Heart,
   LogOut,
   ChevronDown,
   Loader2,
   Settings,
-  Crown
+  Crown,
+  Bell,
+  HelpCircle,
+  Trophy,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
