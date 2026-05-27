@@ -154,7 +154,7 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
             </div>
             <div>
               <h3 className="font-display font-bold text-base text-foreground flex items-center gap-1">
-                AI Tutor
+                AI tuor
                 <ArrowUpRight className="h-3.5 w-3.5 opacity-50" />
               </h3>
               <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground mt-1">
@@ -211,7 +211,7 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
                   </div>
                   <div>
                     <p className="font-display font-bold text-base text-foreground">24/7</p>
-                    <Eyebrow>AI Tutor</Eyebrow>
+                    <Eyebrow>AI tuor</Eyebrow>
                   </div>
                 </div>
               </div>
@@ -349,14 +349,14 @@ const Index = () => {
       <FirstRunTour />
       <SEO
         title="Asikon — AI-Powered Learning Platform"
-        description="Master AI, Python, and modern skills with expert-led courses, a 24/7 AI tutor, and a community of learners."
+        description="Master AI, Python, and modern skills with expert-led courses, a 24/7 AI tuor, and a community of learners."
         url="https://asikonpro.lovable.app/"
       >
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "FAQPage",
           mainEntity: [
-            { "@type": "Question", name: "What is Asikon?", acceptedAnswer: { "@type": "Answer", text: "Asikon is an AI-powered learning platform with courses, books, a 24/7 AI tutor, and 1-on-1 mentorship." } },
+            { "@type": "Question", name: "What is Asikon?", acceptedAnswer: { "@type": "Answer", text: "Asikon is an AI-powered learning platform with courses, books, a 24/7 AI tuor, and 1-on-1 mentorship." } },
             { "@type": "Question", name: "Is cash on delivery available?", acceptedAnswer: { "@type": "Answer", text: "Yes — cash on delivery is available across Bangladesh on all shop orders." } },
             { "@type": "Question", name: "Do I get a certificate?", acceptedAnswer: { "@type": "Answer", text: "Yes, every Asikon course includes a verified completion certificate you can share on LinkedIn or your CV." } },
           ],
