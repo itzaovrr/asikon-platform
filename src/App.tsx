@@ -106,6 +106,14 @@ const Privacy = lazy(() => import("./pages/Privacy"));
 const Refund = lazy(() => import("./pages/Refund"));
 const Notifications = lazy(() => import("./pages/Notifications"));
 const Leaderboard = lazy(() => import("./pages/Leaderboard"));
+const AdminDigital = lazy(() => import("./pages/admin/AdminDigital"));
+const AdminCourses = lazy(() => import("./pages/admin/AdminCourses"));
+const AdminServices = lazy(() => import("./pages/admin/AdminServices"));
+const DigitalList = lazy(() => import("./pages/DigitalList"));
+const CoursesList = lazy(() => import("./pages/CoursesList"));
+const ServicesList = lazy(() => import("./pages/ServicesList"));
+const ContentDetail = lazy(() => import("./pages/ContentDetail"));
+const Library = lazy(() => import("./pages/Library"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
