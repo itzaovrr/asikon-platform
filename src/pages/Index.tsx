@@ -322,6 +322,7 @@ const Index = () => {
           ) : (
             <>
               {heroSection && renderSection(heroSection)}
+              <GalleryCarousel />
               {restSections.map(renderSection)}
             </>
           )}
