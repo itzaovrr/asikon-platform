@@ -273,7 +273,7 @@ export function LearnChat({ threadId, onBack }: Props) {
   }
 
   return (
-    <div className="relative flex flex-col flex-1 min-h-0 h-full bg-background">
+    <div className="relative grid grid-rows-[auto_1fr_auto] h-full min-h-0 bg-background">
       {/* Header — calm white bar, hairline border */}
       <header className="shrink-0 relative flex items-center gap-2 px-3 lg:px-6 h-14 border-b border-border bg-background/85 backdrop-blur-xl">
         {onBack && (
