@@ -285,6 +285,7 @@ const Profile = () => {
             user={displayProfile}
             isOwnProfile={isOwnProfile}
             onAvatarClick={() => displayProfile.avatar && setShowAvatarViewer(true)}
+            onShare={handleShare}
             onUpdate={async (updates) => {
               await updateProfile.mutateAsync(updates);
             }}
@@ -322,6 +323,7 @@ const Profile = () => {
         <ProfileActions
           isOwnProfile={isOwnProfile}
           isFollowing={isFollowing}
+          isFollowLoading={followUser.isPending || unfollowUser.isPending}
           onFollow={handleFollow}
           onMessage={handleMessage}
           onShare={handleShare}
