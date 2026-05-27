@@ -67,37 +67,37 @@ const Mentors = () => {
               {(mentors ?? []).map((m) => (
                 <article
                   key={m.id}
-                  className="h-full rounded-2xl border border-border/60 bg-card p-4 flex flex-col hover-lift"
+                  className="h-full rounded-2xl border border-border bg-card p-4 flex flex-col transition-colors hover:bg-secondary/40"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-primary-foreground font-bold text-lg shrink-0">
+                    <div className="w-12 h-12 rounded-full bg-secondary border border-border flex items-center justify-center text-foreground font-semibold text-lg shrink-0">
                       {m.name.charAt(0)}
                     </div>
                     <div className="min-w-0">
-                      <p className="font-semibold text-sm truncate">{m.name}</p>
-                      <p className="text-[11px] text-muted-foreground flex items-center gap-1">
+                      <p className="font-medium text-[14px] truncate">{m.name}</p>
+                      <p className="text-[11.5px] text-muted-foreground flex items-center gap-1 tabular-nums">
                         <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
                         {m.rating.toFixed(1)} · {m.experience_years}+ yrs
                       </p>
                     </div>
                   </div>
                   {m.bio && (
-                    <p className="text-xs text-muted-foreground mt-3 line-clamp-2 leading-relaxed">{m.bio}</p>
+                    <p className="text-[12.5px] text-muted-foreground mt-3 line-clamp-2 leading-relaxed">{m.bio}</p>
                   )}
                   <div className="flex flex-wrap gap-1 mt-3">
                     {m.subjects.slice(0, 3).map((s) => (
-                      <Badge key={s} variant="outline" className="text-[10px] font-normal">{s}</Badge>
+                      <Badge key={s} variant="outline" className="text-[10.5px] font-normal">{s}</Badge>
                     ))}
                   </div>
-                  <div className="flex items-center gap-1.5 mt-2 text-[11px] text-muted-foreground">
+                  <div className="flex items-center gap-1.5 mt-2 text-[11.5px] text-muted-foreground">
                     <Languages className="h-3 w-3" />
                     {m.languages.join(" · ")}
                   </div>
-                  <div className="flex items-center gap-1.5 mt-1 text-[11px] text-muted-foreground">
+                  <div className="flex items-center gap-1.5 mt-1 text-[11.5px] text-muted-foreground">
                     <GraduationCap className="h-3 w-3" />
                     Ages {m.for_age_min}–{m.for_age_max}
                   </div>
-                  <Button size="sm" variant="premium" className="mt-4" onClick={() => open(m)}>
+                  <Button size="sm" variant="outline" className="mt-4" onClick={() => open(m)}>
                     Reserve a slot
                   </Button>
                 </article>
