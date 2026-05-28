@@ -191,6 +191,7 @@ function AnimatedRoutes() {
           <Route path="/create" element={<CreateContent />} />
           <Route path="/mentors" element={<Mentors />} />
           <Route path="/learn" element={<ErrorBoundary><Learn /></ErrorBoundary>} />
+          <Route path="/ai-tutor" element={<Navigate to="/learn" replace />} />
           <Route path="/revision" element={<ErrorBoundary><Revision /></ErrorBoundary>} />
           <Route path="/learn/:threadId" element={<ErrorBoundary><Learn /></ErrorBoundary>} />
           <Route path="/about" element={<About />} />
