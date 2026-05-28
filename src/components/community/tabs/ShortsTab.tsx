@@ -10,10 +10,7 @@ export function ShortsTab() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("posts")
-        .select(
-          `id, content, video_url, created_at, user_id,
-           profiles:profiles!posts_user_id_fkey (id, username, full_name, avatar_url)`
-        )
+        .select("id, content, video_url, created_at, user_id")
         .eq("type", "short")
         .order("created_at", { ascending: false })
         .limit(30);

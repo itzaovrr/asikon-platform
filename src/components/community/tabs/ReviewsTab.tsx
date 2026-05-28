@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
-import { adaptPost, type PostRow, formatTime } from "@/lib/community-adapters";
+import { adaptPost, hydrateWithProfiles, type PostRow, formatTime } from "@/lib/community-adapters";
 import { cn } from "@/lib/utils";
 
 const filters = [
@@ -27,15 +27,12 @@ export function ReviewsTab() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("posts")
-        .select(
-          `id, content, images, rating, type, user_id, created_at, product_id,
-           profiles:profiles!posts_user_id_fkey (id, username, full_name, avatar_url, is_verified, trust_score)`
-        )
+        .select("id, content, images, rating, type, user_id, created_at, product_id")
         .eq("type", "review")
         .order("created_at", { ascending: false })
         .limit(20);
       if (error) throw error;
-      return (data ?? []) as unknown as PostRow[];
+      return hydrateWithProfiles((data ?? []) as PostRow[]);
     },
   });
 

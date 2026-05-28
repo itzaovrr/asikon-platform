@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 import { supabase } from "@/integrations/supabase/client";
-import { adaptPost, type PostRow } from "@/lib/community-adapters";
+import { adaptPost, hydrateWithProfiles, type PostRow } from "@/lib/community-adapters";
 
 function PostSkeleton() {
   return (
@@ -31,15 +31,12 @@ export function PostsTab() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("posts")
-        .select(
-          `id, content, images, video_url, rating, type, user_id, created_at, product_id,
-           profiles:profiles!posts_user_id_fkey (id, username, full_name, avatar_url, is_verified, trust_score)`
-        )
+        .select("id, content, images, video_url, rating, type, user_id, created_at, product_id")
         .eq("type", "post")
         .order("created_at", { ascending: false })
         .limit(20);
       if (error) throw error;
-      return (data ?? []) as unknown as PostRow[];
+      return hydrateWithProfiles((data ?? []) as PostRow[]);
     },
   });
 
