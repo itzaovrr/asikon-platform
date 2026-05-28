@@ -1,17 +1,19 @@
 /**
  * Adapters mapping Supabase `posts` rows → existing community card shapes.
- * Keeps tab queries thin and existing card components untouched.
+ * Posts table has no declared FK to profiles, so we fetch profiles separately
+ * and hydrate them into rows via `hydrateWithProfiles`.
  */
 import type { Post, User } from "@/types";
+import { supabase } from "@/integrations/supabase/client";
 
-type ProfileRow = {
+export type ProfileRow = {
   id: string;
   username: string | null;
   full_name: string | null;
   avatar_url: string | null;
   is_verified?: boolean | null;
   trust_score?: number | null;
-} | null;
+};
 
 export type PostRow = {
   id: string;
@@ -23,13 +25,13 @@ export type PostRow = {
   user_id: string;
   created_at: string;
   product_id?: string | null;
-  profiles?: ProfileRow;
+  profile?: ProfileRow | null;
 };
 
 const FALLBACK_AVATAR =
   "https://api.dicebear.com/7.x/initials/svg?seed=A&backgroundColor=475569";
 
-function formatTime(iso: string): string {
+export function formatTime(iso: string): string {
   const then = new Date(iso).getTime();
   const diff = Math.max(0, Date.now() - then);
   const m = Math.floor(diff / 60000);
@@ -42,7 +44,7 @@ function formatTime(iso: string): string {
   return new Date(iso).toLocaleDateString();
 }
 
-function toUser(p: ProfileRow, fallbackId: string): User {
+function toUser(p: ProfileRow | null | undefined, fallbackId: string): User {
   const name = p?.full_name || p?.username || "Learner";
   return {
     id: p?.id ?? fallbackId,
@@ -62,7 +64,7 @@ function toUser(p: ProfileRow, fallbackId: string): User {
 export function adaptPost(row: PostRow): Post {
   return {
     id: row.id,
-    user: toUser(row.profiles ?? null, row.user_id),
+    user: toUser(row.profile, row.user_id),
     content: row.content ?? "",
     images: row.images ?? undefined,
     likes: 0,
@@ -72,4 +74,17 @@ export function adaptPost(row: PostRow): Post {
   };
 }
 
-export { formatTime };
+/** Fetches matching profiles for a list of post rows and attaches as `profile`. */
+export async function hydrateWithProfiles<T extends { user_id: string }>(
+  rows: T[]
+): Promise<(T & { profile: ProfileRow | null })[]> {
+  if (rows.length === 0) return [];
+  const ids = Array.from(new Set(rows.map((r) => r.user_id)));
+  const { data } = await supabase
+    .from("profiles")
+    .select("id, username, full_name, avatar_url, is_verified, trust_score")
+    .in("id", ids);
+  const byId = new Map<string, ProfileRow>();
+  (data ?? []).forEach((p: any) => byId.set(p.id, p));
+  return rows.map((r) => ({ ...r, profile: byId.get(r.user_id) ?? null }));
+}
