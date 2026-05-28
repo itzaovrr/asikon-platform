@@ -40,9 +40,10 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
           ref={ref}
           className={cn(
             "group relative bg-card rounded-2xl overflow-hidden border border-border/60 h-full flex flex-col",
-            "transition-[transform,box-shadow,border-color] duration-200",
-            "shadow-[var(--shadow-xs)] hover:shadow-[var(--shadow-md)] hover:border-primary/30",
-            "active:scale-[0.98]",
+            "transition-[transform,box-shadow,border-color] duration-300",
+            "shadow-[0_2px_15px_-3px_hsl(var(--foreground)/0.07)]",
+            "hover:shadow-[0_20px_25px_-5px_hsl(var(--foreground)/0.1)] hover:-translate-y-1 hover:border-primary/30",
+            "active:scale-[0.99]",
             isFeatured && "lg:flex-row"
           )}
         >
@@ -60,7 +61,7 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
 
-            {/* Wishlist — always visible, app-style */}
+            {/* Wishlist */}
             <button
               onClick={(e) => {
                 e.preventDefault();
@@ -69,31 +70,31 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
               }}
               aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
               className={cn(
-                "no-min-tap absolute top-2 right-2 h-8 w-8 grid place-items-center rounded-full transition-all duration-200 backdrop-blur-md",
+                "no-min-tap absolute top-3 right-3 h-9 w-9 grid place-items-center rounded-full transition-all duration-200 backdrop-blur-sm shadow-sm",
                 isWishlisted
-                  ? "bg-primary/20 ring-1 ring-primary/40"
-                  : "bg-background/70 hover:bg-background/90"
+                  ? "bg-primary/15 ring-1 ring-primary/40"
+                  : "bg-background/90 hover:bg-background"
               )}
             >
               <Heart
                 className={cn(
-                  "h-3.5 w-3.5 transition-colors",
-                  isWishlisted ? "fill-primary text-primary" : "text-foreground"
+                  "h-4 w-4 transition-colors",
+                  isWishlisted ? "fill-primary text-primary" : "text-muted-foreground"
                 )}
               />
             </button>
 
             {/* Badge stack — capped at 2, calm tonal styling */}
-            <div className="absolute top-2 left-2 flex flex-col gap-1 max-w-[60%]">
+            <div className="absolute top-3 left-3 flex flex-col gap-1 max-w-[60%]">
               {discount > 0 && (
-                <Badge className="text-[10px] font-semibold bg-foreground text-background border-0 px-1.5 py-0">
+                <Badge className="text-[10px] md:text-[11px] font-bold bg-primary text-primary-foreground border-0 px-2.5 py-1 rounded-full tracking-wider uppercase shadow-md">
                   −{discount}%
                 </Badge>
               )}
               {product.isTrending && discount === 0 && (
                 <Badge
                   variant="secondary"
-                  className="gap-1 text-[10px] font-medium bg-background/85 backdrop-blur-sm border-0 px-1.5 py-0"
+                  className="gap-1 text-[10px] font-medium bg-background/90 backdrop-blur-sm border-0 px-2 py-0.5 rounded-full"
                 >
                   <TrendingUp className="h-2.5 w-2.5 text-primary" />
                   Trending
@@ -102,7 +103,7 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
               {product.isNew && discount === 0 && !product.isTrending && (
                 <Badge
                   variant="secondary"
-                  className="text-[10px] font-medium bg-background/85 backdrop-blur-sm border-0 px-1.5 py-0"
+                  className="text-[10px] font-medium bg-background/90 backdrop-blur-sm border-0 px-2 py-0.5 rounded-full"
                 >
                   New
                 </Badge>
@@ -110,7 +111,7 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
               {product.isAuthentic && (
                 <Badge
                   variant="secondary"
-                  className="gap-1 text-[10px] font-medium bg-background/85 backdrop-blur-sm border-0 px-1.5 py-0"
+                  className="gap-1 text-[10px] font-medium bg-background/90 backdrop-blur-sm border-0 px-2 py-0.5 rounded-full"
                 >
                   <Shield className="h-2.5 w-2.5 text-success" />
                   Verified
@@ -121,14 +122,14 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
             {/* Hover actions — desktop only */}
             <div
               className={cn(
-                "hidden md:flex absolute bottom-2 left-2 right-2 gap-2 transition-all duration-300",
+                "hidden md:flex absolute bottom-3 left-3 right-3 gap-2 transition-all duration-300",
                 "opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0"
               )}
             >
               <Button
                 size="sm"
                 variant="secondary"
-                className="flex-1 h-8 bg-background/95 backdrop-blur-md hover:bg-background text-xs font-medium"
+                className="flex-1 h-9 bg-background/95 backdrop-blur-md hover:bg-background text-xs font-medium rounded-xl"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -140,7 +141,7 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
               </Button>
               <Button
                 size="sm"
-                className="h-8 w-8 p-0"
+                className="h-9 w-9 p-0 rounded-xl"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -156,32 +157,31 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
           {/* Content */}
           <div
             className={cn(
-              "p-3 flex-1 flex flex-col",
+              "p-4 md:p-5 flex-1 flex flex-col",
               isFeatured && "lg:flex-1 lg:justify-center lg:p-6"
             )}
           >
             {showBrand && (
-              <p className="eyebrow text-primary/80 mb-1 line-clamp-1">{product.brand}</p>
+              <p className="eyebrow text-primary/80 mb-1.5 line-clamp-1">{product.brand}</p>
             )}
 
             <h3
               className={cn(
-                "font-medium text-foreground line-clamp-2 group-hover:text-primary transition-colors",
-                isCompact ? "text-[13px] min-h-[2.25rem]" : "text-sm min-h-[2.5rem]",
-                isFeatured && "lg:text-xl lg:line-clamp-3 lg:min-h-0"
+                "font-display font-bold text-foreground leading-tight line-clamp-2 group-hover:text-primary transition-colors mb-3",
+                isCompact ? "text-base min-h-[2.5rem]" : "text-lg md:text-xl min-h-[3rem]",
+                isFeatured && "lg:text-2xl lg:line-clamp-3 lg:min-h-0"
               )}
             >
               {product.name}
             </h3>
 
-            {/* Price + rating in one row to save vertical space */}
-            <div className="flex items-center justify-between gap-2 mt-2">
-              <div className="flex items-baseline gap-1.5 min-w-0">
+            <div className="mt-auto flex flex-col gap-2">
+              <div className="flex items-baseline gap-2 min-w-0">
                 <Price
                   amount={product.price}
                   className={cn(
-                    "font-bold text-foreground tracking-tight",
-                    isCompact ? "text-[15px]" : "text-base",
+                    "font-bold text-primary tracking-tight",
+                    isCompact ? "text-base" : "text-lg",
                     isFeatured && "lg:text-2xl"
                   )}
                 />
@@ -189,18 +189,26 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
                   <Price
                     amount={product.originalPrice}
                     strike
-                    className="text-[11px] text-muted-foreground"
+                    className="text-sm text-muted-foreground"
                   />
                 )}
               </div>
-              {product.rating > 0 && (
-                <div className="flex items-center gap-0.5 shrink-0">
-                  <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-                  <span className="text-[11px] font-medium text-muted-foreground">
-                    {product.rating}
+
+              <div className="flex items-center justify-between">
+                {product.rating > 0 ? (
+                  <div className="flex items-center gap-1">
+                    <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                    <span className="text-xs font-medium text-muted-foreground">
+                      {product.rating}
+                    </span>
+                  </div>
+                ) : <span />}
+                {product.brand && (
+                  <span className="text-[10px] md:text-[11px] font-semibold text-muted-foreground/70 uppercase tracking-widest line-clamp-1">
+                    {showBrand ? "" : product.brand}
                   </span>
-                </div>
-              )}
+                )}
+              </div>
             </div>
 
             {isFeatured && (
