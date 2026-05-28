@@ -47,11 +47,11 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
             isFeatured && "lg:flex-row"
           )}
         >
-          {/* Image */}
+          {/* Image — YouTube-style 16:9 thumbnail */}
           <figure
             className={cn(
               "relative overflow-hidden bg-secondary/30",
-              isCompact ? "aspect-square" : "aspect-[4/5]",
+              isCompact ? "aspect-square" : "aspect-video",
               isFeatured && "lg:w-1/2 lg:aspect-auto lg:h-full"
             )}
           >
@@ -60,6 +60,13 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
               alt={product.name}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
+
+            {/* Duration badge — YouTube style bottom-right */}
+            {(product as any).duration && (
+              <span className="absolute bottom-2 right-2 bg-black/80 text-white text-[11px] font-medium px-1.5 py-0.5 rounded">
+                {(product as any).duration}
+              </span>
+            )}
 
             {/* Wishlist */}
             <button
