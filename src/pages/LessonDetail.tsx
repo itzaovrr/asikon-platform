@@ -1,5 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, CheckCircle2, Clock, Target } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { PageHero } from "@/components/ui/page-hero";
@@ -92,8 +94,8 @@ export default function LessonDetail() {
 
         {lesson.content_md ? (
           <DetailSection title="Lesson">
-            <div className="prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap text-[14.5px] leading-relaxed">
-              {lesson.content_md}
+            <div className="prose prose-base dark:prose-invert max-w-[65ch] leading-relaxed prose-headings:font-display prose-headings:tracking-tight prose-a:text-primary prose-code:rounded prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:text-[0.9em] prose-pre:rounded-xl prose-pre:bg-muted">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{lesson.content_md}</ReactMarkdown>
             </div>
           </DetailSection>
         ) : !lesson.video_url ? (
