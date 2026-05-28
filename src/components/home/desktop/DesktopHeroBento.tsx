@@ -68,7 +68,7 @@ export function DesktopHeroBento() {
 
         {/* Create Avatar — mint, tall, spans 2 rows */}
         <Link
-          to="/ai-tutor"
+          to="/learn"
           className="relative overflow-hidden rounded-3xl p-6 row-span-2 bg-emerald-200 text-emerald-950 flex flex-col hover:scale-[1.005] transition-transform"
         >
           <div className="flex items-center gap-3 relative z-10">

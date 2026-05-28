@@ -154,7 +154,7 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
             </div>
             <div>
               <h3 className="font-display font-bold text-base text-foreground flex items-center gap-1">
-                AI tuor
+                AI tutor
                 <ArrowUpRight className="h-3.5 w-3.5 opacity-50" />
               </h3>
               <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground mt-1">
@@ -220,7 +220,7 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
                   </div>
                   <div className="pl-4">
                     <p className="font-display font-bold text-base tabular-nums">24/7</p>
-                    <p className="text-[10px] uppercase tracking-widest font-semibold text-primary-foreground/75">AI tuor</p>
+                    <p className="text-[10px] uppercase tracking-widest font-semibold text-primary-foreground/75">AI tutor</p>
                   </div>
                 </div>
               </div>
@@ -384,15 +384,15 @@ const Index = () => {
       <FirstRunTour />
       <SEO
         title="Asikon — AI-Powered Learning Platform"
-        description="Master AI, Python, and modern skills with expert-led courses, a 24/7 AI tuor, and a community of learners."
+        description="Master AI, Python, and modern skills with expert-led courses, a 24/7 AI tutor, and a community of learners."
         url="https://asikonpro.lovable.app/"
       >
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "FAQPage",
           mainEntity: [
-            { "@type": "Question", name: "What is Asikon?", acceptedAnswer: { "@type": "Answer", text: "Asikon is an AI-powered learning platform with courses, books, a 24/7 AI tuor, and 1-on-1 mentorship." } },
-            { "@type": "Question", name: "Is cash on delivery available?", acceptedAnswer: { "@type": "Answer", text: "Yes — cash on delivery is available across Bangladesh on all shop orders." } },
+            { "@type": "Question", name: "What is Asikon?", acceptedAnswer: { "@type": "Answer", text: "Asikon is an AI-powered learning platform with courses, books, a 24/7 AI tutor, and 1-on-1 mentorship." } },
+            { "@type": "Question", name: "How do I pay?", acceptedAnswer: { "@type": "Answer", text: "We accept card and bKash. All products are digital with instant access — no shipping required." } },
             { "@type": "Question", name: "Do I get a certificate?", acceptedAnswer: { "@type": "Answer", text: "Yes, every Asikon course includes a verified completion certificate you can share on LinkedIn or your CV." } },
           ],
         })}</script>
