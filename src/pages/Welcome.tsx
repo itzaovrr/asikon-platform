@@ -20,6 +20,8 @@ import logo from "@/assets/logo.png";
 import courseAiMl from "@/assets/course-ai-ml.webp";
 import coursePython from "@/assets/course-python.webp";
 import promptLibrary from "@/assets/prompt-library.webp";
+import { EduvoraHero } from "@/components/home/EduvoraHero";
+import { PartnerMarquee } from "@/components/home/PartnerMarquee";
 
 const navLinks = [
   { label: "Features", href: "#features" },
