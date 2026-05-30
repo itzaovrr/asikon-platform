@@ -21,6 +21,8 @@ import { ImageHeroSlider } from "@/components/home/mobile/ImageHeroSlider";
 import { FlexiTopSection } from "@/components/home/mobile/FlexiTopSection";
 import { DesktopHeroBento } from "@/components/home/desktop/DesktopHeroBento";
 import { BrandStrip } from "@/components/home/BrandStrip";
+import { EduvoraHero } from "@/components/home/EduvoraHero";
+import { PartnerMarquee } from "@/components/home/PartnerMarquee";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import { useHomeSections, HomeSection } from "@/hooks/useHomeSections";
 import { useAuth } from "@/hooks/useAuth";
@@ -401,6 +403,10 @@ const Index = () => {
         <MobilePage spacing="space-y-6 lg:space-y-14">
           {user ? (
             <>
+              {/* New Eduvora-style hero + partner strip */}
+              <EduvoraHero variant="app" />
+              <PartnerMarquee />
+
               {/* 1 — Hero slider (top priority on mobile) */}
               <div className="lg:hidden">
                 {heroSection && <ImageHeroSlider />}
