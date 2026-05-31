@@ -261,6 +261,7 @@ const Profile = () => {
               avatar: displayProfile.avatar,
               isVerified: displayProfile.isVerified,
             }}
+            isOwnProfile={isOwnProfile}
           />
         );
       case "media":
