@@ -28,17 +28,26 @@ interface ProfileFeedTabProps {
     avatar: string;
     isVerified: boolean;
   };
+  isOwnProfile?: boolean;
 }
 
-export function ProfileFeedTab({ posts, user }: ProfileFeedTabProps) {
+export function ProfileFeedTab({ posts, user, isOwnProfile }: ProfileFeedTabProps) {
   const navigate = useNavigate();
   if (posts.length === 0) {
     return (
       <EmptyState
         icon={<Newspaper className="h-10 w-10" />}
         title="No posts yet"
-        hint="When this profile shares posts, they'll show up here."
-        action={<Button onClick={() => navigate("/community")}>Share your first post</Button>}
+        hint={
+          isOwnProfile
+            ? "Share your first post — it'll show up here."
+            : "When this profile shares posts, they'll show up here."
+        }
+        action={
+          <Button onClick={() => navigate(isOwnProfile ? "/create" : "/community")}>
+            {isOwnProfile ? "Create a post" : "Explore community"}
+          </Button>
+        }
       />
     );
   }
