@@ -355,8 +355,20 @@ const Profile = () => {
           onMessage={handleMessage}
           onShare={handleShare}
           onEditProfile={() => setShowEdit(true)}
-          onReport={() => toast({ title: "Report submitted" })}
-          onBlock={() => toast({ title: "User blocked" })}
+          onReport={() => {
+            if (!user) {
+              navigate(`/auth?redirect=${encodeURIComponent(`/profile/${targetUserId}`)}`);
+              return;
+            }
+            setShowReport(true);
+          }}
+          onBlock={() => {
+            if (!user) {
+              navigate(`/auth?redirect=${encodeURIComponent(`/profile/${targetUserId}`)}`);
+              return;
+            }
+            setShowBlockConfirm(true);
+          }}
         />
 
         {isOwnProfile && (
