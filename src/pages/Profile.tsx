@@ -29,6 +29,18 @@ import {
   type ProfileTabType,
 } from "@/components/profile";
 import { MessagingDrawer } from "@/components/messaging";
+import { ReportDialog } from "@/components/profile/ReportDialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { useReportUser, useBlockUser } from "@/hooks/useUserModeration";
 import {
   useProfile,
   useUpdateProfile,
@@ -84,12 +96,26 @@ const Profile = () => {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [statSheet, setStatSheet] = useState<StatSheet>(null);
   const [showEdit, setShowEdit] = useState(false);
+  const [showReport, setShowReport] = useState(false);
+  const [showBlockConfirm, setShowBlockConfirm] = useState(false);
+
+  const reportUser = useReportUser();
+  const blockUser = useBlockUser();
 
   const isFollowing = followers?.some((f) => f.follower_id === user?.id) || false;
 
+  // Reset to a public tab if viewing someone else's profile
+  useEffect(() => {
+    const PRIVATE = ["library", "orders", "wishlist"] as const;
+    if (!isOwnProfile && (PRIVATE as readonly string[]).includes(activeTab)) {
+      setActiveTab("posts");
+    }
+  }, [isOwnProfile, activeTab]);
+
   const handleFollow = async () => {
-    if (!targetUserId || !user) {
-      toast({ title: "Please login", description: "Sign in to follow users.", variant: "destructive" });
+    if (!targetUserId) return;
+    if (!user) {
+      navigate(`/auth?redirect=${encodeURIComponent(`/profile/${targetUserId}`)}`);
       return;
     }
     try {
@@ -101,8 +127,9 @@ const Profile = () => {
   };
 
   const handleMessage = async () => {
-    if (!targetUserId || !user) {
-      toast({ title: "Please login", description: "Sign in to send messages.", variant: "destructive" });
+    if (!targetUserId) return;
+    if (!user) {
+      navigate(`/auth?redirect=${encodeURIComponent(`/profile/${targetUserId}`)}`);
       return;
     }
     try {
