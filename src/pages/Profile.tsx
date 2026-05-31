@@ -485,6 +485,41 @@ const Profile = () => {
             }}
           />
         )}
+
+        {!isOwnProfile && targetUserId && (
+          <>
+            <ReportDialog
+              open={showReport}
+              onOpenChange={setShowReport}
+              userName={displayProfile.name}
+              isSubmitting={reportUser.isPending}
+              onSubmit={async ({ reason, details }) => {
+                await reportUser.mutateAsync({ reportedUserId: targetUserId, reason, details });
+              }}
+            />
+            <AlertDialog open={showBlockConfirm} onOpenChange={setShowBlockConfirm}>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="font-display">Block {displayProfile.name}?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    They won't be able to see your activity and you'll be unfollowed from each other. You can undo this from Settings.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    onClick={async () => {
+                      await blockUser.mutateAsync(targetUserId);
+                    }}
+                  >
+                    Block
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </>
+        )}
       </MobilePage>
     </AppLayout>
   );
