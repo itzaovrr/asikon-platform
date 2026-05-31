@@ -1,39 +1,120 @@
-## Plan: Eduvora-style hero on Welcome + Index
+# Enhance Profile Page
 
-Replace the current hero on both the public Welcome page (`/welcome`) and the authenticated Index home (`/`) with a new section modeled on the attached reference, plus a scrolling brand/partner strip directly beneath it. Keep brand tokens (dark red gradient, Space Grotesk display, Inter body) — do NOT use the orange from the reference.
+The profile page is structurally complete but has three classes of issues:
+visual polish gaps, a few hardcoded/no-op actions, and small UX bugs.
+This plan addresses all three without touching data hooks or routing.
 
-### New component
-Create `src/components/home/EduvoraHero.tsx`:
-- Rounded-3xl card (`rounded-3xl`) with `bg-gradient-primary` (dark red), inner padding, generous radius like the reference.
-- Two-column on `lg+`, stacked on mobile.
-- Left column:
-  - Stencil-feel display headline ("Master AI with practical **skills**") in `font-display font-black uppercase tracking-tight`, with the last word inside a bordered outline box (`border-2 border-primary-foreground/80 px-3 py-1`).
-  - Sub-paragraph in `text-primary-foreground/80`.
-  - Pill CTA: black circular arrow button + adjoining black pill "START LEARNING" → links to `/auth` (Welcome) or `/shop` (Index).
-  - Bottom row: avatar cluster + "460+ learners trained" pill, and a circular play button (opens nothing on first pass — purely visual / could route to `/about`).
-- Right column: existing course image (`@/assets/course-ai-ml.webp`) inside a soft rounded frame, with subtle glow/shadow. No new asset generation.
-- Floating stat cards row (3 mini cards) overlapping the bottom-right: "98% success rate", "100+ trusted partners" (dark variant), "20+ active courses". Built with `bg-card`, `bg-foreground text-background` for the middle one.
-- Fully responsive: stat cards collapse into a 3-col grid below image on mobile; headline scales down; padding shrinks.
+## 1. Visual polish (UI only)
 
-### New partner strip
-Create `src/components/home/PartnerMarquee.tsx`:
-- Horizontal auto-scrolling marquee (CSS `@keyframes` translateX) of partner wordmarks: Spotify, Coinbase, Slack, Dropbox, Webflow, Zoom, Notion, Figma — rendered as styled text (`font-display font-bold text-2xl text-muted-foreground`) with small inline lucide icons where natural (e.g., `Slack` icon). Duplicated track for seamless loop. Pauses on hover. Lives in a `bg-secondary/40 border-y` band sitting flush under the hero card.
+**`ProfileHeader.tsx`**
+- Soften cover overlay: replace the single bottom gradient with a top
+  vignette + bottom fade so the back/share buttons stay readable on any
+  cover image.
+- Add a subtle ring + shadow halo around the centered avatar
+  (`ring-2 ring-background shadow-elegant`) and a hover lift on own profile.
+- Trust chip: upgrade to a small pill with gradient-primary-soft background
+  and a tier dot (gold/silver/bronze) instead of flat secondary.
 
-### Wiring
-- `src/pages/Welcome.tsx`: replace the current Hero `<section>` block (the gradient bg + headline + dashboard preview card) with `<EduvoraHero variant="marketing" />` followed by `<PartnerMarquee />`. Remove the existing `partners` strip section (now redundant). Keep nav, features, why, steps, stories, CTA, footer untouched.
-- `src/pages/Index.tsx`: on the mobile section, insert `<EduvoraHero variant="app" />` + `<PartnerMarquee />` at the very top (above `FlexiTopSection`). On desktop section, insert above `DesktopHeroBento`. Variant only changes CTA target + copy emphasis.
+**`ProfileStats.tsx`**
+- Animate numbers with a short count-up (200ms ease-out, respects
+  `prefers-reduced-motion`).
+- Replace the flat XP bar with `gradient-primary` fill + a soft glow when
+  > 80% to next level.
+- Add divider micro-labels with `font-grotesk` to match brand pairing.
 
-### Design tokens
-- All colors via semantic tokens: `bg-gradient-primary`, `text-primary-foreground`, `bg-card`, `bg-foreground`, `text-background`, `border-primary-foreground/20`. No hardcoded hex.
-- Use existing `--gradient-primary` from index.css (dark red) — do NOT introduce orange.
+**`ProfileActions.tsx`**
+- Give the primary Follow / Edit button `gradient-primary` and
+  `glow-primary` (matches buttons elsewhere in the app).
+- Add a confirm dialog for **Block** using shadcn `AlertDialog`.
 
-### Files
-- create `src/components/home/EduvoraHero.tsx`
-- create `src/components/home/PartnerMarquee.tsx`
-- edit `src/pages/Welcome.tsx` (swap hero, drop old partner strip)
-- edit `src/pages/Index.tsx` (mount on both mobile + desktop branches)
-- edit `src/index.css` (add `@keyframes marquee` + `.animate-marquee` utility)
+**`ProfileTabs.tsx`**
+- Make the active indicator `gradient-primary` instead of flat foreground.
+- Add a soft `bg-card/80 backdrop-blur` on the sticky bar so content
+  scrolling underneath reads cleanly.
 
-### Out of scope
-- No new image generation (reusing `course-ai-ml.webp`).
-- No changes to auth, data, routing, or sections below the hero.
+## 2. Make actions workable
+
+Currently `onReport` and `onBlock` in `Profile.tsx` only fire a toast —
+no DB write. Wire them to real tables.
+
+**Migration** (single migration):
+```sql
+create table public.user_reports (
+  id uuid primary key default gen_random_uuid(),
+  reporter_id uuid not null references auth.users(id) on delete cascade,
+  reported_user_id uuid not null,
+  reason text not null,
+  details text,
+  created_at timestamptz not null default now(),
+  unique (reporter_id, reported_user_id)
+);
+grant select, insert on public.user_reports to authenticated;
+grant all on public.user_reports to service_role;
+alter table public.user_reports enable row level security;
+create policy "users insert own reports" on public.user_reports
+  for insert to authenticated with check (auth.uid() = reporter_id);
+create policy "users read own reports" on public.user_reports
+  for select to authenticated using (auth.uid() = reporter_id);
+
+create table public.user_blocks (
+  id uuid primary key default gen_random_uuid(),
+  blocker_id uuid not null references auth.users(id) on delete cascade,
+  blocked_id uuid not null,
+  created_at timestamptz not null default now(),
+  unique (blocker_id, blocked_id)
+);
+grant select, insert, delete on public.user_blocks to authenticated;
+grant all on public.user_blocks to service_role;
+alter table public.user_blocks enable row level security;
+create policy "users manage own blocks" on public.user_blocks
+  for all to authenticated
+  using (auth.uid() = blocker_id) with check (auth.uid() = blocker_id);
+```
+
+**New hook `src/hooks/useUserModeration.ts`**
+- `useReportUser()` — insert into `user_reports`, toast on success/dup.
+- `useBlockUser()` — insert into `user_blocks`, invalidate
+  `["followers"]` / `["following"]` for both users.
+- `useIsBlocked(targetId)` — checks if current user blocked target.
+
+**`Profile.tsx`**
+- Add a `ReportDialog` with reason select (spam, harassment, impersonation,
+  other) and optional details; wire to `useReportUser`.
+- Wire Block to `useBlockUser` inside the AlertDialog confirm.
+- Follow / Message: when not signed in, navigate to
+  `/auth?redirect=/profile/${userId}` instead of just toasting.
+
+## 3. Small UX fixes
+
+- `Profile.tsx`: empty-state "Share your first post" currently routes to
+  `/community`; change to `/create` (the consolidated content page) for
+  own profile, keep `/community` for others.
+- `Profile.tsx`: Tabs default to `posts`, but if a non-owner lands on a
+  private tab via stale state nothing renders. Guard `renderTabContent`
+  with `if (!isOwnProfile && PRIVATE_TABS.includes(activeTab)) setActiveTab("posts")`.
+- `ProfileFeedTab.tsx`: video-only posts don't show the product tag —
+  hoist the product link out so it overlays both image and video.
+- `ProfileHeader.tsx`: website link strips `http(s)://` but `www.` is
+  kept; normalize display to drop both.
+
+## Out of scope
+
+- No changes to `useProfile`, `useProfileData`, `usePosts`, `useFollow*`
+  hooks beyond adding the new moderation hook.
+- No new tabs, no routing changes, no auth flow changes.
+- Existing skeletons, edit modal, lightbox, followers sheet untouched.
+
+## Files
+
+Create:
+- `supabase/migrations/<ts>_user_reports_blocks.sql`
+- `src/hooks/useUserModeration.ts`
+- `src/components/profile/ReportDialog.tsx`
+
+Edit:
+- `src/pages/Profile.tsx`
+- `src/components/profile/ProfileHeader.tsx`
+- `src/components/profile/ProfileStats.tsx`
+- `src/components/profile/ProfileActions.tsx`
+- `src/components/profile/ProfileTabs.tsx`
+- `src/components/profile/tabs/ProfileFeedTab.tsx`
