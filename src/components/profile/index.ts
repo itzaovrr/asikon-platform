@@ -18,3 +18,4 @@ export { MediaLightbox } from "./MediaLightbox";
 export { ProfileSkeleton } from "./ProfileSkeleton";
 export { ProfileActivityFeed } from "./ProfileActivityFeed";
 export { ProfileCompletionBar } from "./ProfileCompletionBar";
+export { ReportDialog } from "./ReportDialog";
